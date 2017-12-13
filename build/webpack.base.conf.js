@@ -28,13 +28,13 @@ module.exports = {
       '@': resolve('src'),
     }
   },
-    plugins: [
-        // Jquery loader plugin.
-        new webpack.ProvidePlugin({
-            'window.jQuery': 'jquery',
-            'window.$': 'jquery',
-        })
-    ],
+  plugins: [
+      // Jquery loader plugin.
+      new webpack.ProvidePlugin({
+          'window.jQuery': 'jquery',
+          'window.$': 'jquery',
+      })
+  ],
   module: {
     rules: [
       {

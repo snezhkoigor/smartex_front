@@ -1,5 +1,6 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+import $ from 'jquery'
 import Vue from 'vue';
 import VueResource from 'vue-resource';
 import Vuetify from 'vuetify';
@@ -12,6 +13,11 @@ import VueFroala from 'vue-froala-wysiwyg';
 import VueMoment from 'vue-moment';
 import moment from 'moment-timezone';
 import VueTruncate from 'vue-truncate-filter';
+
+require('../node_modules/vuetify/dist/vuetify.min.css');
+require('../node_modules/font-awesome/css/font-awesome.min.css');
+require('../node_modules/froala-editor/css/froala_editor.pkgd.min.css');
+require('../node_modules/froala-editor/css/froala_style.min.css');
 
 sync(store, router);
 
