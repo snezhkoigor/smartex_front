@@ -1,5 +1,5 @@
 <template>
-    <div class="login-reset-form">
+    <div class="login-form">
         <div class="form elevation-1">
             <v-tabs fixed centered v-model="active">
                 <v-tabs-bar color="teal" dark>
@@ -111,7 +111,7 @@
 </script>
 
 <style>
-    .login-reset-form {
+    .login-form {
         width: 100%;
         height: 100%;
         position: absolute;
@@ -119,14 +119,18 @@
         left: 0;
         overflow: auto;
     }
-    .login-reset-form .form {
+    .login-form .form {
         width: 300px;
         position: absolute;
         top: 50%;
         left: 50%;
         margin: -150px 0 0 -150px;
     }
-    .login-reset-form .tabs__bar {
+    .login-form .tabs__bar {
         height: 48px !important;
     }
+    .login-form .tabs__wrapper {
+        overflow: hidden;
+    }
+
 </style>
