@@ -69,16 +69,11 @@
 					</tr>
 				</template>
 				<template slot="items" slot-scope="props">
-					<tr>
+					<tr @click="openEditDialog(props.item)" class="course-tr">
 						<td class="text-xs-center">{{ props.item.date | moment('DD.MM.YYYY') }}</td>
 						<td class="text-xs-center">{{ props.item.in_currency }}</td>
 						<td class="text-xs-center">{{ props.item.out_currency }}</td>
 						<td class="text-xs-right">{{ props.item.course }}</td>
-						<td class="text-xs-center">
-							<v-btn icon @click="openEditDialog(props.item)">
-								<v-icon>fa-edit</v-icon>
-							</v-btn>
-						</td>
 					</tr>
 				</template>
 			</v-data-table>
@@ -274,5 +269,7 @@
 </script>
 
 <style>
-
+	.course-tr {
+		cursor: pointer;
+	}
 </style>
