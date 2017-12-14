@@ -5,7 +5,7 @@
 				temporary
 				app
 				v-model="drawer"
-				style="width: 215px"
+				style="width: 205px;"
 		>
 			<menu-component />
 		</v-navigation-drawer>
@@ -16,8 +16,8 @@
 				flat
 				class="header-toolbar"
 		>
-			<v-toolbar-title class="ml-0 pl-3 header-toolbar-title">
-				<v-toolbar-side-icon @click.stop="drawer = !drawer" class="hidden-md-and-up" style="margin-top: -15px"></v-toolbar-side-icon>
+			<v-toolbar-title class="ml-0 header-toolbar-title">
+				<v-toolbar-side-icon @click.stop="drawer = !drawer" class="hidden-lg-and-up" style="margin-top: -15px"></v-toolbar-side-icon>
 				<span>
 					<img src="../../../static/img/logo.svg" class="logo"/>
 				</span>
@@ -72,9 +72,14 @@
 <style>
 	.header-toolbar-title {
 		margin-top: 10px;
+		width: 200px;
 	}
 	.header-toolbar .toolbar__content {
 		height: auto !important;
+		max-width: 1300px;
+		padding: 0px 15px;
+		margin: 0px auto;
+		position: relative;
 	}
 	.header-toolbar {
 		height: 106px;

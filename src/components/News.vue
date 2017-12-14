@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<v-toolbar card color="white" prominent>
-			<v-toolbar-title class="body-2 grey--text title-tool-bar">
+			<v-toolbar-title class="page-title body-2 grey--text title-tool-bar">
 				{{ this.$router.currentRoute.meta.title }}
 			</v-toolbar-title>
 			<v-spacer></v-spacer>

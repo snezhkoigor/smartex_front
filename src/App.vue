@@ -70,4 +70,8 @@
 	div.fr-element .fr-view {
 		padding-left: 40px;
 	}
+
+	.page-title {
+		font-size: 20px !important;
+	}
 </style>

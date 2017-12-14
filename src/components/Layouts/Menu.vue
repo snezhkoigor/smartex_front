@@ -39,11 +39,17 @@
 </script>
 
 <style>
+	.menu {
+		text-align: right;
+	}
 	.menu li {
-		width: 190px;
+		width: 188px;
 	}
 	.menu li.selected {
 		color: #009688;
 		font-weight: bold;
+	}
+	.menu button {
+		margin-right: -30px;
 	}
 </style>

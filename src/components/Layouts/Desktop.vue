@@ -1,5 +1,5 @@
 <template>
-	<v-container fluid grid-list-md class="hidden-sm-and-down">
+	<v-container fluid grid-list-md class="hidden-md-and-down desktop-container">
 		<v-layout row wrap>
 			<v-flex d-flex d-flex xs2 sm2 class="flex-menu-container">
 				<v-card class="card--flex-toolbar">
@@ -29,5 +29,12 @@
 	.flex-menu-container {
 		height: 100%;
 		width: 100%;
+	}
+
+	.desktop-container {
+		max-width: 1200px;
+		padding: 0px 15px;
+		margin: 0px auto;
+		position: relative;
 	}
 </style>
