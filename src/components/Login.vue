@@ -126,7 +126,7 @@
         left: 50%;
         margin: -150px 0 0 -150px;
     }
-    .ogin-reset-form .tabs__bar {
+    .login-reset-form .tabs__bar {
         height: 48px !important;
     }
 </style>
