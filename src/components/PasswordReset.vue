@@ -59,7 +59,7 @@
 					},
 					{
 					  name: 'passwordReset',
-					  title: 'Reset password'
+					  title: 'Forget?'
 					}
 				],
 				active: 'passwordReset'
