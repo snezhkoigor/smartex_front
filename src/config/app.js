@@ -18,7 +18,10 @@ let froala = {
     // paragraphFormatSelection: true
 }
 
+let perPage = [ 25, 50, 100, {text: 'All', value: -1} ];
+
 export default {
     access,
-    froala
+    froala,
+    perPage
 }

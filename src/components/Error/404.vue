@@ -1,6 +1,6 @@
 <template>
 	<v-container grid-list-md text-xs-center>
-		<v-layout row wrap class="hidden-sm-and-down">
+		<v-layout row wrap class="hidden-md-and-down">
 			<v-flex xs6>
 				<div class="access-denied-main-text display-4">
 					Oops!
@@ -14,7 +14,7 @@
 				<img data-v-2e32034a src="../../../static/img/401.gif">
 			</v-flex>
 		</v-layout>
-		<v-layout row wrap class="hidden-sm-and-up">
+		<v-layout row wrap class="hidden-lg-and-up">
 			<v-flex>
 				<div class="access-denied-main-text display-2">
 					Oops!

@@ -31,12 +31,13 @@
 				</v-btn>
 			</v-card-title>
 			<v-data-table
-				v-bind:headers="headers"
-				v-bind:items="items"
-				v-bind:pagination.sync="pagination"
-				:total-items="totalItems"
-				:loading="pending"
-				class="elevation-0"
+					v-bind:headers="headers"
+					v-bind:items="items"
+					v-bind:pagination.sync="pagination"
+					:total-items="totalItems"
+					:rows-per-page-items="perPage"
+					:loading="pending"
+					class="elevation-0"
 			>
 				<template slot="headers" slot-scope="props">
 					<tr>
@@ -239,6 +240,7 @@
                     { text: 'Date', value: 'date' },
                     { text: 'Title', value: 'title', align: 'left', }
                 ],
+                perPage: AppConfig.perPage,
 
 				froalaConfig: AppConfig.froala,
 

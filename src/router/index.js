@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Dashboard from '@/components/Dashboard';
 import News from '@/components/News';
+import Courses from '@/components/Courses';
 import Config from '../config/app';
 import AccessDenied from '@/components/Error/401';
 import SystemError from '@/components/Error/500';
@@ -39,6 +40,19 @@ export default new Router({
                 title: 'News',
                 menuName: 'News',
                 menuIcon: 'mdi-newspaper'
+            },
+            menu: true
+        },
+        {
+            path: '/courses',
+            name: 'courses',
+            component: Courses,
+            beforeEnter: AuthGuard,
+            meta: {
+                role: Config.access.admin+'|'+Config.access.operator,
+                title: 'Courses',
+                menuName: 'Courses',
+                menuIcon: 'mdi-swap-horizontal'
             },
             menu: true
         },
