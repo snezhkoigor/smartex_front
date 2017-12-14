@@ -38,7 +38,7 @@
 				<v-spacer></v-spacer>
 				<v-text-field
 						append-icon="search"
-						label="Search by currency"
+						label="Search (btc, btc/usd, etc.)"
 						single-line
 						hint="Press enter for start search"
 						v-on:keyup.enter="getListCourses()"
