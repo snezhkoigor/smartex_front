@@ -16,7 +16,6 @@
 			<v-card-title>
 				<v-dialog
 						v-model="courseDateFilterDialog"
-						persistent
 						lazy
 						full-width
 						width="290px"
