@@ -49,6 +49,9 @@
 		margin-top: 5px;
 		/*margin-right: 4px;*/
 	}
+	.flex-menu-container .card {
+		width: 204px !important;
+	}
 	.desktop-container {
 		max-width: 1300px !important;
 		padding: 0px 9px !important;
