@@ -40,38 +40,36 @@
 		-moz-osx-font-smoothing: grayscale;
 		color: #2c3e50;
 	}
-
 	.card--flex-toolbar {
 		margin-top: -46px;
 	}
-
 	.menu .btn {
 		height: 50px !important
 	}
-
 	.fio {
 		margin-left: 10px;
 		font-size: 11px;
 	}
-
 	.role {
 		margin-left: 10px;
 		font-size: 7px;
 	}
-
 	.fr-element ul, ol {
 		padding-left: 30px;
 	}
-
 	button.accent {
 		color: black !important;
 	}
-
 	div.fr-element .fr-view {
 		padding-left: 40px;
 	}
-
 	.page-title {
 		font-size: 20px !important;
+	}
+	.dialog--fullscreen .toolbar__content, .dialog--fullscreen form {
+		max-width: 1300px !important;
+		padding: 0px 9px !important;
+		margin: 0px auto !important;
+		position: relative;
 	}
 </style>
