@@ -17,7 +17,7 @@
 
 		<v-card-text>
 			<v-card-title>
-				<v-spacer></v-spacer>
+				<v-spacer class="hidden-sm-and-down"></v-spacer>
 				<v-text-field
 						append-icon="search"
 						label="Search by title"

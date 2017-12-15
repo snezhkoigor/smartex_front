@@ -34,7 +34,7 @@
 				<!--<v-btn icon :disabled="filters.date.length === 0" @click.native="clearDateFilter()">-->
 					<!--<v-icon>mdi-close</v-icon>-->
 				<!--</v-btn>-->
-				<v-spacer></v-spacer>
+				<v-spacer class="hidden-sm-and-down"></v-spacer>
 				<v-text-field
 						append-icon="search"
 						label="Search (btc, btc/usd, etc.)"
@@ -69,7 +69,7 @@
 				</template>
 				<template slot="items" slot-scope="props">
 					<tr @click="openEditDialog(props.item)" class="course-tr">
-						<td class="text-xs-center">{{ props.item.date | moment('DD.MM.YYYY, H:mm') }}</td>
+						<td class="text-xs-center">{{ props.item.date | moment('DD.MM, H:mm') }}</td>
 						<td class="text-xs-center">{{ props.item.in_currency }}</td>
 						<td class="text-xs-center">{{ props.item.out_currency }}</td>
 						<td class="text-xs-right">{{ props.item.course }}</td>
