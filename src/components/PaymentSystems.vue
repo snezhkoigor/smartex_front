@@ -10,7 +10,7 @@
 			</v-btn>
 		</v-toolbar>
 
-		<v-progress-linear class="pending" v-if="true" v-bind:indeterminate="true"></v-progress-linear>
+		<v-progress-linear class="pending" v-if="pending || checkPending" v-bind:indeterminate="pending || checkPending"></v-progress-linear>
 
 		<v-divider></v-divider>
 

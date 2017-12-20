@@ -72,8 +72,8 @@
 	}
 	.pending {
 		height: 5px;
-		position: absolute;
+		position: absolute !important;
 		top: 0;
-		margin-top: 58px;
+		margin-top: 58px !important;
 	}
 </style>
