@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<v-toolbar card color="white" prominent>
-			<v-toolbar-title class="page-title body-2 grey--text title-tool-bar">
+			<v-toolbar-title class="page-title title grey--text title-tool-bar">
 				{{ this.$router.currentRoute.meta.title }}
 			</v-toolbar-title>
 			<v-spacer></v-spacer>
@@ -10,7 +10,7 @@
 			</v-btn>
 		</v-toolbar>
 
-		<v-progress-linear class="pending" v-if="pending || checkPending" v-bind:indeterminate="pending || checkPending"></v-progress-linear>
+		<v-progress-linear class="pending" v-if="true" v-bind:indeterminate="true"></v-progress-linear>
 
 		<v-divider></v-divider>
 

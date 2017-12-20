@@ -64,9 +64,6 @@
 	div.fr-element .fr-view {
 		padding-left: 40px;
 	}
-	.page-title {
-		font-size: 20px !important;
-	}
 	.dialog--fullscreen .toolbar__content, .dialog--fullscreen form {
 		max-width: 1300px !important;
 		padding: 0px 9px !important;
