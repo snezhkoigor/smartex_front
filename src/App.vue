@@ -44,6 +44,7 @@
 		margin-top: -46px;
 	}
 	.menu .btn {
+		margin-top: -2px;
 		height: 50px !important
 	}
 	.fio {
@@ -71,5 +72,11 @@
 		padding: 0px 9px !important;
 		margin: 0px auto !important;
 		position: relative;
+	}
+	.pending {
+		height: 5px;
+		position: absolute;
+		top: 0;
+		margin-top: 58px;
 	}
 </style>

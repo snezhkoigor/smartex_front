@@ -43,14 +43,14 @@
 	}
 	.flex-menu-container .fixed {
 		position: fixed;
-		width: 207px;
+		min-width: 207px !important;
 		z-index: 100;
 		top: 0;
 		margin-top: 5px;
 		/*margin-right: 4px;*/
 	}
 	.flex-menu-container .card {
-		width: 204px !important;
+		min-width: 207px !important;
 	}
 	.desktop-container {
 		max-width: 1300px !important;

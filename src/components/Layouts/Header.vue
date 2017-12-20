@@ -71,7 +71,7 @@
 
 <style>
 	.header-toolbar-title {
-		margin-top: 10px;
+		/*margin-top: 5px;*/
 		width: 200px;
 	}
 	.header-toolbar .toolbar__content {

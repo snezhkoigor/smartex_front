@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Dashboard from '@/components/Dashboard';
 import News from '@/components/News';
 import Courses from '@/components/Courses';
+import PaymentSystems from '@/components/PaymentSystems';
 import Config from '../config/app';
 import AccessDenied from '@/components/Error/401';
 import SystemError from '@/components/Error/500';
@@ -52,7 +53,20 @@ export default new Router({
                 role: Config.access.admin+'|'+Config.access.operator,
                 title: 'Courses',
                 menuName: 'Courses',
-                menuIcon: 'mdi-swap-horizontal'
+                menuIcon: 'fa-exchange'
+            },
+            menu: true
+        },
+        {
+            path: '/payment_systems',
+            name: 'payment_systems',
+            component: PaymentSystems,
+            beforeEnter: AuthGuard,
+            meta: {
+                role: Config.access.admin+'|'+Config.access.operator,
+                title: 'Wallets',
+                menuName: 'Wallets',
+                menuIcon: 'mdi-wallet'
             },
             menu: true
         },

@@ -9,7 +9,7 @@
 					:class="{'': $route.name !== item.name, 'selected': $route.name === item.name}"
 			>
 				<v-list-tile-action>
-					<v-icon>{{ item.meta.menuIcon }}</v-icon>
+					<v-icon :class="{'': $route.name !== item.name, 'selected': $route.name === item.name}">{{ item.meta.menuIcon }}</v-icon>
 				</v-list-tile-action>
 				<v-list-tile-content>
 					<v-list-tile-title>
@@ -41,6 +41,7 @@
 <style>
 	.menu {
 		text-align: right;
+		margin: 6px 8px;
 	}
 	.menu li {
 		width: 188px;

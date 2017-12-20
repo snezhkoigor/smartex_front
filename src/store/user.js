@@ -1,4 +1,4 @@
-import api from '../api/user';
+import user from '../api/user';
 import router from '../router/index';
 import Config from '../config/app';
 import ErrorsHelper from '../helpers/errors';
@@ -30,7 +30,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             commit(LOGIN);
 
-            api.login(formBody).then(response => {
+            user.login(formBody).then(response => {
                 if (response.status === 200) {
                     commit(LOGIN_SUCCESS, response.data.data.token);
                     commit(GET_PROFILE_SUCCESS, response.data.auth_user_data);
@@ -55,7 +55,7 @@ const actions = {
     },
     profile({ commit }) {
         return new Promise((resolve, reject) => {
-            api.profile().then(response => {
+            user.profile().then(response => {
                 if (response.data.status) {
                     commit(GET_PROFILE_SUCCESS, response.data.data);
                     resolve(response);
@@ -76,7 +76,7 @@ const actions = {
     },
     checkProfile({ commit }) {
         return new Promise((resolve, reject) => {
-            api.checkProfile().then(response => {
+            user.checkProfile().then(response => {
                 if (response.data.status) {
                     resolve(response);
                 } else {
@@ -97,7 +97,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             commit(RESET_PASSWORD);
 
-            api.resetPassword(formBody).then(response => {
+            user.resetPassword(formBody).then(response => {
                 if (response.data.status) {
                     commit(RESET_PASSWORD_SUCCESS);
                     resolve(response);

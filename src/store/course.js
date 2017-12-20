@@ -1,4 +1,4 @@
-import api from '../api/courses';
+import courses from '../api/courses';
 import router from '../router/index';
 import Config from '../config/app';
 import ErrorsHelper from "../helpers/errors";
@@ -7,14 +7,15 @@ const GET_COURSES_LIST = "GET_COURSES_LIST";
 const GET_COURSES_LIST_SUCCESS = "GET_COURSES_LIST_SUCCESS";
 const GET_COURSES_LIST_FAIL = "GET_COURSES_LIST_FAIL";
 
-const GET_COURSES_EDIT = "GET_COURSES_EDIT";
-const GET_COURSES_EDIT_SUCCESS = "GET_COURSES_EDIT_SUCCESS";
-const GET_COURSES_EDIT_FAIL = "GET_COURSES_EDIT_FAIL";
+const COURSES_EDIT = "COURSES_EDIT";
+const COURSES_EDIT_SUCCESS = "COURSES_EDIT_SUCCESS";
+const COURSES_EDIT_FAIL = "COURSES_EDIT_FAIL";
 
 const RESET_PENDING = "RESET_PENDING";
 
 const state = {
     courses: null,
+    meta: null,
     pending: false
 };
 
@@ -23,9 +24,9 @@ const actions = {
         return new Promise((resolve, reject) => {
             commit(GET_COURSES_LIST);
 
-            api.list(requestParams).then(response => {
+            courses.list(requestParams).then(response => {
                 if (response.status === 200) {
-                    commit(GET_COURSES_LIST_SUCCESS, response.data.data);
+                    commit(GET_COURSES_LIST_SUCCESS, response.data);
                     resolve(response);
                 } else {
                     commit(GET_COURSES_LIST_FAIL);
@@ -39,24 +40,24 @@ const actions = {
 
                 ErrorsHelper.goByStatusCode(500, router);
             })
-        })
+        });
     },
     edit({commit}, course) {
         return new Promise((resolve, reject) => {
-            commit(GET_COURSES_EDIT);
+            commit(COURSES_EDIT);
 
-            api.edit(course).then(response => {
+            courses.edit(course).then(response => {
                 if (response.status === 200) {
-                    commit(GET_COURSES_EDIT_SUCCESS);
+                    commit(COURSES_EDIT_SUCCESS);
                     resolve(response);
                 } else {
-                    commit(GET_COURSES_EDIT_FAIL);
+                    commit(COURSES_EDIT_FAIL);
                     reject(ErrorsHelper.getMessage(response));
 
                     ErrorsHelper.goByStatusCode(response.status, router);
                 }
             }, errors => {
-                commit(GET_COURSES_EDIT_FAIL);
+                commit(COURSES_EDIT_FAIL);
                 reject(errors);
 
                 ErrorsHelper.goByStatusCode(500, router);
@@ -76,21 +77,24 @@ const mutations = {
     GET_COURSES_LIST (state) {
         state.pending = true;
     },
-    GET_COURSES_LIST_SUCCESS (state, news) {
+    GET_COURSES_LIST_SUCCESS (state, responseData) {
         state.pending = false;
-        state.news = news;
+        state.courses = responseData.data;
+        state.meta = responseData.meta;
     },
     GET_COURSES_LIST_FAIL (state) {
         state.pending = false;
+        state.courses = null;
+        state.meta = null;
     },
 
-    GET_COURSES_EDIT (state) {
+    COURSES_EDIT (state) {
         state.pending = true;
     },
-    GET_COURSES_EDIT_SUCCESS (state) {
+    COURSES_EDIT_SUCCESS (state) {
         state.pending = false;
     },
-    GET_COURSES_EDIT_FAIL (state) {
+    COURSES_EDIT_FAIL (state) {
         state.pending = false;
     }
 };
@@ -98,6 +102,9 @@ const mutations = {
 const getters = {
     courses (state) {
         return state.courses;
+    },
+    meta (state) {
+        return state.meta;
     },
     pending (state) {
         return state.pending;

@@ -10,30 +10,12 @@
 			</v-btn>
 		</v-toolbar>
 
+		<v-progress-linear class="pending" v-if="pending" v-bind:indeterminate="pending"></v-progress-linear>
+
 		<v-divider></v-divider>
 
 		<v-card-text>
 			<v-card-title>
-				<!--<v-dialog-->
-						<!--v-model="courseDateFilterDialog"-->
-						<!--lazy-->
-						<!--full-width-->
-						<!--width="290px"-->
-				<!--&gt;-->
-					<!--<v-text-field-->
-							<!--readonly-->
-							<!--slot="activator"-->
-							<!--label="Filter by date"-->
-							<!--v-model="filters.date"-->
-							<!--prepend-icon="event"-->
-					<!--&gt;</v-text-field>-->
-					<!--<v-date-picker v-model="filters.date" autosave>-->
-
-					<!--</v-date-picker>-->
-				<!--</v-dialog>-->
-				<!--<v-btn icon :disabled="filters.date.length === 0" @click.native="clearDateFilter()">-->
-					<!--<v-icon>mdi-close</v-icon>-->
-				<!--</v-btn>-->
 				<v-spacer class="hidden-sm-and-down"></v-spacer>
 				<v-text-field
 						append-icon="search"
@@ -53,16 +35,14 @@
 					v-bind:pagination.sync="pagination"
 					:total-items="totalItems"
 					:rows-per-page-items="perPage"
-					:loading="pending"
 					class="elevation-0"
+					disable-initial-sort
 			>
 				<template slot="headers" slot-scope="props">
 					<tr>
-						<th v-for="header in props.headers" :key="header.text"
-								:class="['column sortable', pagination.descending ? 'desc' : 'asc', header.value === pagination.sortBy ? 'active' : '']"
-								@click="changeSort(header.value)"
+						<th v-for="header in props.headers"
+								:key="header.text"
 						>
-							<v-icon>arrow_upward</v-icon>
 							{{ header.text }}
 						</th>
 					</tr>
@@ -128,9 +108,7 @@
     export default {
         data () {
             return {
-                pagination: {
-                    sortBy: 'date'
-                },
+                pagination: {},
 
 				filters: {
                     date: ''
@@ -164,17 +142,15 @@
             pagination: {
                 handler () {
                     this.getListCourses();
-                },
-                deep: true
+                }
             }
         },
         mounted() {
             this.pagination.descending = true;
-            this.getListCourses();
         },
         computed: {
             ...mapGetters('Course', [
-                'pending'
+                'pending', 'courses', 'meta'
             ])
         },
         methods: {
@@ -227,16 +203,18 @@
 				}
 
                 this.list(HttpHelper.getPaginationParam(pagination)).then(response => {
-                    this.items = response.data.data
-                    this.totalItems = response.data.meta.count
-                })
+                    this.items = this.courses;
+                    this.totalItems = this.meta.count ? this.meta.count : 0;
+                }).catch(errors => {
+                    this.errors = errors;
+                });
 			},
             changeSort(column) {
                 if (this.pagination.sortBy === column) {
-                    this.pagination.descending = !this.pagination.descending
+                    this.pagination.descending = !this.pagination.descending;
                 } else {
-                    this.pagination.sortBy = column
-                    this.pagination.descending = false
+                    this.pagination.sortBy = column;
+                    this.pagination.descending = false;
                 }
             },
 			closeAllDialogs() {

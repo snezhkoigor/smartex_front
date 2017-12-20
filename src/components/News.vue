@@ -13,6 +13,8 @@
 			</v-btn>
 		</v-toolbar>
 
+		<v-progress-linear class="pending" v-if="pending" v-bind:indeterminate="pending"></v-progress-linear>
+
 		<v-divider></v-divider>
 
 		<v-card-text>
@@ -36,7 +38,6 @@
 					v-bind:pagination.sync="pagination"
 					:total-items="totalItems"
 					:rows-per-page-items="perPage"
-					:loading="pending"
 					class="elevation-0"
 			>
 				<template slot="headers" slot-scope="props">
@@ -56,7 +57,7 @@
 					>
 						<td class="text-xs-center news-table-list-data">{{ props.item.date | moment('DD.MM.YYYY') }}</td>
 						<td class="news-table-list-data">{{ props.item.title | truncate(100) }}</td>
-						<td class="text-lg-right news-table-list-actions">
+						<td class="text-lg-center news-table-list-actions">
 							<v-menu offset-y>
 								<v-btn flat slot="activator">actions</v-btn>
 								<v-list>
@@ -156,7 +157,7 @@
 											label="Meta key"
 											v-model="news.c_meta_key"
 											counter="255"
-											:error-messages="errors && errors.meta_key ? errors.meta_key : []"
+											:error-messages="errors && errors.meta_key ? errors.meta_key[0] : []"
 											:error="errors && !!errors.meta_key"
 									></v-text-field>
 								</v-flex>
@@ -167,7 +168,7 @@
 											label="Meta description"
 											v-model="news.c_meta_description"
 											counter="255"
-											:error-messages="errors && errors.meta_description ? errors.meta_description : []"
+											:error-messages="errors && errors.meta_description ? errors.meta_description[0] : []"
 											:error="errors && !!errors.meta_description"
 									></v-text-field>
 								</v-flex>
@@ -186,7 +187,7 @@
 												v-model="news.c_date"
 												prepend-icon="event"
 												readonly
-												:error-messages="errors && errors.date ? errors.date : []"
+												:error-messages="errors && errors.date ? errors.date[0] : []"
 												:error="errors && !!errors.date"
 										></v-text-field>
 										<v-date-picker v-model="news.c_date" autosave/>
@@ -213,7 +214,7 @@
 <script>
     import { mapGetters, mapActions } from 'vuex';
     import AppConfig from '../config/app';
-    import HttpHelper from "../helpers/http";
+    import HttpHelper from '../helpers/http';
 
     export default {
         data () {
@@ -241,7 +242,6 @@
                     { text: 'Title', value: 'title', align: 'left', }
                 ],
                 perPage: AppConfig.perPage,
-
 				froalaConfig: AppConfig.froala,
 
                 loader: null,
@@ -257,11 +257,10 @@
         },
         mounted() {
             this.pagination.descending = true;
-            this.getListNews();
         },
         computed: {
             ...mapGetters('News', [
-                'pending'
+                'pending', 'news_list', 'meta'
             ])
         },
         methods: {
@@ -322,16 +321,18 @@
 				}
 
                 this.list(HttpHelper.getPaginationParam(pagination)).then(response => {
-                    this.items = response.data.data
-                    this.totalItems = response.data.meta.count
-                })
+					this.items = this.news_list;
+					this.totalItems = this.meta.count ? this.meta.count : 0;
+                }).catch(errors => {
+                    this.errors = errors;
+                });
 			},
             changeSort (column) {
                 if (this.pagination.sortBy === column) {
-                    this.pagination.descending = !this.pagination.descending
+                    this.pagination.descending = !this.pagination.descending;
                 } else {
-                    this.pagination.sortBy = column
-                    this.pagination.descending = false
+                    this.pagination.sortBy = column;
+                    this.pagination.descending = false;
                 }
             },
 			closeAllDialogs() {
