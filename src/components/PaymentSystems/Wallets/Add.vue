@@ -32,7 +32,35 @@
 		<v-container>
 			<v-form ref="walletForm">
 				<v-container fluid>
-					<v-layout row class="mt-3">
+					<v-layout row class="hidden-md-and-up">
+						<v-flex xs12>
+							<v-select
+									v-bind:items="paymentSystemItems"
+									v-model="walletItem.payment_system_id"
+									item-text="name"
+									item-value="id"
+									auto
+									disabled
+							></v-select>
+						</v-flex>
+					</v-layout>
+					<v-layout row class="hidden-md-and-up">
+						<v-flex xs12>
+							<v-select
+									v-bind:items="currencies"
+									v-model="walletItem.currency"
+									item-text="prefix"
+									item-value="name"
+									label="Currency"
+									single-line
+									bottom
+									:error-messages="errors && errors.currency ? errors.currency[0] : []"
+									:error="errors && !!errors.currency"
+							></v-select>
+						</v-flex>
+					</v-layout>
+
+					<v-layout row class="mt-3 hidden-md-and-down">
 						<v-flex xs12 sm10>
 							<v-select
 									v-bind:items="paymentSystemItems"
