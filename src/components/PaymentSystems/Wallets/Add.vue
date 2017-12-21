@@ -252,8 +252,6 @@
                     this.walletItem.payment_system_id = this.paymentSystem.id;
                     this.paymentSystemItems = this.paymentSystemMeta.payment_systems;
                     this.currencies = this.paymentSystemMeta.currencies;
-
-                    console.log(this.walletItem);
 				});
 			},
             needToFill(fieldName) {
