@@ -14,6 +14,7 @@ import VueMoment from 'vue-moment';
 import moment from 'moment-timezone';
 import VueTruncate from 'vue-truncate-filter';
 import VueCurrencyFilter from 'vue-currency-filter';
+import VueRouter from 'vue-router'
 
 require('../node_modules/vuetify/dist/vuetify.min.css');
 require('../node_modules/font-awesome/css/font-awesome.min.css');
@@ -22,6 +23,7 @@ require('../node_modules/froala-editor/css/froala_style.min.css');
 
 sync(store, router);
 
+Vue.use(VueRouter);
 Vue.use(Vuetify);
 Vue.use(VueResource);
 Vue.use(VueFroala);

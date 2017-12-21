@@ -1,9 +1,13 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Dashboard from '@/components/Dashboard';
+import App from '@/App';
 import News from '@/components/News';
 import Courses from '@/components/Courses';
-import PaymentSystems from '@/components/PaymentSystems';
+import PaymentSystemList from '@/components/PaymentSystems/List';
+import PaymentSystemIndex from '@/components/PaymentSystems/Index';
+import WalletAdd from '@/components/PaymentSystems/Wallets/Add';
+import WalletEdit from '@/components/PaymentSystems/Wallets/Edit';
 import Config from '../config/app';
 import AccessDenied from '@/components/Error/401';
 import SystemError from '@/components/Error/500';
@@ -20,6 +24,10 @@ export default new Router({
     routes: [
         {
             path: '/',
+            redirect: '/dashboard',
+        },
+        {
+            path: '/dashboard',
             name: 'dashboard',
             component: Dashboard,
             beforeEnter: AuthGuard,
@@ -59,8 +67,8 @@ export default new Router({
         },
         {
             path: '/payment_systems',
-            name: 'payment_systems',
-            component: PaymentSystems,
+            name: 'paymentSystems',
+            component: PaymentSystemIndex,
             beforeEnter: AuthGuard,
             meta: {
                 role: Config.access.admin+'|'+Config.access.operator,
@@ -68,7 +76,39 @@ export default new Router({
                 menuName: 'Wallets',
                 menuIcon: 'mdi-wallet'
             },
-            menu: true
+            menu: true,
+            children: [
+                {
+                    path: ':paymentSystemId/wallets',
+                    name: 'walletAdd',
+                    component: WalletAdd,
+                    beforeEnter: AuthGuard,
+                    meta: {
+                        role: Config.access.admin+'|'+Config.access.operator,
+                        title: 'Add'
+                    }
+                },
+                {
+                    path: ':paymentSystemId/wallets/:walletId',
+                    name: 'walletEdit',
+                    component: WalletEdit,
+                    beforeEnter: AuthGuard,
+                    meta: {
+                        role: Config.access.admin+'|'+Config.access.operator,
+                        title: 'Edit'
+                    }
+                },
+                {
+                    path: '',
+                    name: 'paymentSystemsList',
+                    component: PaymentSystemList,
+                    beforeEnter: AuthGuard,
+                    meta: {
+                        role: Config.access.admin+'|'+Config.access.operator,
+                        title: 'Wallets'
+                    }
+                }
+            ]
         },
         {
             path: '*',

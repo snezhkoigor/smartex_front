@@ -8,7 +8,7 @@
 			</v-flex>
 			<v-flex d-flex d-flex xs10 sm10>
 				<v-card class="card--flex-toolbar">
-					<router-view />
+					<router-view></router-view>
 				</v-card>
 			</v-flex>
 		</v-layout>

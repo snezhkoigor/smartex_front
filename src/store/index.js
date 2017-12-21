@@ -4,6 +4,7 @@ import User from './user';
 import News from './news';
 import Course from './course';
 import PaymentSystem from './payment_system';
+import Wallet from './wallet';
 import createPersistedState from 'vuex-persistedstate';
 
 Vue.use(Vuex);
@@ -14,7 +15,7 @@ export default new Vuex.Store({
         News,
         Course,
         PaymentSystem,
-        // Youtube,
+        Wallet,
         // Meta
     },
     plugins: [createPersistedState()]

@@ -76,4 +76,8 @@
 		top: 0;
 		margin-top: 58px !important;
 	}
+
+	a.breadcrumbs-link {
+		text-decoration: none;
+	}
 </style>

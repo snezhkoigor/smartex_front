@@ -3,7 +3,7 @@
 		<v-list class="menu">
 			<v-list-tile v-for="item in $router.options.routes"
 					avatar
-					@click="goToMenu(item.name)"
+					:to="item.path"
 					v-if="item.menu && $router.options.can(item.meta)"
 					:key="item.meta.menuName"
 					:class="{'': $route.name !== item.name, 'selected': $route.name === item.name}"
