@@ -205,7 +205,7 @@
             return {
                 walletItem: {
                     id: null,
-                    payment_system_id: this.$route.params.paymentSystemId,
+                    payment_system_id: parseInt(this.$route.params.paymentSystemId),
                     currency: '',
                     account: null,
                     user: null,

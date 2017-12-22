@@ -134,7 +134,7 @@
 					</v-card-text>
 					<v-card-actions>
 						<v-spacer></v-spacer>
-						<v-btn color="green darken-1" flat="flat" @click="closeAllDialogs()">
+						<v-btn color="green darken-1" flat="flat" @click="closeCheckDialog()">
 							Ok
 						</v-btn>
 					</v-card-actions>
@@ -149,7 +149,7 @@
 					<v-card-text>Are you sure that you want to delete the wallet '{{this.wallet.account | truncate(50)}}'?</v-card-text>
 					<v-card-actions>
 						<v-spacer></v-spacer>
-						<v-btn color="red darken-1" flat="flat" @click="closeAllDialogs()">
+						<v-btn color="red darken-1" flat="flat" @click="closeDeleteDialog()">
 							Disagree
 						</v-btn>
 						<v-btn color="green darken-1"
@@ -240,6 +240,10 @@
                 this.wallet = wallet;
                 this.walletDeleteDialog = true;
             },
+            closeCheckDialog(wallet) {
+                this.walletCheckAnswer = '';
+                this.walletCheckDialog = false;
+            },
             getListPaymentSystems() {
                 let pagination = this.pagination;
 
@@ -252,16 +256,14 @@
 
                 this.list(HttpHelper.getPaginationParam(pagination));
 			},
-            closeAllDialogs() {
+            closeDeleteDialog() {
                 this.walletDeleteDialog = false;
-            	this.walletCheckDialog = false;
-            	this.walletCheckAnswer = '';
+                this.wallet = {};
 			},
             deleteWallet() {
                 this.delete(this.wallet).then(response => {
-                    this.wallet = {};
+                    this.closeDeleteDialog();
                     this.getListPaymentSystems();
-                    this.closeAllDialogs();
                 }).catch(errors => {
                     this.errors = errors;
                 });

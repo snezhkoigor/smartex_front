@@ -3,6 +3,13 @@ import http_config from './axios_config';
 const HTTP = http_config.instance;
 
 export default {
+    getById(newsId) {
+        let headers = {
+            Authorization: 'Bearer ' + localStorage.getItem('jwt_token')
+        };
+
+        return HTTP.get('/news/' + newsId, {headers: headers});
+    },
     list(requestParams) {
         let headers = {
             Authorization: 'Bearer ' + localStorage.getItem('jwt_token')

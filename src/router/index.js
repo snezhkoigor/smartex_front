@@ -2,7 +2,10 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Dashboard from '@/components/Dashboard';
 import App from '@/App';
-import News from '@/components/News';
+import NewsIndex from '@/components/News/Index';
+import NewsList from '@/components/News/List';
+import NewsAdd from '@/components/News/Add';
+import NewsEdit from '@/components/News/Edit';
 import Courses from '@/components/Courses';
 import PaymentSystemList from '@/components/PaymentSystems/List';
 import PaymentSystemIndex from '@/components/PaymentSystems/Index';
@@ -42,7 +45,7 @@ export default new Router({
         {
             path: '/news',
             name: 'news',
-            component: News,
+            component: NewsIndex,
             beforeEnter: AuthGuard,
             meta: {
                 role: Config.access.admin+'|'+Config.access.operator,
@@ -50,7 +53,39 @@ export default new Router({
                 menuName: 'News',
                 menuIcon: 'mdi-newspaper'
             },
-            menu: true
+            menu: true,
+            children: [
+                {
+                    path: 'add',
+                    name: 'newsAdd',
+                    component: NewsAdd,
+                    beforeEnter: AuthGuard,
+                    meta: {
+                        role: Config.access.admin+'|'+Config.access.operator,
+                        title: 'Add'
+                    }
+                },
+                {
+                    path: ':newsId',
+                    name: 'newsEdit',
+                    component: NewsEdit,
+                    beforeEnter: AuthGuard,
+                    meta: {
+                        role: Config.access.admin+'|'+Config.access.operator,
+                        title: 'Edit'
+                    }
+                },
+                {
+                    path: '',
+                    name: 'newsList',
+                    component: NewsList,
+                    beforeEnter: AuthGuard,
+                    meta: {
+                        role: Config.access.admin+'|'+Config.access.operator,
+                        title: 'News'
+                    }
+                }
+            ]
         },
         {
             path: '/courses',

@@ -7,6 +7,10 @@ const GET_NEWS_LIST = "GET_NEWS_LIST";
 const GET_NEWS_LIST_SUCCESS = "GET_NEWS_LIST_SUCCESS";
 const GET_NEWS_LIST_FAIL = "GET_NEWS_LIST_FAIL";
 
+const GET_NEWS_BY_ID = "GET_NEWS_BY_ID";
+const GET_NEWS_BY_ID_SUCCESS = "GET_NEWS_BY_ID_SUCCESS";
+const GET_NEWS_BY_ID_FAIL = "GET_NEWS_BY_ID_FAIL";
+
 const NEWS_ADD = "NEWS_ADD";
 const NEWS_ADD_SUCCESS = "NEWS_ADD_SUCCESS";
 const NEWS_ADD_FAIL = "NEWS_ADD_FAIL";
@@ -22,12 +26,35 @@ const NEWS_DELETE_FAIL = "NEWS_DELETE_FAIL";
 const RESET_PENDING = "RESET_PENDING";
 
 const state = {
-    news: null,
+    newsList: [],
+    news: [],
     meta: null,
     pending: false
 };
 
 const actions = {
+    getById({ commit, dispatch }, newsId) {
+        return new Promise((resolve, reject) => {
+            commit(GET_NEWS_BY_ID);
+
+            api.getById(newsId).then(response => {
+                if (response.status === 200) {
+                    commit(GET_NEWS_BY_ID_SUCCESS, response.data);
+                    resolve(response);
+                } else {
+                    commit(GET_NEWS_BY_ID_FAIL);
+                    reject(ErrorsHelper.getMessage(response));
+
+                    ErrorsHelper.goByStatusCode(response.status, router);
+                }
+            }, errors => {
+                commit(GET_NEWS_BY_ID_FAIL);
+                reject(errors);
+
+                ErrorsHelper.goByStatusCode(500, router);
+            })
+        });
+    },
     list({ commit, dispatch }, requestParams) {
         return new Promise((resolve, reject) => {
             commit(GET_NEWS_LIST);
@@ -131,11 +158,29 @@ const mutations = {
     },
     GET_NEWS_LIST_SUCCESS (state, responseData) {
         state.pending = false;
-        state.news = responseData.data;
+        state.newsList = responseData.data;
+        state.news = null;
         state.meta = responseData.meta;
     },
     GET_NEWS_LIST_FAIL (state) {
         state.pending = false;
+        state.newsList = [];
+        state.news = null;
+        state.meta = null;
+    },
+
+    GET_NEWS_BY_ID (state) {
+        state.pending = true;
+    },
+    GET_NEWS_BY_ID_SUCCESS (state, responseData) {
+        state.pending = false;
+        state.newsList = [];
+        state.news = responseData.data;
+        state.meta = null;
+    },
+    GET_NEWS_BY_ID_FAIL (state) {
+        state.pending = false;
+        state.newsList = [];
         state.news = null;
         state.meta = null;
     },
@@ -172,7 +217,10 @@ const mutations = {
 };
 
 const getters = {
-    news_list (state) {
+    newsList (state) {
+        return state.newsList;
+    },
+    news (state) {
         return state.news;
     },
     meta (state) {
