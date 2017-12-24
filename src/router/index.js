@@ -7,10 +7,10 @@ import NewsList from '@/components/News/List';
 import NewsAdd from '@/components/News/Add';
 import NewsEdit from '@/components/News/Edit';
 import Courses from '@/components/Courses';
-import PaymentSystemList from '@/components/PaymentSystems/List';
-import PaymentSystemIndex from '@/components/PaymentSystems/Index';
-import WalletAdd from '@/components/PaymentSystems/Wallets/Add';
-import WalletEdit from '@/components/PaymentSystems/Wallets/Edit';
+import WalletsList from '@/components/Wallets/List';
+import WalletsIndex from '@/components/Wallets/Index';
+import WalletAdd from '@/components/Wallets/Add';
+import WalletEdit from '@/components/Wallets/Edit';
 import Config from '../config/app';
 import AccessDenied from '@/components/Error/401';
 import SystemError from '@/components/Error/500';
@@ -101,9 +101,9 @@ export default new Router({
             menu: true
         },
         {
-            path: '/payment_systems',
-            name: 'paymentSystems',
-            component: PaymentSystemIndex,
+            path: '/wallets',
+            name: 'wallets',
+            component: WalletsIndex,
             beforeEnter: AuthGuard,
             meta: {
                 role: Config.access.admin+'|'+Config.access.operator,
@@ -114,7 +114,7 @@ export default new Router({
             menu: true,
             children: [
                 {
-                    path: ':paymentSystemId/wallets',
+                    path: 'wallets/add',
                     name: 'walletAdd',
                     component: WalletAdd,
                     beforeEnter: AuthGuard,
@@ -124,7 +124,7 @@ export default new Router({
                     }
                 },
                 {
-                    path: ':paymentSystemId/wallets/:walletId',
+                    path: 'wallets/:walletId',
                     name: 'walletEdit',
                     component: WalletEdit,
                     beforeEnter: AuthGuard,
@@ -135,8 +135,8 @@ export default new Router({
                 },
                 {
                     path: '',
-                    name: 'paymentSystemsList',
-                    component: PaymentSystemList,
+                    name: 'walletsList',
+                    component: WalletsList,
                     beforeEnter: AuthGuard,
                     meta: {
                         role: Config.access.admin+'|'+Config.access.operator,

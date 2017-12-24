@@ -2,7 +2,7 @@
 	<div>
 		<v-toolbar card color="white" prominent>
 			<v-toolbar-title class="page-title title grey--text title-tool-bar">
-				<router-link class="breadcrumbs-link" :to="{ name: 'paymentSystemsList'}">Wallets</router-link> / {{ this.$router.currentRoute.meta.title }}
+				<router-link class="breadcrumbs-link" :to="{ name: 'walletsList'}">Wallets</router-link> / {{ this.$router.currentRoute.meta.title }}
 			</v-toolbar-title>
 			<v-spacer></v-spacer>
 			<v-btn
@@ -19,6 +19,7 @@
 					@click="checkAccess(walletItem)"
 					:loading="checkPending"
 					:disabled="checkPending"
+					v-if="walletItem.payment_system_id"
 			>
 				<span>Check</span>
 				<span slot="loader">Sending...</span>
@@ -39,8 +40,9 @@
 									v-model="walletItem.payment_system_id"
 									item-text="name"
 									item-value="id"
+									:error-messages="errors && errors.payment_system_id ? errors.payment_system_id[0] : []"
+									:error="errors && !!errors.payment_system_id"
 									auto
-									disabled
 							></v-select>
 						</v-flex>
 					</v-layout>
@@ -67,8 +69,9 @@
 									v-model="walletItem.payment_system_id"
 									item-text="name"
 									item-value="id"
+									:error-messages="errors && errors.payment_system_id ? errors.payment_system_id[0] : []"
+									:error="errors && !!errors.payment_system_id"
 									auto
-									disabled
 							></v-select>
 						</v-flex>
 						<v-flex xs12 sm2 class="ml-2">
@@ -197,8 +200,8 @@
 
 <script>
     import { mapGetters, mapActions } from 'vuex';
-    import AppConfig from '../../../config/app';
-    import HttpHelper from '../../../helpers/http';
+    import AppConfig from '../../config/app';
+    import HttpHelper from '../../helpers/http';
 
     export default {
         data () {
@@ -218,7 +221,7 @@
             }
         },
         mounted() {
-            this.getPaymentSystem(this.$route.params.paymentSystemId);
+            this.getPaymentSystems();
         },
         watch: {
             walletCheckAnswer: function (value) {
@@ -231,22 +234,21 @@
             ...mapGetters({
                 paymentSystemPending: 'PaymentSystem/pending',
 				paymentSystemMeta: 'PaymentSystem/meta',
-                paymentSystem: 'PaymentSystem/paymentSystem',
 				walletPending: 'Wallet/pending',
 				checkPending: 'Wallet/checkPending'
             }),
         },
         methods: {
-            ...mapActions('PaymentSystem', [
-                'getPaymentSystemById'
-            ]),
-            ...mapActions('Wallet', [
-                'list', 'add', 'check'
-            ]),
+            ...mapActions({
+                paymentSystemList: 'PaymentSystem/list',
+                walletList: 'Wallet/list',
+                walletAdd: 'Wallet/add',
+                walletCheck: 'Wallet/check'
+            }),
 			setDefaultWalletObject() {
             	return {
                     id: null,
-                    payment_system_id: parseInt(this.$route.params.paymentSystemId),
+                    payment_system_id: null,
                     currency: '',
                     account: null,
                     user: null,
@@ -267,7 +269,7 @@
                 this.walletCheckAnswer = '';
             },
             checkAccess(walletItem) {
-                this.check(walletItem).then(response => {
+                this.walletCheck(walletItem).then(response => {
                     this.walletCheckAnswer = 'Status: OK';
                     this.walletItem.balance = response.data.balance;
                 }).catch(errors => {
@@ -275,9 +277,8 @@
                     this.errors = errors;
                 });
             },
-            getPaymentSystem(paymentSystemId) {
-                this.getPaymentSystemById(paymentSystemId).then(response => {
-                    this.walletItem.payment_system_id = this.paymentSystem.id;
+            getPaymentSystems() {
+                this.paymentSystemList().then(response => {
                     this.paymentSystemItems = this.paymentSystemMeta.payment_systems;
                     this.currencies = this.paymentSystemMeta.currencies;
 				});
@@ -286,9 +287,9 @@
                 return this.paymentSystemMeta && this.walletItem.payment_system_id && this.paymentSystemMeta.required[this.walletItem.payment_system_id].indexOf(fieldName) !== -1;
             },
             addWallet() {
-                this.add(this.walletItem).then(response => {
+                this.walletAdd(this.walletItem).then(response => {
                     this.$router.push({
-                        name: 'paymentSystemsList'
+                        name: 'walletsList'
                     });
                 }).catch(errors => {
                     this.errors = errors;

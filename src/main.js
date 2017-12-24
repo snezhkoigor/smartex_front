@@ -50,6 +50,10 @@ new Vue({
   store,
   beforeMount: function () {
       this.$store.dispatch('User/resetPending');
+      this.$store.dispatch('PaymentSystem/resetPending');
+      this.$store.dispatch('Wallet/resetPending');
+      this.$store.dispatch('Course/resetPending');
+      this.$store.dispatch('News/resetPending');
   },
   render: h => h(App)
 });

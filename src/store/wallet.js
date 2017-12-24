@@ -38,11 +38,11 @@ const state = {
 };
 
 const actions = {
-    getById({ commit, dispatch }, walletId) {
+    getById({ commit, dispatch }, wallet) {
         return new Promise((resolve, reject) => {
             commit(GET_WALLET_BY_ID);
 
-            api.getById(walletId).then(response => {
+            api.getById(wallet).then(response => {
                 if (response.status === 200) {
                     commit(GET_WALLET_BY_ID_SUCCESS, response.data);
                     resolve(response);
@@ -60,11 +60,11 @@ const actions = {
             })
         })
     },
-    list({ commit, dispatch }, paymentSystemId) {
+    list({ commit, dispatch }, requestParams) {
         return new Promise((resolve, reject) => {
             commit(GET_WALLET_BY_ID);
 
-            api.list(paymentSystemId).then(response => {
+            api.list(requestParams).then(response => {
                 if (response.status === 200) {
                     commit(GET_WALLET_LIST_SUCCESS, response.data);
                     resolve(response);

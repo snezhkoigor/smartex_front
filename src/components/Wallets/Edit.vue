@@ -2,7 +2,7 @@
 	<div>
 		<v-toolbar card color="white" prominent>
 			<v-toolbar-title class="page-title title grey--text title-tool-bar">
-				<router-link class="breadcrumbs-link" :to="{ name: 'paymentSystemsList'}">Wallets</router-link> / {{ this.$router.currentRoute.meta.title }}
+				<router-link class="breadcrumbs-link" :to="{ name: 'walletsList'}">Wallets</router-link> / {{ this.$router.currentRoute.meta.title }}
 			</v-toolbar-title>
 			<v-spacer></v-spacer>
 			<v-btn
@@ -67,8 +67,8 @@
 									v-model="walletItem.payment_system_id"
 									item-text="name"
 									item-value="id"
-									auto
 									disabled
+									auto
 							></v-select>
 						</v-flex>
 						<v-flex xs12 sm2 class="ml-2">
@@ -197,14 +197,14 @@
 
 <script>
     import { mapGetters, mapActions } from 'vuex';
-    import AppConfig from '../../../config/app';
-    import HttpHelper from '../../../helpers/http';
+    import AppConfig from '../../config/app';
+    import HttpHelper from '../../helpers/http';
 
     export default {
         data () {
             return {
                 walletItem: {
-                    id: null,
+                    id: parseInt(this.$route.params.walletId),
                     payment_system_id: parseInt(this.$route.params.paymentSystemId),
                     currency: '',
                     account: null,
@@ -230,7 +230,7 @@
             }
         },
         mounted() {
-            this.getWallet(this.$route.params.walletId);
+            this.getWallet(this.walletItem);
         },
         watch: {
             walletCheckAnswer: function (value) {
@@ -268,8 +268,8 @@
                     this.errors = errors;
                 });
             },
-            getWallet(walletId) {
-                this.getById(walletId).then(response => {
+            getWallet(wallet) {
+                this.getById(wallet).then(response => {
                     this.walletItem = this.wallet;
                     this.paymentSystemItems = this.walletMeta.payment_systems;
                     this.currencies = this.walletMeta.currencies;
@@ -281,7 +281,7 @@
             editWallet() {
                 this.edit(this.walletItem).then(response => {
                     this.$router.push({
-                        name: 'paymentSystemsList'
+                        name: 'walletsList'
                     });
                 }).catch(errors => {
                     this.errors = errors;
