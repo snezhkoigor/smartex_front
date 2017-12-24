@@ -30,7 +30,7 @@
 						<div>
 							<div class="fio">{{this.profile.first_name}} {{this.profile.last_name}}</div>
 							<div class="role">
-								<div v-for="roleItem in role" :key="roleItem.name">{{roleItem.displayName}}&nbsp;</div>
+								<span v-for="roleItem in role" :key="roleItem.name">{{roleItem.displayName}}&nbsp;</span>
 							</div>
 						</div>
 					</v-btn>
