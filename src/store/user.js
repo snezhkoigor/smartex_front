@@ -158,6 +158,7 @@ const mutations = {
         state.isLoggedIn = false;
         state.token = null;
         state.pending = false;
+        state.role = null;
     },
 
     GET_PROFILE_SUCCESS (state, user) {
@@ -168,11 +169,11 @@ const mutations = {
             let role = [];
 
             user.roles.forEach(function(item, i, arr) {
-                role.push(item.name);
+                role.push({'id': item.id, 'name': item.name, 'displayName': item.display_name});
             });
 
             state.role = role;
-            localStorage.setItem('jwt_role', btoa(role));
+            localStorage.setItem('jwt_role', btoa(JSON.stringify(role)));
         }
     },
     GET_PROFILE_FAIL (state) {
@@ -182,6 +183,7 @@ const mutations = {
         state.isLoggedIn = false;
         state.token = null;
         state.pending = false;
+        state.role = null;
     },
 
     LOGOUT (state) {
@@ -192,6 +194,7 @@ const mutations = {
         state.profile = null;
         state.token = null;
         state.pending = false;
+        state.role = null;
     }
 };
 

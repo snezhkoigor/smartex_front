@@ -35,7 +35,10 @@ export default new Router({
             component: Dashboard,
             beforeEnter: AuthGuard,
             meta: {
-                role: Config.access.admin+'|'+Config.access.operator,
+                role: [
+                    Config.access.admin,
+                    Config.access.operator
+                ],
                 title: 'Dashboard',
                 menuName: 'Dashboard',
                 menuIcon: 'mdi-view-dashboard'
@@ -48,7 +51,10 @@ export default new Router({
             component: NewsIndex,
             beforeEnter: AuthGuard,
             meta: {
-                role: Config.access.admin+'|'+Config.access.operator,
+                role: [
+                    Config.access.admin,
+                    Config.access.operator
+                ],
                 title: 'News',
                 menuName: 'News',
                 menuIcon: 'mdi-newspaper'
@@ -61,7 +67,10 @@ export default new Router({
                     component: NewsAdd,
                     beforeEnter: AuthGuard,
                     meta: {
-                        role: Config.access.admin+'|'+Config.access.operator,
+                        role: [
+                            Config.access.admin,
+                            Config.access.operator
+                        ],
                         title: 'Add'
                     }
                 },
@@ -71,7 +80,10 @@ export default new Router({
                     component: NewsEdit,
                     beforeEnter: AuthGuard,
                     meta: {
-                        role: Config.access.admin+'|'+Config.access.operator,
+                        role: [
+                            Config.access.admin,
+                            Config.access.operator
+                        ],
                         title: 'Edit'
                     }
                 },
@@ -81,7 +93,10 @@ export default new Router({
                     component: NewsList,
                     beforeEnter: AuthGuard,
                     meta: {
-                        role: Config.access.admin+'|'+Config.access.operator,
+                        role: [
+                            Config.access.admin,
+                            Config.access.operator
+                        ],
                         title: 'News'
                     }
                 }
@@ -93,7 +108,10 @@ export default new Router({
             component: Courses,
             beforeEnter: AuthGuard,
             meta: {
-                role: Config.access.admin+'|'+Config.access.operator,
+                role: [
+                    Config.access.admin,
+                    Config.access.operator
+                ],
                 title: 'Courses',
                 menuName: 'Courses',
                 menuIcon: 'fa-exchange'
@@ -106,7 +124,10 @@ export default new Router({
             component: WalletsIndex,
             beforeEnter: AuthGuard,
             meta: {
-                role: Config.access.admin+'|'+Config.access.operator,
+                role: [
+                    Config.access.admin,
+                    Config.access.operator
+                ],
                 title: 'Wallets',
                 menuName: 'Wallets',
                 menuIcon: 'mdi-wallet'
@@ -119,7 +140,10 @@ export default new Router({
                     component: WalletAdd,
                     beforeEnter: AuthGuard,
                     meta: {
-                        role: Config.access.admin+'|'+Config.access.operator,
+                        role: [
+                            Config.access.admin,
+                            Config.access.operator
+                        ],
                         title: 'Add'
                     }
                 },
@@ -129,7 +153,10 @@ export default new Router({
                     component: WalletEdit,
                     beforeEnter: AuthGuard,
                     meta: {
-                        role: Config.access.admin+'|'+Config.access.operator,
+                        role: [
+                            Config.access.admin,
+                            Config.access.operator
+                        ],
                         title: 'Edit'
                     }
                 },
@@ -139,7 +166,10 @@ export default new Router({
                     component: WalletsList,
                     beforeEnter: AuthGuard,
                     meta: {
-                        role: Config.access.admin+'|'+Config.access.operator,
+                        role: [
+                            Config.access.admin,
+                            Config.access.operator
+                        ],
                         title: 'Wallets'
                     }
                 }
@@ -150,7 +180,10 @@ export default new Router({
             name: '404',
             component: NotFound,
             meta: {
-                role: Config.access.public,
+                role: [
+                    Config.access.admin,
+                    Config.access.operator
+                ],
                 title: 'Not Found',
             },
             menu: false
@@ -161,7 +194,10 @@ export default new Router({
             template: null,
             component: AccessDenied,
             meta: {
-                role: Config.access.admin+'|'+Config.access.operator,
+                role: [
+                    Config.access.admin,
+                    Config.access.operator
+                ],
                 title: 'Access Denied',
             },
             menu: false
@@ -172,7 +208,6 @@ export default new Router({
             template: null,
             component: SystemError,
             meta: {
-                role: Config.access.public,
                 title: 'System Error in Server',
             },
             menu: false
@@ -181,32 +216,35 @@ export default new Router({
             path: '/login',
             name: 'login',
             component: Login,
-            meta: {
-                role: Config.access.public,
-            },
+            meta: {},
             menu: false
         },
         {
             path: '/password-reset',
             name: 'passwordReset',
             component: PasswordReset,
-            meta: {
-                role: Config.access.public,
-            },
+            meta: {},
             menu: false
         }
     ],
     can: function (routeMeta) {
-        if(routeMeta.role === Config.access.public || routeMeta.role === undefined) {
+        let jwtRole = JSON.parse(atob(localStorage.getItem('jwt_role')));
+        let can = false;
+
+        if (routeMeta.role === undefined) {
+            can = true;
+        } else {
+            Object.values(jwtRole).forEach(function(value, key, arr) {
+                if (routeMeta.role.indexOf(Config.access.public) !== -1 || routeMeta.role.indexOf(value.name) !== -1) {
+                    can = true;
+                }
+            });
+        }
+
+        if (can) {
             return true;
         } else {
-            let jwtRole = localStorage.getItem('jwt_role');
-
-            if (routeMeta.role.indexOf(atob(jwtRole)) === -1) {
-                return false;
-            } else {
-                return true;
-            }
+            return false;
         }
     }
 });

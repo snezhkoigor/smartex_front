@@ -5,16 +5,23 @@ export default (to, from, next) => {
     let jwtToken = localStorage.getItem('jwt_token');
 
     if (jwtToken !== null) {
-        let jwtRole = localStorage.getItem('jwt_role');
+        let jwtRole = JSON.parse(atob(localStorage.getItem('jwt_role')));
+        let can = false;
 
-        if(to.meta.role === Config.access.public || to.meta.role === undefined) {
+        if (to.meta.role === undefined) {
+            can = true;
+        } else {
+            Object.values(jwtRole).forEach(function(value, key, arr) {
+                if (to.meta.role.indexOf(Config.access.public) !== -1 || to.meta.role.indexOf(value.name) !== -1) {
+                    can = true;
+                }
+            });
+        }
+
+        if (can) {
             next();
         } else {
-            if (to.meta.role.indexOf(atob(jwtRole)) === -1) {
-                next({path: '/401'});
-            } else {
-                next();
-            }
+           next({path: '/401'});
         }
     } else {
         store.dispatch('User/logout').then(() => {

@@ -29,7 +29,9 @@
 						<v-icon large dark>fa-grav</v-icon>
 						<div>
 							<div class="fio">{{this.profile.first_name}} {{this.profile.last_name}}</div>
-							<div class="role">role: {{this.role}}</div>
+							<div class="role">
+								<div v-for="roleItem in role" :key="roleItem.name">{{roleItem.displayName}}&nbsp;</div>
+							</div>
 						</div>
 					</v-btn>
 					<v-list>
