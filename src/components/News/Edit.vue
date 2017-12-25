@@ -148,9 +148,9 @@
             },
             newsEdit() {
                 this.edit(this.newsItem).then(response => {
-                    // this.$router.push({
-                    //     name: 'newsList'
-                    // });
+                    this.$router.push({
+                        name: 'newsList'
+                    });
                 }).catch(errors => {
                     this.errors = errors;
                 });
