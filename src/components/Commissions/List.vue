@@ -76,7 +76,7 @@
 							class="news-table-list"
 					>
 						<td class="text-lg-left table-list-data" @click="goToEditCommission(props.item)">
-							<b>{{props.item.commission | currency(props.item.prefix)}}</b>: <span class="commission-from">from</span> {{ props.item.wallet.data.account }} <span class="commission-to">to</span> {{ props.item.paymentSystem.data.name }}
+							<b>{{props.item.commission | currency(props.item.prefix)}}</b>: <span class="commission-from">from</span> {{ props.item.wallet.data.account | truncate(25) }} <span class="commission-to">to</span> {{ props.item.paymentSystem.data.name }}
 						</td>
 						<td class="text-lg-center table-list-actions">
 							<v-btn flat icon color="red darken-1" @click="openDeleteDialog(props.item)">
@@ -92,7 +92,7 @@
 			<v-dialog v-model="commissionDeleteDialog" max-width="290" v-if="this.commission.id">
 				<v-card>
 					<v-card-title class="headline">Delete this commission?</v-card-title>
-					<v-card-text><b>{{this.commission.commission | currency(this.commission.prefix)}}</b>: <span class="commission-from">from</span> {{ this.commission.wallet.data.account }} <span class="commission-to">to</span> {{ this.commission.paymentSystem.data.name }}</v-card-text>
+					<v-card-text><b>{{this.commission.commission | currency(this.commission.prefix)}}</b>: <span class="commission-from">from</span> {{ this.commission.wallet.data.account | truncate(25) }} <span class="commission-to">to</span> {{ this.commission.paymentSystem.data.name }}</v-card-text>
 					<v-card-actions>
 						<v-spacer></v-spacer>
 						<v-btn color="red darken-1" flat="flat" @click="closeDeleteDialog()">
@@ -174,10 +174,15 @@
                 'list', 'delete'
             ]),
             goToAddCommission() {
-
+                this.$router.push({
+                    name: 'commissionAdd'
+                });
 			},
-            goToEditCommission () {
-
+            goToEditCommission (commissionItem) {
+                this.$router.push({
+                    name: 'commissionEdit',
+                    params: { commissionId: commissionItem.id }
+                });
             },
             clearSearchField() {
                 this.search = '';
@@ -211,7 +216,7 @@
 				}
 			},
             getCommissionsList() {
-                let pagination = this.pagination;
+                let pagination = this.getDefaultPagination();
 
 				if (this.filterByPaymentSystem > 0) {
                     pagination.filters.payment_system_id = this.filterByPaymentSystem;

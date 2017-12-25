@@ -32,9 +32,9 @@
 
 		<v-container>
 			<v-form ref="walletForm">
-				<v-container fluid>
-					<v-layout row class="hidden-md-and-up">
-						<v-flex xs12>
+				<v-container grid-list-md fluid>
+					<v-layout row-md wrap>
+						<v-flex xs12 sm10 md10>
 							<v-select
 									v-bind:items="paymentSystemItems"
 									v-model="walletItem.payment_system_id"
@@ -45,36 +45,7 @@
 									auto
 							></v-select>
 						</v-flex>
-					</v-layout>
-					<v-layout row class="hidden-md-and-up">
-						<v-flex xs12>
-							<v-select
-									v-bind:items="currencies"
-									v-model="walletItem.currency"
-									item-text="prefix"
-									item-value="name"
-									label="Currency"
-									single-line
-									bottom
-									:error-messages="errors && errors.currency ? errors.currency[0] : []"
-									:error="errors && !!errors.currency"
-							></v-select>
-						</v-flex>
-					</v-layout>
-
-					<v-layout row class="mt-3 hidden-md-and-down">
-						<v-flex xs12 sm10>
-							<v-select
-									v-bind:items="paymentSystemItems"
-									v-model="walletItem.payment_system_id"
-									item-text="name"
-									item-value="id"
-									:error-messages="errors && errors.payment_system_id ? errors.payment_system_id[0] : []"
-									:error="errors && !!errors.payment_system_id"
-									auto
-							></v-select>
-						</v-flex>
-						<v-flex xs12 sm2 class="ml-2">
+						<v-flex xs12 sm2 md2>
 							<v-select
 									v-bind:items="currencies"
 									v-model="walletItem.currency"
@@ -213,7 +184,6 @@
 
                 loading: true,
                 walletCheckAnswer: '',
-                pagination: {},
                 errors: [],
                 loader: null,
 
@@ -234,7 +204,7 @@
             ...mapGetters('Wallet', ['pending', 'checkPending', 'meta']),
         },
         methods: {
-            ...mapActions('Wallet', ['list', 'add', 'check', 'getFormMeta']),
+            ...mapActions('Wallet', ['add', 'check', 'getFormMeta']),
 			setDefaultWalletObject() {
             	return {
                     id: null,

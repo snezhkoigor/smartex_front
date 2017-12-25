@@ -14,6 +14,8 @@ import WalletAdd from '@/components/Wallets/Add';
 import WalletEdit from '@/components/Wallets/Edit';
 import CommissionsIndex from '@/components/Commissions/Index';
 import CommissionsList from '@/components/Commissions/List';
+import CommissionAdd from '@/components/Commissions/Add';
+import CommissionEdit from '@/components/Commissions/Edit';
 
 import Config from '../config/app';
 import AccessDenied from '@/components/Error/401';
@@ -139,7 +141,7 @@ export default new Router({
             menu: true,
             children: [
                 {
-                    path: 'wallets/add',
+                    path: 'add',
                     name: 'walletAdd',
                     component: WalletAdd,
                     beforeEnter: AuthGuard,
@@ -152,7 +154,7 @@ export default new Router({
                     }
                 },
                 {
-                    path: 'wallets/:walletId',
+                    path: ':walletId',
                     name: 'walletEdit',
                     component: WalletEdit,
                     beforeEnter: AuthGuard,
@@ -195,6 +197,32 @@ export default new Router({
             },
             menu: true,
             children: [
+                {
+                    path: 'add',
+                    name: 'commissionAdd',
+                    component: CommissionAdd,
+                    beforeEnter: AuthGuard,
+                    meta: {
+                        role: [
+                            Config.access.admin,
+                            Config.access.operator
+                        ],
+                        title: 'Add'
+                    }
+                },
+                {
+                    path: ':commissionId',
+                    name: 'commissionEdit',
+                    component: CommissionEdit,
+                    beforeEnter: AuthGuard,
+                    meta: {
+                        role: [
+                            Config.access.admin,
+                            Config.access.operator
+                        ],
+                        title: 'Edit'
+                    }
+                },
                 {
                     path: '',
                     name: 'commissionsList',

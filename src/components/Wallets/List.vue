@@ -296,7 +296,7 @@
 				}
 			},
             getWalletsList() {
-                let pagination = this.pagination;
+                let pagination = this.getDefaultPagination();
 
 				if (this.filterByPaymentSystem > 0) {
                     pagination.filters.payment_system_id = this.filterByPaymentSystem;
