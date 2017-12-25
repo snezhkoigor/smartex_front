@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<v-toolbar card color="white" prominent>
+		<v-toolbar card color="white" prominent >
 			<v-toolbar-title class="page-title title grey--text title-tool-bar">
 				{{ this.$router.currentRoute.meta.title }}
 			</v-toolbar-title>
@@ -8,9 +8,8 @@
 			<v-btn icon @click.native="getListCourses()">
 				<v-icon>refresh</v-icon>
 			</v-btn>
+			<v-progress-linear class="pending" v-if="pending" v-bind:indeterminate="pending"></v-progress-linear>
 		</v-toolbar>
-
-		<v-progress-linear class="pending" v-if="pending" v-bind:indeterminate="pending"></v-progress-linear>
 
 		<v-divider></v-divider>
 
