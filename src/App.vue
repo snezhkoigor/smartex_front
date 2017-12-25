@@ -80,4 +80,15 @@
 	a.breadcrumbs-link {
 		text-decoration: none;
 	}
+
+	.table-list-data {
+		cursor: pointer;
+	}
+	.table-list-actions {
+		float: right;
+	}
+	.clear-filter-button {
+		float: right;
+		margin: -20px 0 0 0;
+	}
 </style>

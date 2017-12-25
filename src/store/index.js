@@ -5,6 +5,7 @@ import News from './news';
 import Course from './course';
 import PaymentSystem from './payment_system';
 import Wallet from './wallet';
+import Commission from './commission';
 import createPersistedState from 'vuex-persistedstate';
 
 Vue.use(Vuex);
@@ -16,7 +17,7 @@ export default new Vuex.Store({
         Course,
         PaymentSystem,
         Wallet,
-        // Meta
+        Commission
     },
     plugins: [createPersistedState()]
 })

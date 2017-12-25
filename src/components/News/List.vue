@@ -18,27 +18,28 @@
 		<v-divider></v-divider>
 
 		<v-card-text>
-			<v-card-title>
-				<v-spacer class="hidden-sm-and-down"></v-spacer>
-				<v-text-field
-						append-icon="search"
-						label="Search by title"
-						single-line
-						hint="Press enter for start search"
-						v-on:keyup.enter="getListNews()"
-						v-model="search"
-				></v-text-field>
-				<v-btn icon :disabled="search.length === 0" @click.native="clearSearchField()">
-					<v-icon>mdi-close</v-icon>
-				</v-btn>
-			</v-card-title>
+			<v-layout row-md wrap>
+				<v-flex xs12 >
+					<v-text-field
+							append-icon="search"
+							label="Search by title"
+							single-line
+							hint="Press enter for start search"
+							v-on:keyup.enter="getListNews()"
+							v-model="search"
+					></v-text-field>
+					<v-btn class="clear-filter-button" flat small :disabled="search.length === 0" @click.native="clearSearchField()">
+						clear
+					</v-btn>
+				</v-flex>
+			</v-layout>
 			<v-data-table
 					v-bind:headers="headers"
 					v-bind:items="items"
 					v-bind:pagination.sync="pagination"
 					:total-items="totalItems"
 					:rows-per-page-items="perPage"
-					class="elevation-0"
+					class="elevation-0 mt-5"
 			>
 				<template slot="headers" slot-scope="props">
 					<tr>
@@ -55,9 +56,9 @@
 					<tr :class="{'': props.item.active, 'red lighten-3': !props.item.active}"
 						class="news-table-list"
 					>
-						<td class="text-xs-center news-table-list-data" @click="goToEditNews(props.item)">{{ props.item.date | moment('DD.MM.YYYY') }}</td>
-						<td class="news-table-list-data" @click="goToEditNews(props.item)">{{ props.item.title | truncate(100) }}</td>
-						<td class="text-lg-center news-table-list-actions">
+						<td class="text-xs-center table-list-data" @click="goToEditNews(props.item)">{{ props.item.date | moment('DD.MM.YYYY') }}</td>
+						<td class="table-list-data" @click="goToEditNews(props.item)">{{ props.item.title | truncate(100) }}</td>
+						<td class="text-lg-center table-list-actions">
 							<v-btn flat icon color="red darken-1" @click="openDeleteDialog(props.item)">
 								<v-icon>mdi-delete</v-icon>
 							</v-btn>
@@ -206,7 +207,5 @@
 </script>
 
 <style>
-	.news-table-list-data {
-		cursor: pointer;
-	}
+
 </style>

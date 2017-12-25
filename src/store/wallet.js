@@ -62,7 +62,7 @@ const actions = {
     },
     list({ commit, dispatch }, requestParams) {
         return new Promise((resolve, reject) => {
-            commit(GET_WALLET_BY_ID);
+            commit(GET_WALLET_LIST);
 
             api.list(requestParams).then(response => {
                 if (response.status === 200) {

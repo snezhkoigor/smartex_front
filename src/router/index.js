@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+
 import Dashboard from '@/components/Dashboard';
 import App from '@/App';
 import NewsIndex from '@/components/News/Index';
@@ -11,6 +12,9 @@ import WalletsList from '@/components/Wallets/List';
 import WalletsIndex from '@/components/Wallets/Index';
 import WalletAdd from '@/components/Wallets/Add';
 import WalletEdit from '@/components/Wallets/Edit';
+import CommissionsIndex from '@/components/Commissions/Index';
+import CommissionsList from '@/components/Commissions/List';
+
 import Config from '../config/app';
 import AccessDenied from '@/components/Error/401';
 import SystemError from '@/components/Error/500';
@@ -171,6 +175,37 @@ export default new Router({
                             Config.access.operator
                         ],
                         title: 'Wallets'
+                    }
+                }
+            ]
+        },
+        {
+            path: '/commissions',
+            name: 'commissions',
+            component: CommissionsIndex,
+            beforeEnter: AuthGuard,
+            meta: {
+                role: [
+                    Config.access.admin,
+                    Config.access.operator
+                ],
+                title: 'Commissions',
+                menuName: 'Commissions',
+                menuIcon: 'mdi-coins'
+            },
+            menu: true,
+            children: [
+                {
+                    path: '',
+                    name: 'commissionsList',
+                    component: CommissionsList,
+                    beforeEnter: AuthGuard,
+                    meta: {
+                        role: [
+                            Config.access.admin,
+                            Config.access.operator
+                        ],
+                        title: 'Commissions'
                     }
                 }
             ]

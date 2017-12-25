@@ -18,36 +18,40 @@
 		<v-divider></v-divider>
 
 		<v-card-text>
-			<v-card-title>
-				<v-select
-						v-bind:items="meta.payment_systems"
-						v-model="filterByPaymentSystem"
-						label="Filter by payment system"
-						item-text="name"
-						item-value="id"
-						auto
-				></v-select>
-				<v-btn icon v-if="filterByPaymentSystem.length !== 0" @click.native="clearFilterPaymentSystem()">
-					<v-icon>mdi-close</v-icon>
-				</v-btn>
-				<v-select
-						v-bind:items="meta.currencies"
-						v-model="filterByCurrency"
-						item-text="prefix"
-						item-value="name"
-						label="Filter by currency"
-						class="ml-3"
-						single-line
-						bottom
-				></v-select>
-				<v-btn icon v-if="filterByCurrency.length !== 0" @click.native="clearFilterCurrency()">
-					<v-icon>mdi-close</v-icon>
-				</v-btn>
-				<v-spacer class="hidden-sm-and-down"></v-spacer>
-			</v-card-title>
+			<v-layout row-md wrap>
+				<v-flex xs12 sm6 md6>
+					<v-select
+							v-bind:items="meta.payment_systems"
+							v-model="filterByPaymentSystem"
+							label="Filter by payment system"
+							item-text="name"
+							item-value="id"
+							class="ml-2"
+							auto
+					></v-select>
+					<v-btn class="clear-filter-button" flat small :disabled="filterByPaymentSystem.length === 0" @click.native="clearFilterPaymentSystem()">
+						clear
+					</v-btn>
+				</v-flex>
+				<v-flex xs12 sm6 md6>
+					<v-select
+							v-bind:items="meta.currencies"
+							v-model="filterByCurrency"
+							item-text="prefix"
+							item-value="name"
+							label="Filter by currency"
+							class="ml-2"
+							single-line
+							bottom
+					></v-select>
+					<v-btn class="clear-filter-button" flat small :disabled="filterByCurrency.length === 0" @click.native="clearFilterCurrency()">
+						clear
+					</v-btn>
+				</v-flex>
+			</v-layout>
 		</v-card-text>
 
-		<v-container grid-list-md fill-height fluid class="wallets-list" v-if="wallets !== undefined">
+		<v-container grid-list-md fill-height fluid class="wallets-list mt-5" v-if="wallets !== undefined">
 			<v-layout row-md wrap>
 				<v-flex xs12 sm6 md6 v-for="walletItem in wallets" :key="walletItem.id">
 					<v-card :class="{'': walletItem.active, 'red lighten-5': !walletItem.active}">
