@@ -2,6 +2,7 @@ import api from '../api/news';
 import router from '../router/index';
 import Config from '../config/app';
 import ErrorsHelper from "../helpers/errors";
+import HttpHelper from "../helpers/http";
 
 const GET_NEWS_LIST = "GET_NEWS_LIST";
 const GET_NEWS_LIST_SUCCESS = "GET_NEWS_LIST_SUCCESS";
@@ -38,7 +39,7 @@ const actions = {
             commit(GET_NEWS_BY_ID);
 
             api.getById(newsId).then(response => {
-                if (response.status === 200) {
+                if (HttpHelper.checkIsOkAnswerStatus(response.status)) {
                     commit(GET_NEWS_BY_ID_SUCCESS, response.data);
                     resolve(response);
                 } else {
@@ -60,7 +61,7 @@ const actions = {
             commit(GET_NEWS_LIST);
 
             api.list(requestParams).then(response => {
-                if (response.status === 200) {
+                if (HttpHelper.checkIsOkAnswerStatus(response.status)) {
                     commit(GET_NEWS_LIST_SUCCESS, response.data);
                     resolve(response);
                 } else {
@@ -82,7 +83,7 @@ const actions = {
             commit(NEWS_ADD);
 
             api.add(news).then(response => {
-                if (response.status === 200) {
+                if (HttpHelper.checkIsOkAnswerStatus(response.status)) {
                     commit(NEWS_ADD);
                     resolve(response);
                 } else {
@@ -104,7 +105,7 @@ const actions = {
             commit(NEWS_EDIT);
 
             api.edit(news).then(response => {
-                if (response.status === 200) {
+                if (HttpHelper.checkIsOkAnswerStatus(response.status)) {
                     commit(NEWS_EDIT_SUCCESS);
                     resolve(response);
                 } else {
@@ -126,7 +127,7 @@ const actions = {
             commit(NEWS_DELETE);
 
             api.delete(news).then(response => {
-                if (response.status === 200) {
+                if (HttpHelper.checkIsOkAnswerStatus(response.status)) {
                     commit(NEWS_DELETE_SUCCESS);
                     resolve(response);
                 } else {

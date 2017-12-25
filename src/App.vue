@@ -83,6 +83,7 @@
 
 	.table-list-data {
 		cursor: pointer;
+		font-size: 14px !important;
 	}
 	.table-list-actions {
 		float: right;

@@ -34,5 +34,12 @@ export default {
         }
 
         return params;
+    },
+    checkIsOkAnswerStatus(status) {
+        if (status === 200 || status === 204) {
+            return true;
+        }
+
+        return false;
     }
 }

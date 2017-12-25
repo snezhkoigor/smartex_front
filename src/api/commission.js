@@ -9,5 +9,12 @@ export default {
         };
 
         return HTTP.get('/commissions/', {params: requestParams, headers: headers});
+    },
+    delete(commission) {
+        let headers = {
+            Authorization: 'Bearer ' + localStorage.getItem('jwt_token')
+        };
+
+        return HTTP.delete('/commissions/' + commission.id, {headers: headers});
     }
 }

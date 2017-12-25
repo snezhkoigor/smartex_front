@@ -2,10 +2,15 @@ import api from '../api/wallet';
 import router from '../router/index';
 import Config from '../config/app';
 import ErrorsHelper from "../helpers/errors";
+import HttpHelper from "../helpers/http";
 
 const GET_WALLET_LIST = "GET_WALLET_LIST";
 const GET_WALLET_LIST_SUCCESS = "GET_WALLET_LIST_SUCCESS";
 const GET_WALLET_LIST_FAIL = "GET_WALLET_LIST_FAIL";
+
+const GET_META = "GET_META";
+const GET_META_SUCCESS = "GET_META_SUCCESS";
+const GET_META_FAIL = "GET_META_FAIL";
 
 const GET_WALLET_BY_ID = "GET_WALLET_BY_ID";
 const GET_WALLET_BY_ID_SUCCESS = "GET_WALLET_BY_ID_SUCCESS";
@@ -43,7 +48,7 @@ const actions = {
             commit(GET_WALLET_BY_ID);
 
             api.getById(wallet).then(response => {
-                if (response.status === 200) {
+                if (HttpHelper.checkIsOkAnswerStatus(response.status)) {
                     commit(GET_WALLET_BY_ID_SUCCESS, response.data);
                     resolve(response);
                 } else {
@@ -60,12 +65,34 @@ const actions = {
             })
         })
     },
+    getFormMeta({ commit, dispatch }) {
+        return new Promise((resolve, reject) => {
+            commit(GET_META);
+
+            api.getFormMeta().then(response => {
+                if (HttpHelper.checkIsOkAnswerStatus(response.status)) {
+                    commit(GET_META_SUCCESS, response.data);
+                    resolve(response);
+                } else {
+                    commit(GET_META_FAIL);
+                    reject(ErrorsHelper.getMessage(response));
+
+                    ErrorsHelper.goByStatusCode(response.status, router);
+                }
+            }, errors => {
+                commit(GET_META_FAIL);
+                reject(errors);
+
+                ErrorsHelper.goByStatusCode(500, router);
+            })
+        })
+    },
     list({ commit, dispatch }, requestParams) {
         return new Promise((resolve, reject) => {
             commit(GET_WALLET_LIST);
 
             api.list(requestParams).then(response => {
-                if (response.status === 200) {
+                if (HttpHelper.checkIsOkAnswerStatus(response.status)) {
                     commit(GET_WALLET_LIST_SUCCESS, response.data);
                     resolve(response);
                 } else {
@@ -87,7 +114,7 @@ const actions = {
             commit(WALLET_CHECK);
 
             api.check(wallet).then(response => {
-                if (response.status === 200) {
+                if (HttpHelper.checkIsOkAnswerStatus(response.status)) {
                     commit(WALLET_CHECK_SUCCESS);
                     resolve(response);
                 } else {
@@ -109,7 +136,7 @@ const actions = {
             commit(WALLETS_ADD);
 
             api.add(wallet).then(response => {
-                if (response.status === 200) {
+                if (HttpHelper.checkIsOkAnswerStatus(response.status)) {
                     commit(WALLETS_ADD_SUCCESS);
                     resolve(response);
                 } else {
@@ -131,7 +158,7 @@ const actions = {
             commit(WALLETS_EDIT);
 
             api.edit(wallet).then(response => {
-                if (response.status === 200) {
+                if (HttpHelper.checkIsOkAnswerStatus(response.status)) {
                     commit(WALLETS_EDIT_SUCCESS);
                     resolve(response);
                 } else {
@@ -153,7 +180,7 @@ const actions = {
             commit(WALLETS_DELETE);
 
             api.delete(wallet).then(response => {
-                if (response.status === 200) {
+                if (HttpHelper.checkIsOkAnswerStatus(response.status)) {
                     commit(WALLETS_DELETE_SUCCESS);
                     resolve(response);
                 } else {
@@ -195,6 +222,18 @@ const mutations = {
     GET_WALLET_LIST_FAIL (state) {
         state.wallets = [];
         state.wallet = null;
+        state.pending = false;
+        state.meta = null;
+    },
+
+    GET_META (state) {
+        state.pending = true;
+    },
+    GET_META_SUCCESS (state, responseData) {
+        state.meta = responseData.meta;
+        state.pending = false;
+    },
+    GET_META_FAIL (state) {
         state.pending = false;
         state.meta = null;
     },

@@ -2,6 +2,7 @@ import api from '../api/payment_system';
 import router from '../router/index';
 import Config from '../config/app';
 import ErrorsHelper from "../helpers/errors";
+import HttpHelper from "../helpers/http";
 
 const GET_PAYMENT_SYSTEM_LIST = "GET_PAYMENT_SYSTEM_LIST";
 const GET_PAYMENT_SYSTEM_LIST_SUCCESS = "GET_PAYMENT_SYSTEM_LIST_SUCCESS";
@@ -26,7 +27,7 @@ const actions = {
             commit(GET_PAYMENT_SYSTEM_BY_ID);
 
             api.getById(paymentSystemId).then(response => {
-                if (response.status === 200) {
+                if (HttpHelper.checkIsOkAnswerStatus(response.status)) {
                     commit(GET_PAYMENT_SYSTEM_BY_ID_SUCCESS, response.data);
                     resolve(response);
                 } else {
@@ -48,7 +49,7 @@ const actions = {
             commit(GET_PAYMENT_SYSTEM_LIST);
 
             api.list(requestParams).then(response => {
-                if (response.status === 200) {
+                if (HttpHelper.checkIsOkAnswerStatus(response.status)) {
                     commit(GET_PAYMENT_SYSTEM_LIST_SUCCESS, response.data);
                     resolve(response);
                 } else {

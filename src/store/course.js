@@ -2,6 +2,7 @@ import courses from '../api/courses';
 import router from '../router/index';
 import Config from '../config/app';
 import ErrorsHelper from "../helpers/errors";
+import HttpHelper from "../helpers/http";
 
 const GET_COURSES_LIST = "GET_COURSES_LIST";
 const GET_COURSES_LIST_SUCCESS = "GET_COURSES_LIST_SUCCESS";
@@ -25,7 +26,7 @@ const actions = {
             commit(GET_COURSES_LIST);
 
             courses.list(requestParams).then(response => {
-                if (response.status === 200) {
+                if (HttpHelper.checkIsOkAnswerStatus(response.status)) {
                     commit(GET_COURSES_LIST_SUCCESS, response.data);
                     resolve(response);
                 } else {
@@ -47,7 +48,7 @@ const actions = {
             commit(COURSES_EDIT);
 
             courses.edit(course).then(response => {
-                if (response.status === 200) {
+                if (HttpHelper.checkIsOkAnswerStatus(response.status)) {
                     commit(COURSES_EDIT_SUCCESS);
                     resolve(response);
                 } else {

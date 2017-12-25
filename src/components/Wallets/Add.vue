@@ -8,8 +8,8 @@
 			<v-btn
 					flat
 					@click="addWallet()"
-					:loading="walletPending"
-					:disabled="walletPending"
+					:loading="pending"
+					:disabled="pending"
 			>
 				<span>Add</span>
 				<span slot="loader">Sending...</span>
@@ -221,7 +221,7 @@
             }
         },
         mounted() {
-            this.getPaymentSystems();
+            this.getMeta();
         },
         watch: {
             walletCheckAnswer: function (value) {
@@ -231,20 +231,10 @@
             }
         },
         computed: {
-            ...mapGetters({
-                paymentSystemPending: 'PaymentSystem/pending',
-				paymentSystemMeta: 'PaymentSystem/meta',
-				walletPending: 'Wallet/pending',
-				checkPending: 'Wallet/checkPending'
-            }),
+            ...mapGetters('Wallet', ['pending', 'checkPending', 'meta']),
         },
         methods: {
-            ...mapActions({
-                paymentSystemList: 'PaymentSystem/list',
-                walletList: 'Wallet/list',
-                walletAdd: 'Wallet/add',
-                walletCheck: 'Wallet/check'
-            }),
+            ...mapActions('Wallet', ['list', 'add', 'check', 'getFormMeta']),
 			setDefaultWalletObject() {
             	return {
                     id: null,
@@ -261,7 +251,7 @@
 				}
 			},
 			isPending() {
-                return this.walletPending || this.checkPending || this.paymentSystemPending;
+                return this.pending || this.checkPending;
 			},
             closeCheckWalletDialog() {
                 this.walletCheckDialog = false;
@@ -269,7 +259,7 @@
                 this.walletCheckAnswer = '';
             },
             checkAccess(walletItem) {
-                this.walletCheck(walletItem).then(response => {
+                this.check(walletItem).then(response => {
                     this.walletCheckAnswer = 'Status: OK';
                     this.walletItem.balance = response.data.balance;
                 }).catch(errors => {
@@ -277,17 +267,17 @@
                     this.errors = errors;
                 });
             },
-            getPaymentSystems() {
-                this.paymentSystemList().then(response => {
-                    this.paymentSystemItems = this.paymentSystemMeta.payment_systems;
-                    this.currencies = this.paymentSystemMeta.currencies;
+            getMeta() {
+                this.getFormMeta().then(response => {
+                    this.paymentSystemItems = this.meta.payment_systems;
+                    this.currencies = this.meta.currencies;
 				});
 			},
             needToFill(fieldName) {
-                return this.paymentSystemMeta && this.walletItem.payment_system_id && this.paymentSystemMeta.required[this.walletItem.payment_system_id].indexOf(fieldName) !== -1;
+                return this.meta && this.walletItem.payment_system_id && this.meta.required[this.walletItem.payment_system_id].indexOf(fieldName) !== -1;
             },
             addWallet() {
-                this.walletAdd(this.walletItem).then(response => {
+                this.add(this.walletItem).then(response => {
                     this.$router.push({
                         name: 'walletsList'
                     });

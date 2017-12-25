@@ -2,6 +2,7 @@ import user from '../api/user';
 import router from '../router/index';
 import Config from '../config/app';
 import ErrorsHelper from '../helpers/errors';
+import HttpHelper from '../helpers/http';
 
 const LOGIN = "LOGIN";
 const LOGIN_SUCCESS = "LOGIN_SUCCESS";
@@ -31,7 +32,7 @@ const actions = {
             commit(LOGIN);
 
             user.login(formBody).then(response => {
-                if (response.status === 200) {
+                if (HttpHelper.checkIsOkAnswerStatus(response.status)) {
                     commit(LOGIN_SUCCESS, response.data.data.token);
                     commit(GET_PROFILE_SUCCESS, response.data.auth_user_data);
                     resolve(response);
@@ -56,7 +57,7 @@ const actions = {
     profile({ commit }) {
         return new Promise((resolve, reject) => {
             user.profile().then(response => {
-                if (response.data.status) {
+                if (HttpHelper.checkIsOkAnswerStatus(response.status)) {
                     commit(GET_PROFILE_SUCCESS, response.data.data);
                     resolve(response);
                 } else {

@@ -2,10 +2,15 @@ import api from '../api/commission';
 import router from '../router/index';
 import Config from '../config/app';
 import ErrorsHelper from "../helpers/errors";
+import HttpHelper from "../helpers/http";
 
 const GET_COMMISSION_LIST = "GET_COMMISSION_LIST";
 const GET_COMMISSION_LIST_SUCCESS = "GET_COMMISSION_LIST_SUCCESS";
 const GET_COMMISSION_LIST_FAIL = "GET_COMMISSION_LIST_FAIL";
+
+const COMMISSION_DELETE = "COMMISSION_DELETE";
+const COMMISSION_DELETE_SUCCESS = "COMMISSION_DELETE_SUCCESS";
+const COMMISSION_DELETE_FAIL = "COMMISSION_DELETE_FAIL";
 
 const RESET_PENDING = "RESET_PENDING";
 
@@ -22,7 +27,7 @@ const actions = {
             commit(GET_COMMISSION_LIST);
 
             api.list(requestParams).then(response => {
-                if (response.status === 200) {
+                if (HttpHelper.checkIsOkAnswerStatus(response.status)) {
                     commit(GET_COMMISSION_LIST_SUCCESS, response.data);
                     resolve(response);
                 } else {
@@ -38,6 +43,28 @@ const actions = {
                 ErrorsHelper.goByStatusCode(500, router);
             })
         })
+    },
+    delete({commit}, wallet) {
+        return new Promise((resolve, reject) => {
+            commit(COMMISSION_DELETE);
+
+            api.delete(wallet).then(response => {
+                if (HttpHelper.checkIsOkAnswerStatus(response.status)) {
+                    commit(COMMISSION_DELETE_SUCCESS);
+                    resolve(response);
+                } else {
+                    commit(COMMISSION_DELETE_FAIL);
+                    reject(ErrorsHelper.getMessage(response));
+
+                    ErrorsHelper.goByStatusCode(response.status, router);
+                }
+            }, errors => {
+                commit(COMMISSION_DELETE_FAIL);
+                reject(errors);
+
+                ErrorsHelper.goByStatusCode(500, router);
+            });
+        });
     },
     resetPending({ commit }) {
         commit(RESET_PENDING);
@@ -66,6 +93,16 @@ const mutations = {
         state.commission = null;
         state.pending = false;
         state.meta = null;
+    },
+
+    COMMISSION_DELETE (state) {
+        state.pending = true;
+    },
+    COMMISSION_DELETE_SUCCESS (state) {
+        state.pending = false;
+    },
+    COMMISSION_DELETE_FAIL (state) {
+        state.pending = false;
     }
 };
 

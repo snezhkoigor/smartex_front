@@ -76,7 +76,7 @@
 							class="news-table-list"
 					>
 						<td class="text-lg-left table-list-data" @click="goToEditCommission(props.item)">
-							{{ props.item.wallet.data.account }} <v-icon>mdi-chevron-double-right</v-icon> {{ props.item.paymentSystem.data.name }}, <b>{{props.item.commission | currency(props.item.prefix)}}</b>
+							<b>{{props.item.commission | currency(props.item.prefix)}}</b>: <span class="commission-from">from</span> {{ props.item.wallet.data.account }} <span class="commission-to">to</span> {{ props.item.paymentSystem.data.name }}
 						</td>
 						<td class="text-lg-center table-list-actions">
 							<v-btn flat icon color="red darken-1" @click="openDeleteDialog(props.item)">
@@ -88,29 +88,29 @@
 			</v-data-table>
 		</v-card-text>
 
-		<!--<v-layout row justify-center>-->
-			<!--<v-dialog v-model="walletDeleteDialog" max-width="290" v-if="this.wallet.account">-->
-				<!--<v-card>-->
-					<!--<v-card-title class="headline">Delete this wallet?</v-card-title>-->
-					<!--<v-card-text>Are you sure that you want to delete the wallet '{{this.wallet.account | truncate(50)}}'?</v-card-text>-->
-					<!--<v-card-actions>-->
-						<!--<v-spacer></v-spacer>-->
-						<!--<v-btn color="red darken-1" flat="flat" @click="closeDeleteDialog()">-->
-							<!--Disagree-->
-						<!--</v-btn>-->
-						<!--<v-btn color="green darken-1"-->
-								<!--flat-->
-								<!--@click="deleteWallet()"-->
-								<!--:loading="pending"-->
-								<!--:disabled="pending"-->
-						<!--&gt;-->
-							<!--Agree-->
-							<!--<span slot="loader">Sending...</span>-->
-						<!--</v-btn>-->
-					<!--</v-card-actions>-->
-				<!--</v-card>-->
-			<!--</v-dialog>-->
-		<!--</v-layout>-->
+		<v-layout row justify-center>
+			<v-dialog v-model="commissionDeleteDialog" max-width="290" v-if="this.commission.id">
+				<v-card>
+					<v-card-title class="headline">Delete this commission?</v-card-title>
+					<v-card-text><b>{{this.commission.commission | currency(this.commission.prefix)}}</b>: <span class="commission-from">from</span> {{ this.commission.wallet.data.account }} <span class="commission-to">to</span> {{ this.commission.paymentSystem.data.name }}</v-card-text>
+					<v-card-actions>
+						<v-spacer></v-spacer>
+						<v-btn color="red darken-1" flat="flat" @click="closeDeleteDialog()">
+							Disagree
+						</v-btn>
+						<v-btn color="green darken-1"
+								flat
+								@click="deleteCommission()"
+								:loading="pending"
+								:disabled="pending"
+						>
+							Agree
+							<span slot="loader">Sending...</span>
+						</v-btn>
+					</v-card-actions>
+				</v-card>
+			</v-dialog>
+		</v-layout>
 	</div>
 </template>
 
@@ -124,12 +124,13 @@
             return {
                 loading: true,
 
+				commission: {},
+
                 totalItems: 0,
                 items: [],
 
 				pagination: this.getDefaultPagination(),
-                walletCheckDialog: false,
-                walletDeleteDialog: false,
+                commissionDeleteDialog: false,
 
                 errors: [],
 
@@ -151,6 +152,12 @@
             ])
         },
 		watch: {
+            pagination: {
+                handler () {
+                    this.getCommissionsList();
+                },
+                deep: true
+            },
             filterByPaymentSystem: function (value) {
                 if (value > 0) {
                     this.getCommissionsList();
@@ -164,11 +171,14 @@
 		},
         methods: {
             ...mapActions('Commission', [
-                'list'
+                'list', 'delete'
             ]),
             goToAddCommission() {
 
 			},
+            goToEditCommission () {
+
+            },
             clearSearchField() {
                 this.search = '';
                 this.getCommissionsList();
@@ -183,13 +193,13 @@
                 this.setDefaultPagination();
                 this.getCommissionsList();
 			},
-			openDeleteDialog(wallet) {
-                this.wallet = wallet;
-                this.walletDeleteDialog = true;
+			openDeleteDialog(commission) {
+                this.commission = commission;
+                this.commissionDeleteDialog = true;
             },
             closeDeleteDialog() {
-                this.walletDeleteDialog = false;
-                this.wallet = {};
+                this.commissionDeleteDialog = false;
+                this.commission = {};
             },
             setDefaultPagination() {
                 this.pagination = this.getDefaultPagination();
@@ -220,11 +230,8 @@
                     this.totalItems = this.meta.count;
 				});
 			},
-            goToEditCommission () {
-
-			},
             deleteCommission() {
-                this.delete(this.wallet).then(response => {
+                this.delete(this.commission).then(response => {
                     this.closeDeleteDialog();
                     this.getCommissionsList();
                 }).catch(errors => {
@@ -236,4 +243,7 @@
 </script>
 
 <style>
+	.commission-from, .commission-to, .commission-value {
+		font-size: 10px;
+	}
 </style>

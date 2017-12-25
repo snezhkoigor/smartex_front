@@ -10,6 +10,13 @@ export default {
 
         return HTTP.get('/wallets/' + wallet.id, {headers: headers});
     },
+    getFormMeta() {
+        let headers = {
+            Authorization: 'Bearer ' + localStorage.getItem('jwt_token')
+        };
+
+        return HTTP.get('/meta/wallets/', {headers: headers});
+    },
     list(requestParams) {
         let headers = {
             Authorization: 'Bearer ' + localStorage.getItem('jwt_token')
