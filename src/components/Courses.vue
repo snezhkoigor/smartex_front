@@ -14,20 +14,21 @@
 		<v-divider></v-divider>
 
 		<v-card-text>
-			<v-card-title>
-				<v-spacer class="hidden-sm-and-down"></v-spacer>
-				<v-text-field
-						append-icon="search"
-						label="Search (btc, btc/usd, etc.)"
-						single-line
-						hint="Press enter for start search"
-						v-on:keyup.enter="getListCourses()"
-						v-model="search"
-				></v-text-field>
-				<v-btn icon :disabled="search.length === 0" @click.native="clearSearchField()">
-					<v-icon>mdi-close</v-icon>
-				</v-btn>
-			</v-card-title>
+			<v-layout row-md wrap>
+				<v-flex xs12 >
+					<v-text-field
+							append-icon="search"
+							label="Search (btc, btc/usd, etc.)"
+							single-line
+							hint="Press enter for start search"
+							v-on:keyup.enter="getListCourses()"
+							v-model="search"
+					></v-text-field>
+					<v-btn class="clear-filter-button" flat small :disabled="search.length === 0" @click.native="clearSearchField()">
+						clear
+					</v-btn>
+				</v-flex>
+			</v-layout>
 			<v-data-table
 					v-bind:headers="headers"
 					v-bind:items="items"
