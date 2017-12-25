@@ -35,7 +35,7 @@
 					v-bind:pagination.sync="pagination"
 					:total-items="totalItems"
 					:rows-per-page-items="perPage"
-					class="elevation-0"
+					class="elevation-0 mt-5"
 					disable-initial-sort
 			>
 				<template slot="headers" slot-scope="props">
