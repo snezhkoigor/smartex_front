@@ -173,9 +173,6 @@ const mutations = {
             });
 
             state.role = role;
-
-            console.log(state.role);
-
             localStorage.setItem('jwt_role', btoa(JSON.stringify(role)));
         }
     },
