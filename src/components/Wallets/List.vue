@@ -17,6 +17,36 @@
 
 		<v-divider></v-divider>
 
+		<v-card-text>
+			<v-card-title>
+				<v-select
+						v-bind:items="meta.payment_systems"
+						v-model="filterByPaymentSystem"
+						label="Filter by payment system"
+						item-text="name"
+						item-value="id"
+						auto
+				></v-select>
+				<v-btn icon v-if="filterByPaymentSystem.length !== 0" @click.native="clearFilterPaymentSystem()">
+					<v-icon>mdi-close</v-icon>
+				</v-btn>
+				<v-select
+						v-bind:items="meta.currencies"
+						v-model="filterByCurrency"
+						item-text="prefix"
+						item-value="name"
+						label="Filter by currency"
+						class="ml-3"
+						single-line
+						bottom
+				></v-select>
+				<v-btn icon v-if="filterByCurrency.length !== 0" @click.native="clearFilterCurrency()">
+					<v-icon>mdi-close</v-icon>
+				</v-btn>
+				<v-spacer class="hidden-sm-and-down"></v-spacer>
+			</v-card-title>
+		</v-card-text>
+
 		<v-container grid-list-md fill-height fluid class="wallets-list" v-if="wallets !== undefined">
 			<v-layout row-md wrap>
 				<v-flex xs12 sm6 md6 v-for="walletItem in wallets" :key="walletItem.id">
@@ -173,11 +203,14 @@
 				wallet: {},
 
                 walletCheckAnswer: '',
-				pagination: {},
+				pagination: this.getDefaultPagination(),
                 walletCheckDialog: false,
                 walletDeleteDialog: false,
 
                 errors: [],
+
+				filterByPaymentSystem: '',
+                filterByCurrency: '',
 
                 loader: null,
             }
@@ -195,12 +228,32 @@
                 if (value.length > 0) {
                     this.walletCheckDialog = true;
 				}
-			}
+			},
+            filterByPaymentSystem: function (value) {
+                if (value > 0) {
+                    this.getWalletsList();
+                }
+			},
+            filterByCurrency: function (value) {
+                if (value.length > 0) {
+                    this.getWalletsList();
+                }
+            }
 		},
         methods: {
             ...mapActions('Wallet', [
                 'delete', 'check', 'list'
             ]),
+            clearFilterCurrency() {
+                this.filterByCurrency = '';
+                this.setDefaultPagination();
+                this.getWalletsList();
+            },
+            clearFilterPaymentSystem() {
+				this.filterByPaymentSystem = '';
+                this.setDefaultPagination();
+                this.getWalletsList();
+			},
             goToAddWallet() {
                 this.$router.push({
 					name: 'walletAdd'
@@ -229,14 +282,25 @@
                 this.walletCheckAnswer = '';
                 this.walletCheckDialog = false;
             },
+            setDefaultPagination() {
+                this.pagination = this.getDefaultPagination();
+            },
+			getDefaultPagination() {
+                return {
+                    q: '',
+                    filters: {}
+				}
+			},
             getWalletsList() {
                 let pagination = this.pagination;
 
-                pagination.filters = this.filters;
-                pagination.q = '';
-                if (this.search) {
-                    pagination.q = this.search;
+				if (this.filterByPaymentSystem > 0) {
+                    pagination.filters.payment_system_id = this.filterByPaymentSystem;
 				}
+                if (this.filterByCurrency.length > 0) {
+                    pagination.filters.currency = this.filterByCurrency;
+                }
+
                 pagination.include = 'paymentSystem';
 
                 this.list(HttpHelper.getPaginationParam(pagination));
