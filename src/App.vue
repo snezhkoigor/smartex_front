@@ -5,6 +5,10 @@
 		<mobile-component v-if="this.profile" />
 		<desktop-component v-if="this.profile" />
 		<no-auth-component v-if="!isLogin" />
+
+		<div class="footer">
+			Copyright {{ new Date().getFullYear() }}, Smartex – the online exchange
+		</div>
 	</v-app>
 </template>
 
@@ -91,5 +95,13 @@
 	.clear-filter-button {
 		float: right;
 		margin: -20px 0 0 0 !important;
+	}
+	.footer{
+		text-align: center;
+		display: table-row;
+		height: 80px;
+		padding: 20px;
+		background: #fafafa !important;
+		color: #a2a2a2;
 	}
 </style>
