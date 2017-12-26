@@ -1,4 +1,4 @@
-import user from '../api/user';
+import api from '../api/user';
 import router from '../router/index';
 import Config from '../config/app';
 import ErrorsHelper from '../helpers/errors';
@@ -6,10 +6,12 @@ import HttpHelper from '../helpers/http';
 
 const LOGIN = "LOGIN";
 const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+const LOGIN_FAIL = "LOGIN_FAIL";
 
+const GET_PROFILE = "GET_PROFILE";
 const GET_PROFILE_SUCCESS = "GET_PROFILE_SUCCESS";
 const GET_PROFILE_FAIL = "GET_PROFILE_FAIL";
-const LOGIN_FAIL = "LOGIN_FAIL";
+
 const LOGOUT = "LOGOUT";
 
 const RESET_PASSWORD = "RESET_PASSWORD";
@@ -27,14 +29,15 @@ const state = {
 };
 
 const actions = {
-    login({ commit, dispatch }, formBody) {
+    login({ commit, dispatch }, formData) {
         return new Promise((resolve, reject) => {
             commit(LOGIN);
 
-            user.login(formBody).then(response => {
+            api.login(formData).then(response => {
                 if (HttpHelper.checkIsOkAnswerStatus(response.status)) {
-                    commit(LOGIN_SUCCESS, response.data.data.token);
-                    commit(GET_PROFILE_SUCCESS, response.data.auth_user_data);
+                    commit(GET_PROFILE_SUCCESS, response.data);
+                    commit(LOGIN_SUCCESS, response.data);
+
                     resolve(response);
                 } else {
                     commit(LOGIN_FAIL);
@@ -42,9 +45,9 @@ const actions = {
 
                     ErrorsHelper.goByStatusCode(response.status, router);
                 }
-            }, error => {
+            }, errors => {
                 commit(LOGIN_FAIL);
-                reject(error);
+                reject(errors);
 
                 ErrorsHelper.goByStatusCode(500, router);
             }).then(() => {
@@ -56,9 +59,11 @@ const actions = {
     },
     profile({ commit }) {
         return new Promise((resolve, reject) => {
-            user.profile().then(response => {
+            commit(GET_PROFILE);
+
+            api.profile().then(response => {
                 if (HttpHelper.checkIsOkAnswerStatus(response.status)) {
-                    commit(GET_PROFILE_SUCCESS, response.data.data);
+                    commit(GET_PROFILE_SUCCESS, response.data);
                     resolve(response);
                 } else {
                     commit(GET_PROFILE_FAIL);
@@ -66,41 +71,22 @@ const actions = {
 
                     ErrorsHelper.goByStatusCode(response.status, router);
                 }
-            }, error => {
+            }, errors => {
                 commit(GET_PROFILE_FAIL);
                 commit(LOGOUT);
-                reject(error);
+                reject(errors);
 
                 ErrorsHelper.goByStatusCode(500, router);
             })
         })
     },
-    checkProfile({ commit }) {
-        return new Promise((resolve, reject) => {
-            user.checkProfile().then(response => {
-                if (response.data.status) {
-                    resolve(response);
-                } else {
-                    commit(LOGOUT);
-                    reject(ErrorsHelper.getMessage(response));
-
-                    ErrorsHelper.goByStatusCode(response.status, router);
-                }
-            }, error => {
-                commit(LOGOUT);
-                reject(error);
-
-                ErrorsHelper.goByStatusCode(500, router);
-            })
-        })
-    },
-    resetPassword({ commit }, formBody) {
+    resetPassword({ commit }, email) {
         return new Promise((resolve, reject) => {
             commit(RESET_PASSWORD);
 
-            user.resetPassword(formBody).then(response => {
-                if (response.data.status) {
-                    commit(RESET_PASSWORD_SUCCESS);
+            api.resetPassword(email).then(response => {
+                if (HttpHelper.checkIsOkAnswerStatus(response.status)) {
+                    commit(RESET_PASSWORD_SUCCESS, response.data);
                     resolve(response);
                 } else {
                     commit(RESET_PASSWORD_FAIL);
@@ -108,10 +94,10 @@ const actions = {
 
                     ErrorsHelper.goByStatusCode(response.status, router);
                 }
-            }, error => {
+            }, errors => {
                 commit(RESET_PASSWORD_FAIL);
                 commit(LOGOUT);
-                reject(error);
+                reject(errors);
 
                 ErrorsHelper.goByStatusCode(500, router);
             })
@@ -146,10 +132,10 @@ const mutations = {
     LOGIN (state) {
         state.pending = true;
     },
-    LOGIN_SUCCESS (state, token) {
-        localStorage.setItem('jwt_token', token);
+    LOGIN_SUCCESS (state, responseData) {
+        localStorage.setItem('jwt_token', responseData.data.token);
         state.isLoggedIn = true;
-        state.token = token;
+        state.token = responseData.data.token;
         state.pending = false;
     },
     LOGIN_FAIL (state) {
@@ -162,14 +148,17 @@ const mutations = {
         state.role = null;
     },
 
-    GET_PROFILE_SUCCESS (state, user) {
-        state.profile = user;
+    GET_PROFILE (state) {
+        state.pending = true;
+    },
+    GET_PROFILE_SUCCESS (state, responseData) {
+        state.profile = responseData.auth_user_data;
         state.pending = false;
 
-        if (user.roles) {
+        if (responseData.auth_user_data.roles) {
             let role = [];
 
-            user.roles.forEach(function(item, i, arr) {
+            responseData.auth_user_data.roles.forEach(function(item, i, arr) {
                 role.push({'id': item.id, 'name': item.name, 'displayName': item.display_name});
             });
 

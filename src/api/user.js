@@ -3,13 +3,11 @@ import http_config from './axios_config';
 const HTTP = http_config.instance;
 
 export default {
-    login(formBody) {
-        let data = {
-            email: formBody.email,
-            password: formBody.password
-        };
-
-        return HTTP.post('/login', data);
+    login(formData) {
+        return HTTP.post('/login', {
+            email: formData.email,
+            password: formData.password
+        });
     },
     logout() {
         let headers = {
@@ -25,9 +23,9 @@ export default {
 
         return HTTP.get('/me', { headers: headers });
     },
-    resetPassword(formBody) {
-        return HTTP.post('/new/password', {
-            email: formBody.email
+    resetPassword(email) {
+        return HTTP.post('/user/password/reset', {
+            email: email
         });
     },
     checkProfile() {

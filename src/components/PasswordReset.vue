@@ -17,18 +17,38 @@
                 <v-tabs-items>
                     <v-tabs-content key="passwordReset" id="passwordReset">
                         <v-card flat>
-                            <v-card-text>
+                            <v-card-text v-if="!successReset">
                                 <v-form ref="formReset">
                                     <v-text-field
-                                            v-model="emailReset"
+                                            v-model="email"
                                             label="E-mail"
                                             :error-messages="errors && errors.email ? errors.email : []"
                                             :error="errors && !!errors.email"
                                             data-vv-name="email"
                                             required
                                     ></v-text-field>
-                                    <v-btn block dark color="teal lighten-1" @click="reset">Reset</v-btn>
+                                    <v-btn block
+                                            color="teal lighten-1"
+                                            @click="reset()"
+                                            :loading="pending"
+                                            :disabled="pending"
+                                    >
+                                        <span class="white--text">Reset</span>
+                                        <span slot="loader">Sending...</span>
+                                    </v-btn>
                                 </v-form>
+                            </v-card-text>
+                            <v-card-text v-if="successReset">
+                                <p>
+                                    Check your mail box for new password and Sing In.
+                                </p>
+                                <v-btn block
+                                        dark
+                                        color="teal lighten-1"
+                                        @click.stop="closeSuccessReset()"
+                                >
+                                    Close
+                                </v-btn>
                             </v-card-text>
                         </v-card>
                     </v-tabs-content>
@@ -47,15 +67,14 @@
 		data () {
 			return {
 				visiblePassword: true,
-				emailLogin: '',
-                emailReset: '',
-				password: '',
+                email: '',
 				errors: [],
                 loader: null,
+                successReset: false,
 				tabs: [
 					{
 					  name: 'login',
-					  title: 'Login'
+					  title: 'Sing In'
 					},
 					{
 					  name: 'passwordReset',
@@ -71,20 +90,25 @@
 			])
 		},
 		methods: {
-			login () {
-                this.$store.dispatch('User/login', {email: this.emailLogin, password: this.password }).then(() => {
+            ...mapActions('User', [
+                'resetPassword'
+            ]),
+			reset() {
+                this.resetPassword(this.email).then(() => {
 				    this.errors = [];
+				    this.successReset = true;
 				}).catch(errors => {
 					this.errors = errors;
 				});
 			},
+            closeSuccessReset() {
+                this.successReset = false;
+                this.email = '';
+            },
             changeTab (name) {
                 this.$router.push({
                     name: name
                 });
-			},
-			reset () {
-
 			}
 		}
 	}

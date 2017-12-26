@@ -20,9 +20,9 @@
                             <v-card-text>
                                 <v-form ref="formLogin">
                                     <v-text-field
-                                            v-model="emailLogin"
+                                            v-model="email"
                                             label="E-mail"
-                                            v-on:keyup.enter="login()"
+                                            v-on:keyup.enter="singIn()"
                                             :error-messages="errors && errors.email ? errors.email : []"
                                             :error="errors && !!errors.email"
                                             required
@@ -30,7 +30,7 @@
                                     <v-text-field
                                             label="Password"
                                             v-model="password"
-                                            v-on:keyup.enter="login()"
+                                            v-on:keyup.enter="singIn()"
                                             :append-icon="visiblePassword ? 'visibility_off' : 'visibility'"
                                             :append-icon-cb="() => (visiblePassword = !visiblePassword)"
                                             :type="visiblePassword ? 'password' : 'text'"
@@ -39,13 +39,12 @@
                                             :error="errors && !!errors.password"
                                     ></v-text-field>
                                     <v-btn block
-                                            dark
                                             color="teal lighten-1"
-                                            @click="login()"
+                                            @click="singIn()"
                                             :loading="pending"
                                             :disabled="pending"
                                     >
-                                        Login
+                                        <span class="white--text">Sing In</span>
                                         <span slot="loader">Sending...</span>
                                     </v-btn>
                                 </v-form>
@@ -67,15 +66,14 @@
 		data () {
 			return {
 				visiblePassword: true,
-				emailLogin: '',
-                emailReset: '',
+                email: '',
 				password: '',
 				errors: [],
                 loader: null,
 				tabs: [
 					{
 					  name: 'login',
-					  title: 'Login'
+					  title: 'Sing In'
 					},
 					{
 					  name: 'passwordReset',
@@ -91,8 +89,11 @@
 			])
 		},
 		methods: {
-			login () {
-                this.$store.dispatch('User/login', {email: this.emailLogin, password: this.password }).then(() => {
+            ...mapActions('User', [
+                'login'
+            ]),
+			singIn () {
+                this.login({ email: this.email, password: this.password }).then(() => {
 				    this.errors = [];
 				}).catch(errors => {
 					this.errors = errors;
