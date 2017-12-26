@@ -17,6 +17,8 @@ import CommissionsList from '@/components/Commissions/List';
 import CommissionAdd from '@/components/Commissions/Add';
 import CommissionEdit from '@/components/Commissions/Edit';
 
+import NoAuth from '@/components/Layouts/NoAuth';
+
 import Config from '../config/app';
 import AccessDenied from '@/components/Error/401';
 import SystemError from '@/components/Error/500';
@@ -277,17 +279,33 @@ export default new Router({
         },
         {
             path: '/login',
-            name: 'login',
-            component: Login,
+            name: 'loginPage',
+            component: NoAuth,
             meta: {},
-            menu: false
+            menu: false,
+            children: [
+                {
+                    path: '',
+                    name: 'login',
+                    component: Login,
+                    meta: {}
+                }
+            ]
         },
         {
             path: '/password-reset',
-            name: 'passwordReset',
-            component: PasswordReset,
+            name: 'passwordResetPage',
+            component: NoAuth,
             meta: {},
-            menu: false
+            menu: false,
+            children: [
+                {
+                    path: '',
+                    name: 'passwordReset',
+                    component: PasswordReset,
+                    meta: {}
+                }
+            ]
         }
     ],
     can: function (routeMeta) {

@@ -6,7 +6,7 @@
 		<desktop-component v-if="this.profile" />
 		<no-auth-component v-if="!isLogin" />
 
-		<div class="footer hidden-md-and-down">
+		<div :class="{'footer hidden-md-and-down blue-grey--text text--lighten-2': isLogin, 'footer hidden-md-and-down teal darken-1': !isLogin}">
 			Copyright {{ new Date().getFullYear() }}, Smartex – the online exchange
 		</div>
 	</v-app>
@@ -96,12 +96,11 @@
 		float: right;
 		margin: -20px 0 0 0 !important;
 	}
-	.footer{
+	.footer {
 		text-align: center;
 		display: table-row;
 		height: 80px;
 		padding: 20px;
 		background: #fafafa !important;
-		color: #a2a2a2;
 	}
 </style>
