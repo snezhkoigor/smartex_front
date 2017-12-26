@@ -33,6 +33,7 @@
 									label="From wallet"
 									single-line
 									bottom
+									:disabled="pending"
 									:error-messages="errors && errors.wallet_id ? errors.wallet_id[0] : []"
 									:error="errors && !!errors.wallet_id"
 							></v-select>
@@ -46,6 +47,7 @@
 									label="To payment system"
 									item-text="name"
 									item-value="id"
+									:disabled="pending"
 									:error-messages="errors && errors.payment_system_id ? errors.payment_system_id[0] : []"
 									:error="errors && !!errors.payment_system_id"
 									auto
@@ -60,6 +62,7 @@
 									label="To currency"
 									single-line
 									bottom
+									:disabled="pending"
 									:error-messages="errors && errors.currency ? errors.currency[0] : []"
 									:error="errors && !!errors.currency"
 							></v-select>
@@ -70,6 +73,7 @@
 							<v-text-field
 									label="Commission"
 									v-model="commissionItem.commission"
+									:disabled="pending"
 									:error-messages="errors && errors.commission ? errors.commission[0] : []"
 									:error="errors && !!errors.commission"
 							></v-text-field>
@@ -81,6 +85,7 @@
 							<v-checkbox
 									label="Will commission be active?"
 									v-model="commissionItem.active"
+									:disabled="pending"
 									light
 							/>
 						</v-flex>

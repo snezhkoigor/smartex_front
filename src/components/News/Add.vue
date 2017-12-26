@@ -30,6 +30,7 @@
 									:config="froalaConfig"
 									v-model="newsItem.text"
 									required
+									:disabled="pending"
 									:error-messages="errors && errors.text ? errors.text[0] : []"
 									:error="errors && !!errors.text"
 							></froala>
@@ -42,6 +43,7 @@
 									v-model="newsItem.title"
 									required
 									counter="255"
+									:disabled="pending"
 									:error-messages="errors && errors.title ? errors.title[0] : []"
 									:error="errors && !!errors.title"
 							></v-text-field>
@@ -53,6 +55,7 @@
 									label="Meta key"
 									v-model="newsItem.meta_key"
 									counter="255"
+									:disabled="pending"
 									:error-messages="errors && errors.meta_key ? errors.meta_key[0] : []"
 									:error="errors && !!errors.meta_key"
 							></v-text-field>
@@ -64,6 +67,7 @@
 									label="Meta description"
 									v-model="newsItem.meta_description"
 									counter="255"
+									:disabled="pending"
 									:error-messages="errors && errors.meta_description ? errors.meta_description[0] : []"
 									:error="errors && !!errors.meta_description"
 							></v-text-field>
@@ -83,6 +87,7 @@
 										v-model="newsItem.date"
 										prepend-icon="event"
 										readonly
+										:disabled="pending"
 										:error-messages="errors && errors.date ? errors.date[0] : []"
 										:error="errors && !!errors.date"
 								></v-text-field>
@@ -95,6 +100,7 @@
 							<v-checkbox
 									label="Will news be active?"
 									v-model="newsItem.active"
+									:disabled="pending"
 									light
 							/>
 						</v-flex>

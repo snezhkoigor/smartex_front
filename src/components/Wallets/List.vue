@@ -13,7 +13,7 @@
 			</v-btn>
 		</v-toolbar>
 
-		<v-progress-linear class="pending" v-if="pending || checkPending" v-bind:indeterminate="pending || checkPending"></v-progress-linear>
+		<v-progress-linear class="pending" v-if="isPending()" v-bind:indeterminate="isPending()"></v-progress-linear>
 
 		<v-divider></v-divider>
 
@@ -27,6 +27,7 @@
 							item-text="name"
 							item-value="id"
 							class="ml-2"
+							:disabled="isPending()"
 							auto
 					></v-select>
 					<v-btn class="clear-filter-button" flat small :disabled="filterByPaymentSystem.length === 0" @click.native="clearFilterPaymentSystem()">
@@ -41,6 +42,7 @@
 							item-value="name"
 							label="Filter by currency"
 							class="ml-2"
+							:disabled="isPending()"
 							single-line
 							bottom
 					></v-select>
@@ -248,6 +250,9 @@
             ...mapActions('Wallet', [
                 'delete', 'check', 'list'
             ]),
+            isPending() {
+                return this.pending || this.checkPending
+            },
             clearFilterCurrency() {
                 this.filterByCurrency = '';
                 this.setDefaultPagination();

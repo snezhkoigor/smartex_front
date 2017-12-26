@@ -27,6 +27,7 @@
 							hint="Press enter for start search"
 							v-on:keyup.enter="getListNews()"
 							v-model="search"
+							:disabled="pending"
 					></v-text-field>
 					<v-btn class="clear-filter-button" flat small :disabled="search.length === 0" @click.native="clearSearchField()">
 						clear

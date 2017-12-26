@@ -40,6 +40,7 @@
 									v-model="walletItem.payment_system_id"
 									item-text="name"
 									item-value="id"
+									:disabled="pending"
 									:error-messages="errors && errors.payment_system_id ? errors.payment_system_id[0] : []"
 									:error="errors && !!errors.payment_system_id"
 									auto
@@ -54,6 +55,7 @@
 									label="Currency"
 									single-line
 									bottom
+									:disabled="pending"
 									:error-messages="errors && errors.currency ? errors.currency[0] : []"
 									:error="errors && !!errors.currency"
 							></v-select>
@@ -65,6 +67,7 @@
 									label="Wallet"
 									v-model="walletItem.account"
 									multi-line
+									:disabled="pending"
 									:error-messages="errors && errors.account ? errors.account[0] : []"
 									:error="errors && !!errors.account"
 							></v-text-field>
@@ -75,6 +78,7 @@
 							<v-text-field
 									label="User"
 									v-model="walletItem.user"
+									:disabled="pending"
 									:error-messages="errors && errors.user ? errors.user[0] : []"
 									:error="errors && !!errors.user"
 							></v-text-field>
@@ -85,6 +89,7 @@
 							<v-text-field
 									label="Password"
 									v-model="walletItem.password"
+									:disabled="pending"
 									:error-messages="errors && errors.password ? errors.password[0] : []"
 									:error="errors && !!errors.password"
 							></v-text-field>
@@ -95,6 +100,7 @@
 							<v-text-field
 									label="Secret"
 									v-model="walletItem.secret"
+									:disabled="pending"
 									:error-messages="errors && errors.secret ? errors.secret[0] : []"
 									:error="errors && !!errors.secret"
 							></v-text-field>
@@ -106,6 +112,7 @@
 									label="ADV SCI"
 									v-model="walletItem.adv_sci"
 									counter="100"
+									:disabled="pending"
 									:error-messages="errors && errors.adv_sci ? errors.adv_sci[0] : []"
 									:error="errors && !!errors.adv_sci"
 							></v-text-field>
@@ -117,6 +124,7 @@
 									label="ID PAYEE"
 									v-model="walletItem.id_payee"
 									counter="100"
+									:disabled="pending"
 									:error-messages="errors && errors.id_payee ? errors.id_payee[0] : []"
 									:error="errors && !!errors.id_payee"
 							></v-text-field>
@@ -127,6 +135,7 @@
 							<v-text-field
 									label="Balance"
 									v-model="walletItem.balance"
+									:disabled="pending"
 									:error-messages="errors && errors.balance ? errors.balance[0] : []"
 									:error="errors && !!errors.balance"
 							></v-text-field>
@@ -137,6 +146,7 @@
 							<v-checkbox
 									label="Will wallet be active?"
 									v-model="walletItem.active"
+									:disabled="pending"
 									light
 							/>
 						</v-flex>

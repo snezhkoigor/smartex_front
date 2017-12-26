@@ -52,6 +52,7 @@
 									label="Currency"
 									single-line
 									bottom
+									:disabled="isPending()"
 									:error-messages="errors && errors.currency ? errors.currency[0] : []"
 									:error="errors && !!errors.currency"
 							></v-select>
@@ -63,6 +64,7 @@
 									label="Wallet"
 									v-model="walletItem.account"
 									multi-line
+									:disabled="isPending()"
 									:error-messages="errors && errors.account ? errors.account[0] : []"
 									:error="errors && !!errors.account"
 							></v-text-field>
@@ -73,6 +75,7 @@
 							<v-text-field
 									label="User"
 									v-model="walletItem.user"
+									:disabled="isPending()"
 									:error-messages="errors && errors.user ? errors.user[0] : []"
 									:error="errors && !!errors.user"
 							></v-text-field>
@@ -83,6 +86,7 @@
 							<v-text-field
 									label="Password"
 									v-model="walletItem.password"
+									:disabled="isPending()"
 									:error-messages="errors && errors.password ? errors.password[0] : []"
 									:error="errors && !!errors.password"
 							></v-text-field>
@@ -93,6 +97,7 @@
 							<v-text-field
 									label="Secret"
 									v-model="walletItem.secret"
+									:disabled="isPending()"
 									:error-messages="errors && errors.secret ? errors.secret[0] : []"
 									:error="errors && !!errors.secret"
 							></v-text-field>
@@ -104,6 +109,7 @@
 									label="ADV SCI"
 									v-model="walletItem.adv_sci"
 									counter="100"
+									:disabled="isPending()"
 									:error-messages="errors && errors.adv_sci ? errors.adv_sci[0] : []"
 									:error="errors && !!errors.adv_sci"
 							></v-text-field>
@@ -115,6 +121,7 @@
 									label="ID PAYEE"
 									v-model="walletItem.id_payee"
 									counter="100"
+									:disabled="isPending()"
 									:error-messages="errors && errors.id_payee ? errors.id_payee[0] : []"
 									:error="errors && !!errors.id_payee"
 							></v-text-field>
@@ -125,6 +132,7 @@
 							<v-text-field
 									label="Balance"
 									v-model="walletItem.balance"
+									:disabled="isPending()"
 									:error-messages="errors && errors.balance ? errors.balance[0] : []"
 									:error="errors && !!errors.balance"
 							></v-text-field>
@@ -135,6 +143,7 @@
 							<v-checkbox
 									label="Will wallet be active?"
 									v-model="walletItem.active"
+									:disabled="isPending()"
 									light
 							/>
 						</v-flex>
@@ -186,7 +195,7 @@
                     adv_sci: null,
                     id_payee: null,
                     balance: 0,
-                    active: true,
+                    active: null,
                 },
 
                 paymentSystemItems: [],

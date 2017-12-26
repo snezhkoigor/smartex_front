@@ -27,6 +27,7 @@
 							item-text="name"
 							item-value="id"
 							class="ml-2"
+							:disabled="pending"
 					></v-select>
 					<v-btn class="clear-filter-button" flat small :disabled="filterByPaymentSystem.length === 0" @click.native="clearFilterPaymentSystem()">
 						clear
@@ -42,6 +43,7 @@
 							class="ml-2"
 							single-line
 							bottom
+							:disabled="pending"
 					></v-select>
 					<v-btn class="clear-filter-button" flat small :disabled="filterByCurrency.length === 0" @click.native="clearFilterCurrency()">
 						clear
@@ -56,6 +58,7 @@
 							hint="Press enter for start search"
 							v-on:keyup.enter="getCommissionsList()"
 							v-model="search"
+							:disabled="pending"
 					></v-text-field>
 					<v-btn class="clear-filter-button" flat small :disabled="search.length === 0" @click.native="clearSearchField()">
 						clear
