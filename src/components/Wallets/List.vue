@@ -43,8 +43,6 @@
 							label="Filter by currency"
 							class="ml-2"
 							:disabled="isPending()"
-							single-line
-							bottom
 					></v-select>
 					<v-btn class="clear-filter-button" flat small :disabled="filterByCurrency.length === 0" @click.native="clearFilterCurrency()">
 						clear

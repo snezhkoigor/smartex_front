@@ -41,8 +41,6 @@
 							item-value="name"
 							label="Filter by currency"
 							class="ml-2"
-							single-line
-							bottom
 							:disabled="pending"
 					></v-select>
 					<v-btn class="clear-filter-button" flat small :disabled="filterByCurrency.length === 0" @click.native="clearFilterCurrency()">
@@ -53,7 +51,6 @@
 					<v-text-field
 							append-icon="search"
 							label="Search by wallet"
-							single-line
 							class="ml-2"
 							hint="Press enter for start search"
 							v-on:keyup.enter="getCommissionsList()"

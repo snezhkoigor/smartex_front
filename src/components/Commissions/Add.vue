@@ -31,8 +31,6 @@
 									item-text="account"
 									item-value="id"
 									label="From wallet"
-									single-line
-									bottom
 									:disabled="pending"
 									:error-messages="errors && errors.wallet_id ? errors.wallet_id[0] : []"
 									:error="errors && !!errors.wallet_id"
@@ -60,8 +58,6 @@
 									item-text="prefix"
 									item-value="name"
 									label="To currency"
-									single-line
-									bottom
 									:disabled="pending"
 									:error-messages="errors && errors.currency ? errors.currency[0] : []"
 									:error="errors && !!errors.currency"

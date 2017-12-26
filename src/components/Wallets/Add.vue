@@ -40,6 +40,7 @@
 									v-model="walletItem.payment_system_id"
 									item-text="name"
 									item-value="id"
+									label="Payment system"
 									:disabled="pending"
 									:error-messages="errors && errors.payment_system_id ? errors.payment_system_id[0] : []"
 									:error="errors && !!errors.payment_system_id"
@@ -53,8 +54,6 @@
 									item-text="prefix"
 									item-value="name"
 									label="Currency"
-									single-line
-									bottom
 									:disabled="pending"
 									:error-messages="errors && errors.currency ? errors.currency[0] : []"
 									:error="errors && !!errors.currency"
