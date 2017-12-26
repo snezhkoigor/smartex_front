@@ -6,7 +6,7 @@
 		<desktop-component v-if="this.profile" />
 		<no-auth-component v-if="!isLogin" />
 
-		<div class="footer">
+		<div class="footer hidden-md-and-down">
 			Copyright {{ new Date().getFullYear() }}, Smartex – the online exchange
 		</div>
 	</v-app>
