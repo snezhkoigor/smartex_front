@@ -31,6 +31,7 @@
 									item-text="account"
 									item-value="id"
 									label="From wallet"
+									required
 									:disabled="pending"
 									:error-messages="errors && errors.wallet_id ? errors.wallet_id[0] : []"
 									:error="errors && !!errors.wallet_id"
@@ -46,6 +47,7 @@
 									item-text="name"
 									item-value="id"
 									:disabled="pending"
+									required
 									:error-messages="errors && errors.payment_system_id ? errors.payment_system_id[0] : []"
 									:error="errors && !!errors.payment_system_id"
 									auto
@@ -59,6 +61,7 @@
 									item-value="name"
 									label="To currency"
 									:disabled="pending"
+									required
 									:error-messages="errors && errors.currency ? errors.currency[0] : []"
 									:error="errors && !!errors.currency"
 							></v-select>
@@ -70,6 +73,7 @@
 									label="Commission"
 									v-model="commissionItem.commission"
 									:disabled="pending"
+									required
 									:error-messages="errors && errors.commission ? errors.commission[0] : []"
 									:error="errors && !!errors.commission"
 							></v-text-field>
