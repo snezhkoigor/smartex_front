@@ -35,15 +35,27 @@
 						</div>
 					</v-btn>
 					<v-list>
-						<v-list-tile @click="logout" key="logout">
-							<v-list-tile-title>
-								<v-icon>mdi-exit-to-app</v-icon> Profile
-							</v-list-tile-title>
+						<v-list-tile avatar @click="goToProfile()" key="logout">
+							<v-list-tile-avatar>
+								<v-icon large>fa-grav</v-icon>
+							</v-list-tile-avatar>
+							<v-list-tile-content>
+								<v-list-tile-title>
+									Profile
+								</v-list-tile-title>
+								<v-list-tile-sub-title>Setup your account</v-list-tile-sub-title>
+							</v-list-tile-content>
 						</v-list-tile>
 						<v-list-tile @click="logout" key="logout">
-							<v-list-tile-title>
-								<v-icon>mdi-exit-to-app</v-icon> Log Out
-							</v-list-tile-title>
+							<v-list-tile-avatar>
+								<v-icon large>mdi-exit-to-app</v-icon>
+							</v-list-tile-avatar>
+							<v-list-tile-content>
+								<v-list-tile-title>
+									Log Out
+								</v-list-tile-title>
+								<v-list-tile-sub-title></v-list-tile-sub-title>
+							</v-list-tile-content>
 						</v-list-tile>
 					</v-list>
 				</v-menu>
@@ -66,7 +78,12 @@
         methods: {
             ...mapActions('User', [
                 'logout'
-            ])
+            ]),
+            goToProfile() {
+                this.$router.push({
+                    name: 'profile'
+                });
+			}
         },
         computed: {
             ...mapGetters('User', [
