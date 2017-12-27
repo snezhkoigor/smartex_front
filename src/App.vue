@@ -60,8 +60,7 @@
 		background-color: white !important;
 	}
 	.app-content {
-		min-height: calc(100vh - 110px);
-		margin-bottom: 10px;
+		min-height: calc(100vh - 100px);
 	}
 	.card--flex-toolbar {
 		margin-top: -46px;
@@ -127,5 +126,16 @@
 		margin: 50px auto !important;
 		position: relative;
 
+	}
+	.error-container .error-gif {
+		text-align: right
+	}
+	.error-container .error-title {
+		text-align: left;
+		margin-top: 20px
+	}
+	.error-container .error-text {
+		text-align: initial;
+		margin-top: 20px
 	}
 </style>

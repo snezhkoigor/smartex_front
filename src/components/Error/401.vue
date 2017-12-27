@@ -1,17 +1,17 @@
 <template>
 	<v-container grid-list-md text-xs-center class="error-container">
 		<v-layout row wrap>
-			<v-flex xs12 sm2 md2 class="hidden-md-and-down" style="text-align: right">
+			<v-flex xs12 sm2 md2 class="hidden-md-and-down error-gif">
 				<img height="150px" src="../../../static/img/401.gif">
 			</v-flex>
-			<v-flex xs12 sm8 md8 style="text-align: left; padding-top: 20px">
+			<v-flex xs12 sm8 md8 class="error-title">
 				<div class="display-1">401</div>
 				<div class="subheading">
 					You do not have permission to this page
 				</div>
 			</v-flex>
 
-			<v-flex xs12 style="text-align: initial; padding-top: 20px">
+			<v-flex xs12 class="error-text">
 				Ooops! Looks like we took a wrong turn somewhere. Please try going back to Dashboard, and if that doesn't help – click the 'Log Out' button below to relogin.
 			</v-flex>
 
