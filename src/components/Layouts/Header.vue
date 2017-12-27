@@ -37,6 +37,11 @@
 					<v-list>
 						<v-list-tile @click="logout" key="logout">
 							<v-list-tile-title>
+								<v-icon>mdi-exit-to-app</v-icon> Profile
+							</v-list-tile-title>
+						</v-list-tile>
+						<v-list-tile @click="logout" key="logout">
+							<v-list-tile-title>
 								<v-icon>mdi-exit-to-app</v-icon> Log Out
 							</v-list-tile-title>
 						</v-list-tile>

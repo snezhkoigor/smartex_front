@@ -14,7 +14,7 @@
 				<no-auth-component/>
 			</div>
 
-			<div :class="{'footer hidden-md-and-down blue-grey--text text--lighten-2': isLogin, 'footer hidden-md-and-down teal darken-1': !isLogin}">
+			<div :class="{'footer blue-grey--text text--lighten-2': isLogin, 'footer teal darken-1': !isLogin}">
 				Copyright {{ new Date().getFullYear() }}, Smartex – the online exchange
 			</div>
 		</div>

@@ -18,6 +18,8 @@ import CommissionEdit from '@/components/Commissions/Edit';
 
 import NoAuth from '@/components/Layouts/NoAuth';
 
+import Profile from '@/components/User/Profile';
+
 import Config from '../config/app';
 import AccessDenied from '@/components/Error/401';
 import SystemError from '@/components/Error/500';
@@ -238,6 +240,19 @@ export default new Router({
                     }
                 }
             ]
+        },
+        {
+            path: 'profile',
+            name: "profile",
+            component: Profile,
+            meta: {
+                role: [
+                    Config.access.admin,
+                    Config.access.operator
+                ],
+                title: 'Profile',
+            },
+            menu: false
         },
         {
             path: '*',
