@@ -2,7 +2,6 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 import Dashboard from '@/components/Dashboard';
-import App from '@/App';
 import NewsIndex from '@/components/News/Index';
 import NewsList from '@/components/News/List';
 import NewsAdd from '@/components/News/Add';
@@ -250,6 +249,7 @@ export default new Router({
                     Config.access.operator
                 ],
                 title: 'Not Found',
+                isErrorPage: true
             },
             menu: false
         },
@@ -264,6 +264,7 @@ export default new Router({
                     Config.access.operator
                 ],
                 title: 'Access Denied',
+                isErrorPage: true
             },
             menu: false
         },
@@ -274,6 +275,7 @@ export default new Router({
             component: SystemError,
             meta: {
                 title: 'System Error in Server',
+                isErrorPage: true
             },
             menu: false
         },

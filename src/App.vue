@@ -1,13 +1,22 @@
 <template>
-	<v-app id="inspire" v-bind:class="{ 'teal darken-1': !isLogin }">
-		<header-component v-if="isLogin" />
+	<v-app id="inspire">
+		<div v-if="isErrorPage()">
+			<router-view />
+		</div>
+		<div v-if="!isErrorPage()">
+			<div class="app-content" v-if="isLogin">
+				<header-component/>
 
-		<mobile-component v-if="this.profile" />
-		<desktop-component v-if="this.profile" />
-		<no-auth-component v-if="!isLogin" />
+				<mobile-component/>
+				<desktop-component/>
+			</div>
+			<div class="app-content" v-bind:class="{ 'teal darken-1': !isLogin }" v-if="!isLogin">
+				<no-auth-component/>
+			</div>
 
-		<div :class="{'footer hidden-md-and-down blue-grey--text text--lighten-2': isLogin, 'footer hidden-md-and-down teal darken-1': !isLogin}">
-			Copyright {{ new Date().getFullYear() }}, Smartex – the online exchange
+			<div :class="{'footer hidden-md-and-down blue-grey--text text--lighten-2': isLogin, 'footer hidden-md-and-down teal darken-1': !isLogin}">
+				Copyright {{ new Date().getFullYear() }}, Smartex – the online exchange
+			</div>
 		</div>
 	</v-app>
 </template>
@@ -33,6 +42,11 @@
             ...mapGetters('User', [
                 'isLogin', 'profile'
             ])
+        },
+        methods: {
+            isErrorPage() {
+				return this.$router.currentRoute.meta.isErrorPage !== undefined && this.$router.currentRoute.meta.isErrorPage;
+            }
         }
 	}
 </script>
@@ -43,6 +57,11 @@
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
 		color: #2c3e50;
+		background-color: white !important;
+	}
+	.app-content {
+		min-height: calc(100vh - 110px);
+		margin-bottom: 10px;
 	}
 	.card--flex-toolbar {
 		margin-top: -46px;
@@ -80,11 +99,9 @@
 		top: 0;
 		margin-top: 58px !important;
 	}
-
 	a.breadcrumbs-link {
 		text-decoration: none;
 	}
-
 	.table-list-data {
 		cursor: pointer;
 		font-size: 14px !important;
@@ -97,10 +114,18 @@
 		margin: -20px 0 0 0 !important;
 	}
 	.footer {
-		text-align: center;
-		display: table-row;
-		height: 80px;
-		padding: 20px;
-		background: #fafafa !important;
+		width: 100%;
+		padding: 50px;
+		height: 50px;
+		background: rgba(14,14,14,0.95);
+		background-color: white !important;
+		justify-content: center;
+	}
+	.error-container {
+		max-width: 600px !important;
+		padding: 0px 9px !important;
+		margin: 50px auto !important;
+		position: relative;
+
 	}
 </style>

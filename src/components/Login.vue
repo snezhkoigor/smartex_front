@@ -103,9 +103,6 @@
                 this.$router.push({
                     name: name
                 });
-			},
-			reset () {
-
 			}
 		}
 	}

@@ -1,39 +1,65 @@
 <template>
-	<v-container grid-list-md text-xs-center>
-		<v-layout row wrap class="hidden-md-and-down">
-			<v-flex xs6>
-				<div class="access-denied-main-text display-4">
-					Oops!
-				</div>
-				<div class="display-1">
-					Web server is not feeling well.<br/>
-					We will fix this issue for you.
+	<v-container grid-list-md text-xs-center class="error-container">
+		<v-layout row wrap>
+			<v-flex xs12 sm2 md2 class="hidden-md-and-down" style="text-align: right">
+				<img height="150px" src="../../../static/img/401.gif">
+			</v-flex>
+			<v-flex xs12 sm8 md8 style="text-align: left; padding-top: 20px">
+				<div class="display-1">500</div>
+				<div class="subheading">
+					Web server is not feeling well
 				</div>
 			</v-flex>
-			<v-flex xs6>
-				<img data-v-2e32034a src="../../../static/img/401.gif">
+
+			<v-flex xs12 style="text-align: initial; padding-top: 20px">
+				Ooops! Looks like we took a wrong turn somewhere. Please try going back to Dashboard, and if that doesn't help – click the 'Log Out' button below to relogin.
 			</v-flex>
-		</v-layout>
-		<v-layout row wrap class="hidden-lg-and-up">
-			<v-flex>
-				<div class="access-denied-main-text display-2">
-					Oops!
-				</div>
-				<div class="headline">
-					The web server is not feeling well.<br/>
-					We will fix this issue for you.
-				</div>
-			</v-flex>
-			<v-flex>
-				<img data-v-2e32034a src="../../../static/img/401.gif">
+
+			<v-flex xs12 style="text-align: left">
+				<v-btn
+						color="blue-grey lighten-3"
+						@click="singOut()"
+						:loading="pending"
+						:disabled="pending"
+				>
+					<span class="white--text">Log Out</span>
+					<span slot="loader">Sending...</span>
+				</v-btn>
+				<v-btn
+						color="teal lighten-1"
+						@click="goBackToDashboard()"
+						:loading="pending"
+						:disabled="pending"
+				>
+					<span class="white--text">Dashboard</span>
+					<span slot="loader">Sending...</span>
+				</v-btn>
 			</v-flex>
 		</v-layout>
 	</v-container>
 </template>
 
-<style>
-	.access-denied-main-text {
-		padding-bottom: 70px;
-		padding-top: 50px;
-	}
-</style>
+<script>
+    import { mapGetters, mapActions } from 'vuex';
+
+    export default {
+        computed: {
+            ...mapGetters('User', [
+                'pending'
+            ])
+        },
+        methods: {
+            ...mapActions('User', [
+                'logout'
+            ]),
+            goBackToDashboard() {
+                this.$router.push({
+                    name: 'dashboard'
+                });
+            },
+            singOut () {
+                this.logout();
+            }
+        }
+    }
+</script>
