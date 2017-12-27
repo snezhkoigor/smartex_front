@@ -15,7 +15,7 @@
 			</div>
 
 			<div :class="{'footer blue-grey--text text--lighten-2': isLogin, 'footer teal darken-1': !isLogin}">
-				Copyright {{ new Date().getFullYear() }}, Smartex – the online exchange
+				Copyright {{ new Date().getFullYear() }}, Smartex
 			</div>
 		</div>
 	</v-app>
