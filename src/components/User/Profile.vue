@@ -32,6 +32,7 @@
 									size="2"
 									:prefill="currentProfile.avatar_link"
 									buttonClass="flat"
+									zIndex="1"
 									removeButtonClass="flat"
 									:removable="true"
 									:customStrings="{
