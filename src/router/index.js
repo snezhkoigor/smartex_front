@@ -242,7 +242,7 @@ export default new Router({
             ]
         },
         {
-            path: 'profile',
+            path: '/profile',
             name: "profile",
             component: Profile,
             meta: {
@@ -251,6 +251,7 @@ export default new Router({
                     Config.access.operator
                 ],
                 title: 'Profile',
+                isErrorPage: false
             },
             menu: false
         },

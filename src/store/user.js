@@ -14,6 +14,10 @@ const GET_PROFILE_FAIL = "GET_PROFILE_FAIL";
 
 const LOGOUT = "LOGOUT";
 
+const PROFILE_UPDATE = "PROFILE_UPDATE";
+const PROFILE_UPDATE_SUCCESS = "PROFILE_UPDATE_SUCCESS";
+const PROFILE_UPDATE_FAIL = "PROFILE_UPDATE_FAIL";
+
 const RESET_PASSWORD = "RESET_PASSWORD";
 const RESET_PASSWORD_SUCCESS = "RESET_PASSWORD_SUCCESS";
 const RESET_PASSWORD_FAIL = "RESET_PASSWORD_FAIL";
@@ -35,9 +39,7 @@ const actions = {
 
             api.login(formData).then(response => {
                 if (HttpHelper.checkIsOkAnswerStatus(response.status)) {
-                    commit(GET_PROFILE_SUCCESS, response.data);
                     commit(LOGIN_SUCCESS, response.data);
-
                     resolve(response);
                 } else {
                     commit(LOGIN_FAIL);
@@ -50,18 +52,14 @@ const actions = {
                 reject(errors);
 
                 ErrorsHelper.goByStatusCode(500, router);
-            }).then(() => {
-                router.push({
-                    name: 'dashboard'
-                })
             })
         })
     },
-    profile({ commit }) {
+    getProfile({ commit }) {
         return new Promise((resolve, reject) => {
             commit(GET_PROFILE);
 
-            api.profile().then(response => {
+            api.getProfile().then(response => {
                 if (HttpHelper.checkIsOkAnswerStatus(response.status)) {
                     commit(GET_PROFILE_SUCCESS, response.data);
                     resolve(response);
@@ -79,6 +77,28 @@ const actions = {
                 ErrorsHelper.goByStatusCode(500, router);
             })
         })
+    },
+    updateProfile({ commit, dispatch }, profile) {
+        return new Promise((resolve, reject) => {
+            commit(PROFILE_UPDATE);
+
+            api.updateProfile(profile).then(response => {
+                if (HttpHelper.checkIsOkAnswerStatus(response.status)) {
+                    commit(PROFILE_UPDATE_SUCCESS, response.data);
+                    resolve(response);
+                } else {
+                    commit(PROFILE_UPDATE_FAIL);
+                    reject(ErrorsHelper.getMessage(response));
+
+                    ErrorsHelper.goByStatusCode(response.status, router);
+                }
+            }, errors => {
+                commit(PROFILE_UPDATE_FAIL);
+                reject(errors);
+
+                ErrorsHelper.goByStatusCode(500, router);
+            })
+        });
     },
     resetPassword({ commit }, email) {
         return new Promise((resolve, reject) => {
@@ -148,17 +168,28 @@ const mutations = {
         state.role = null;
     },
 
+    PROFILE_UPDATE (state) {
+        state.pending = true;
+    },
+    PROFILE_UPDATE_SUCCESS (state, responseData) {
+        state.profile = responseData.data;
+        state.pending = false;
+    },
+    PROFILE_UPDATE_FAIL (state) {
+        state.pending = false;
+    },
+
     GET_PROFILE (state) {
         state.pending = true;
     },
     GET_PROFILE_SUCCESS (state, responseData) {
-        state.profile = responseData.auth_user_data;
+        state.profile = responseData.data;
         state.pending = false;
 
-        if (responseData.auth_user_data.roles) {
+        if (responseData.data.roles.data !== undefined) {
             let role = [];
 
-            responseData.auth_user_data.roles.forEach(function(item, i, arr) {
+            responseData.data.roles.data.forEach(function(item, i, arr) {
                 role.push({'id': item.id, 'name': item.name, 'displayName': item.display_name});
             });
 

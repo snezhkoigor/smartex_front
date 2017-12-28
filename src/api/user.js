@@ -16,12 +16,19 @@ export default {
 
         return HTTP.get('logout', {headers: headers});
     },
-    profile() {
+    getProfile() {
         let headers = {
             Authorization: 'Bearer ' + localStorage.getItem('jwt_token')
         };
 
         return HTTP.get('/me', { headers: headers });
+    },
+    updateProfile(profile) {
+        let headers = {
+            Authorization: 'Bearer ' + localStorage.getItem('jwt_token')
+        };
+
+        return HTTP.post('/me', profile, { headers: headers });
     },
     resetPassword(email) {
         return HTTP.post('/user/password/reset', {

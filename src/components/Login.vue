@@ -90,11 +90,16 @@
 		},
 		methods: {
             ...mapActions('User', [
-                'login'
+                'login', 'getProfile'
             ]),
 			singIn () {
                 this.login({ email: this.email, password: this.password }).then(() => {
 				    this.errors = [];
+				    this.getProfile().then(() => {
+                        this.$router.push({
+                            name: 'dashboard'
+                        });
+                    });
 				}).catch(errors => {
 					this.errors = errors;
 				});

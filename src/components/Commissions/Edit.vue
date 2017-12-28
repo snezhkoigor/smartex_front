@@ -30,7 +30,7 @@
 									v-model="commissionItem.wallet_id"
 									item-text="account"
 									item-value="id"
-									label="From wallet"
+									label="From"
 									required
 									:disabled="pending"
 									:error-messages="errors && errors.wallet_id ? errors.wallet_id[0] : []"
@@ -74,6 +74,8 @@
 									v-model="commissionItem.commission"
 									:disabled="pending"
 									required
+									suffix="%"
+									hint="Max value is 99.9"
 									:error-messages="errors && errors.commission ? errors.commission[0] : []"
 									:error="errors && !!errors.commission"
 							></v-text-field>

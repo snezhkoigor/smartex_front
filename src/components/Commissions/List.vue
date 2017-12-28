@@ -23,7 +23,7 @@
 					<v-select
 							v-bind:items="meta.payment_systems"
 							v-model="filterByPaymentSystem"
-							label="Filter by payment system"
+							label="Filter by 'to' payment system"
 							item-text="name"
 							item-value="id"
 							class="ml-2"
@@ -39,7 +39,7 @@
 							v-model="filterByCurrency"
 							item-text="prefix"
 							item-value="name"
-							label="Filter by currency"
+							label="Filter by 'to' currency"
 							class="ml-2"
 							:disabled="pending"
 					></v-select>
@@ -50,7 +50,7 @@
 				<v-flex xs12 sm4 md4>
 					<v-text-field
 							append-icon="search"
-							label="Search by wallet"
+							label="Search by 'from' wallet"
 							class="ml-2"
 							hint="Press enter for start search"
 							v-on:keyup.enter="getCommissionsList()"
@@ -76,7 +76,7 @@
 							class="news-table-list"
 					>
 						<td class="text-lg-left table-list-data" @click="goToEditCommission(props.item)">
-							<b>{{props.item.commission | currency(props.item.prefix)}}</b>: <span class="commission-from">from</span> {{ props.item.wallet.data.account | truncate(25) }} <span class="commission-to">to</span> {{ props.item.paymentSystem.data.name }}
+							<b>{{props.item.commission}}%</b>: <span class="commission-from">from</span> <b>{{props.item.wallet.data.paymentSystem.data.name}}, {{props.item.wallet.data.prefix}}</b> ({{ props.item.wallet.data.account | truncate(25) }}) <span class="commission-to">to</span> <b>{{ props.item.paymentSystem.data.name }}, {{ props.item.prefix }}</b>
 						</td>
 						<td class="text-lg-center table-list-actions">
 							<v-btn flat icon color="red darken-1" @click="openDeleteDialog(props.item)">
@@ -89,10 +89,12 @@
 		</v-card-text>
 
 		<v-layout row justify-center>
-			<v-dialog v-model="commissionDeleteDialog" max-width="290" v-if="this.commission.id">
+			<v-dialog v-model="commissionDeleteDialog" max-width="300" v-if="this.commission.id">
 				<v-card>
-					<v-card-title class="headline">Delete this commission?</v-card-title>
-					<v-card-text><b>{{this.commission.commission | currency(this.commission.prefix)}}</b>: <span class="commission-from">from</span> {{ this.commission.wallet.data.account | truncate(25) }} <span class="commission-to">to</span> {{ this.commission.paymentSystem.data.name }}</v-card-text>
+					<v-card-title class="headline">Delete this commission&nbsp;<b>{{this.commission.commission}}%</b>?</v-card-title>
+					<v-card-text>
+						<span class="commission-from">from</span> <b>{{this.commission.wallet.data.paymentSystem.data.name}}, {{this.commission.wallet.data.prefix}}</b> ({{ this.commission.wallet.data.account | truncate(25) }}) <span class="commission-to">to</span> <b>{{ this.commission.paymentSystem.data.name }}, {{ this.commission.prefix }}</b>
+					</v-card-text>
 					<v-card-actions>
 						<v-spacer></v-spacer>
 						<v-btn color="red darken-1" flat="flat" @click="closeDeleteDialog()">
@@ -228,7 +230,7 @@
                     pagination.q = this.search;
                 }
 
-                pagination.include = 'paymentSystem,wallet';
+                pagination.include = 'paymentSystem,wallet,wallet.paymentSystem';
 
                 this.list(HttpHelper.getPaginationParam(pagination)).then(() => {
                     this.items = this.commissions;

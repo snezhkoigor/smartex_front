@@ -26,7 +26,13 @@
 			<div class="d-flex align-center" style="margin-left: auto;">
 				<v-menu bottom left>
 					<v-btn flat slot="activator" dark>
-						<v-icon large dark>fa-grav</v-icon>
+						<v-icon large dark v-if="!profile.avatar">fa-grav</v-icon>
+						<v-avatar
+								size="36px"
+								v-if="profile.avatar"
+						>
+							<img :src="profile.avatar_link" />
+						</v-avatar>
 						<div>
 							<div class="fio">{{this.profile.first_name}} {{this.profile.last_name}}</div>
 							<div class="role">
@@ -37,7 +43,13 @@
 					<v-list>
 						<v-list-tile avatar @click="goToProfile()" key="logout">
 							<v-list-tile-avatar>
-								<v-icon large>fa-grav</v-icon>
+								<v-icon large v-if="!profile.avatar">fa-grav</v-icon>
+								<v-avatar
+										size="36px"
+										v-if="profile.avatar"
+								>
+									<img :src="profile.avatar_link" />
+								</v-avatar>
 							</v-list-tile-avatar>
 							<v-list-tile-content>
 								<v-list-tile-title>
