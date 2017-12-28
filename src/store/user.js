@@ -25,7 +25,7 @@ const RESET_PASSWORD_FAIL = "RESET_PASSWORD_FAIL";
 const RESET_PENDING = "RESET_PENDING";
 
 const state = {
-    isLoggedIn: !!localStorage.getItem('jwt_token'),
+    isLoggedIn: !!localStorage.getItem('jwt_token') && !!localStorage.getItem('jwt_role'),
     profile: null,
     token: null,
     role: null,
@@ -154,7 +154,6 @@ const mutations = {
     },
     LOGIN_SUCCESS (state, responseData) {
         localStorage.setItem('jwt_token', responseData.data.token);
-        state.isLoggedIn = true;
         state.token = responseData.data.token;
         state.pending = false;
     },
@@ -185,6 +184,7 @@ const mutations = {
     GET_PROFILE_SUCCESS (state, responseData) {
         state.profile = responseData.data;
         state.pending = false;
+        state.isLoggedIn = true;
 
         if (responseData.data.roles.data !== undefined) {
             let role = [];

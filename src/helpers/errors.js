@@ -15,9 +15,7 @@ export default {
     },
     goByStatusCode(status, router) {
         if (status === 404 || status === 500 || status === 401) {
-            router.push({
-                name: status
-            })
+            window.location.href = '/' + status;
         }
     }
 }

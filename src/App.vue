@@ -1,6 +1,6 @@
 <template>
 	<v-app id="inspire">
-		<div v-if="isErrorPage()">
+		<div v-if="isErrorPage()" class="errors-container" style="margin: 20px">
 			<router-view />
 		</div>
 		<div v-if="!isErrorPage()">
@@ -10,6 +10,7 @@
 				<mobile-component/>
 				<desktop-component/>
 			</div>
+
 			<div class="app-content" v-bind:class="{ 'teal darken-1': !isLogin }" v-if="!isLogin">
 				<no-auth-component/>
 			</div>
@@ -18,6 +19,7 @@
 				Copyright {{ new Date().getFullYear() }}, Smartex
 			</div>
 		</div>
+
 	</v-app>
 </template>
 
@@ -40,7 +42,7 @@
         },
         computed: {
             ...mapGetters('User', [
-                'isLogin', 'profile'
+                'isLogin', 'profile', 'pending'
             ])
         },
         methods: {
@@ -127,6 +129,9 @@
 		position: relative;
 
 	}
+	.errors-container {
+		padding: 20px;
+	}
 	.error-container .error-gif {
 		text-align: right
 	}
@@ -135,7 +140,7 @@
 		margin-top: 20px
 	}
 	.error-container .error-text {
-		text-align: initial;
+		text-align: justify;
 		margin-top: 20px
 	}
 </style>
