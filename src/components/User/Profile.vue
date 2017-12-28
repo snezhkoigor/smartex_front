@@ -27,18 +27,15 @@
 						<v-flex xs12 sm3 md3>
 							<picture-input
 									ref="pictureInput"
-									margin="16"
-									accept="image/jpeg,image/png"
-									size="2"
+									:margin="pictureInput.margin"
+									:accept="pictureInput.accept"
+									:size="pictureInput.size"
 									:prefill="currentProfile.avatar_link"
-									buttonClass="flat"
-									zIndex="1"
-									removeButtonClass="flat"
-									:removable="true"
-									:customStrings="{
-										remove: 'Remove',
-										change: 'Change'
-									}"
+									:buttonClass="pictureInput.buttonClass.button"
+									:zIndex="pictureInput.zIndex"
+									:removeButtonClass="pictureInput.buttonClass.button"
+									:removable="pictureInput.removable"
+									:customStrings="pictureInput.customStrings"
 							>
 							</picture-input>
 						</v-flex>
@@ -114,6 +111,7 @@
                 errors: [],
                 loader: null,
 
+                pictureInput: AppConfig.pictureInput,
 				currentProfile: {}
             }
         },

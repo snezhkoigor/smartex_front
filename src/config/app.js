@@ -18,10 +18,28 @@ let froala = {
     // paragraphFormatSelection: true
 }
 
+let pictureInput = {
+    accept: 'image/jpeg,image/png',
+    customStrings: 'image/jpeg,image/png',
+    customStrings: {
+        remove: 'Remove',
+        change: 'Change'
+    },
+    removable: true,
+    zIndex: 1,
+    buttonClass: {
+        button: 'flat',
+        removeButton: 'flat'
+    },
+    size: 2,
+    margin: 16
+}
+
 let perPage = [ 25, 50, 100, {text: 'All', value: -1} ];
 
 export default {
     access,
     froala,
-    perPage
+    perPage,
+    pictureInput
 }
