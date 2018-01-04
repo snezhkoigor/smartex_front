@@ -79,7 +79,7 @@
 									<v-text-field
 											label="Current password"
 											v-model="currentProfile.current_password"
-											:disabled="pending || newPassword.length === 0"
+											:disabled="pending || currentProfile.new_password === undefined || currentProfile.new_password.length === 0"
 											:append-icon="visiblePassword ? 'visibility_off' : 'visibility'"
 											:append-icon-cb="() => (visiblePassword = !visiblePassword)"
 											:type="visiblePassword ? 'password' : 'text'"

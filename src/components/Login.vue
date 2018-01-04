@@ -1,59 +1,59 @@
 <template>
     <div class="login-form">
         <div class="form elevation-1">
-            <v-tabs fixed centered v-model="active">
-                <v-tabs-bar color="teal" dark>
-                    <v-tabs-slider color="yellow"></v-tabs-slider>
-                    <v-tabs-item
-                            v-for="tab in tabs"
-                            :key="tab.name"
-                            :href="'#' + tab.name"
-                            ripple
-							@click="changeTab(tab.name)"
-                    >
-                        {{ tab.title }}
-                    </v-tabs-item>
-                </v-tabs-bar>
-                <v-tabs-items>
-                    <v-tabs-content key="login" id="login">
-                        <v-card flat>
-                            <v-card-text>
-                                <v-form ref="formLogin">
-                                    <v-text-field
-                                            v-model="email"
-                                            label="E-mail"
-                                            v-on:keyup.enter="singIn()"
-                                            :error-messages="errors && errors.email ? errors.email : []"
-                                            :error="errors && !!errors.email"
-                                            required
-                                    ></v-text-field>
-                                    <v-text-field
-                                            label="Password"
-                                            v-model="password"
-                                            v-on:keyup.enter="singIn()"
-                                            :append-icon="visiblePassword ? 'visibility_off' : 'visibility'"
-                                            :append-icon-cb="() => (visiblePassword = !visiblePassword)"
-                                            :type="visiblePassword ? 'password' : 'text'"
-                                            required
-                                            :error-messages="errors && errors.password ? errors.password : []"
-                                            :error="errors && !!errors.password"
-                                    ></v-text-field>
-                                    <v-btn block
-                                            color="teal lighten-1"
-                                            @click="singIn()"
-                                            :loading="pending"
-                                            :disabled="pending"
-                                    >
-                                        <span class="white--text">Sing In</span>
-                                        <span slot="loader">Sending...</span>
-                                    </v-btn>
-                                </v-form>
-                            </v-card-text>
-                        </v-card>
-                    </v-tabs-content>
-                    <v-tabs-content key="passwordReset" id="passwordReset">
-                    </v-tabs-content>
-                </v-tabs-items>
+            <v-tabs fixed
+                    centered
+                    color="teal"
+                    v-model="active"
+                    slider-color="yellow"
+                    dark
+                    fixed-tabs
+            >
+                <v-tab
+                        v-for="tab in tabs"
+                        :key="tab.name"
+                        :href="'#' + tab.name"
+                        ripple
+                        @click="changeTab(tab.name)"
+                >
+                    {{ tab.title }}
+                </v-tab>
+                <v-tab-item key="login" id="login">
+                    <v-card flat>
+                        <v-card-text>
+                            <v-form ref="formLogin">
+                                <v-text-field
+                                        v-model="email"
+                                        label="E-mail"
+                                        v-on:keyup.enter="singIn()"
+                                        :error-messages="errors && errors.email ? errors.email : []"
+                                        :error="errors && !!errors.email"
+                                        required
+                                ></v-text-field>
+                                <v-text-field
+                                        label="Password"
+                                        v-model="password"
+                                        v-on:keyup.enter="singIn()"
+                                        :append-icon="visiblePassword ? 'visibility_off' : 'visibility'"
+                                        :append-icon-cb="() => (visiblePassword = !visiblePassword)"
+                                        :type="visiblePassword ? 'password' : 'text'"
+                                        required
+                                        :error-messages="errors && errors.password ? errors.password : []"
+                                        :error="errors && !!errors.password"
+                                ></v-text-field>
+                                <v-btn block
+                                        color="teal lighten-1"
+                                        @click="singIn()"
+                                        :loading="pending"
+                                        :disabled="pending"
+                                >
+                                    <span class="white--text">Sing In</span>
+                                    <span slot="loader">Sending...</span>
+                                </v-btn>
+                            </v-form>
+                        </v-card-text>
+                    </v-card>
+                </v-tab-item>
             </v-tabs>
         </div>
     </div>
@@ -123,16 +123,16 @@
         overflow: auto;
     }
     .login-form .form {
-        width: 300px;
+        width: 320px;
         position: absolute;
         top: 50%;
         left: 50%;
-        margin: -150px 0 0 -150px;
+        margin: -160px 0 0 -160px;
     }
     .login-form .tabs__bar {
         height: 48px !important;
     }
     .login-form .tabs__wrapper {
-        overflow: hidden;
+        overflow: hidden !important;
     }
 </style>

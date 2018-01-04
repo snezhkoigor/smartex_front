@@ -1,60 +1,60 @@
 <template>
     <div class="reset-form">
         <div class="form elevation-1">
-            <v-tabs fixed centered v-model="active">
-                <v-tabs-bar color="teal" dark>
-                    <v-tabs-slider color="yellow"></v-tabs-slider>
-                    <v-tabs-item
+            <v-tabs fixed
+                    centered
+                    color="teal"
+                    v-model="active"
+                    slider-color="yellow"
+                    dark
+                    :fixed-tabs="true"
+            >
+                <v-tab
                         v-for="tab in tabs"
                         :key="tab.name"
                         :href="'#' + tab.name"
                         ripple
                         @click="changeTab(tab.name)"
-                    >
-                        {{ tab.title }}
-                    </v-tabs-item>
-                </v-tabs-bar>
-                <v-tabs-items>
-                    <v-tabs-content key="passwordReset" id="passwordReset">
-                        <v-card flat>
-                            <v-card-text v-if="!successReset">
-                                <v-form ref="formReset">
-                                    <v-text-field
-                                            v-model="email"
-                                            label="E-mail"
-                                            :error-messages="errors && errors.email ? errors.email : []"
-                                            :error="errors && !!errors.email"
-                                            data-vv-name="email"
-                                            required
-                                    ></v-text-field>
-                                    <v-btn block
-                                            color="teal lighten-1"
-                                            @click="reset()"
-                                            :loading="pending"
-                                            :disabled="pending"
-                                    >
-                                        <span class="white--text">Reset</span>
-                                        <span slot="loader">Sending...</span>
-                                    </v-btn>
-                                </v-form>
-                            </v-card-text>
-                            <v-card-text v-if="successReset">
-                                <p>
-                                    Check your mail box for new password and Sing In.
-                                </p>
+                >
+                    {{ tab.title }}
+                </v-tab>
+                <v-tab-item key="passwordReset" id="passwordReset">
+                    <v-card flat>
+                        <v-card-text v-if="!successReset">
+                            <v-form ref="formReset">
+                                <v-text-field
+                                        v-model="email"
+                                        label="E-mail"
+                                        :error-messages="errors && errors.email ? errors.email : []"
+                                        :error="errors && !!errors.email"
+                                        data-vv-name="email"
+                                        required
+                                ></v-text-field>
                                 <v-btn block
-                                        dark
                                         color="teal lighten-1"
-                                        @click.stop="closeSuccessReset()"
+                                        @click="reset()"
+                                        :loading="pending"
+                                        :disabled="pending"
                                 >
-                                    Close
+                                    <span class="white--text">Reset</span>
+                                    <span slot="loader">Sending...</span>
                                 </v-btn>
-                            </v-card-text>
-                        </v-card>
-                    </v-tabs-content>
-                    <v-tabs-content key="login" id="login">
-                    </v-tabs-content>
-                </v-tabs-items>
+                            </v-form>
+                        </v-card-text>
+                        <v-card-text v-if="successReset">
+                            <p>
+                                Check your mail box for new password and Sing In.
+                            </p>
+                            <v-btn block
+                                    dark
+                                    color="teal lighten-1"
+                                    @click.stop="closeSuccessReset()"
+                            >
+                                Close
+                            </v-btn>
+                        </v-card-text>
+                    </v-card>
+                </v-tab-item>
             </v-tabs>
         </div>
     </div>
@@ -123,11 +123,11 @@
         overflow: auto;
     }
     .reset-form .form {
-        width: 300px;
+        width: 320px;
         position: absolute;
         top: 50%;
         left: 50%;
-        margin: -150px 0 0 -150px;
+        margin: -160px 0 0 -160px;
     }
     .reset-form .tabs__bar {
         height: 48px !important;

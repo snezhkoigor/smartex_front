@@ -6,6 +6,7 @@ import Course from './course';
 import PaymentSystem from './payment_system';
 import Wallet from './wallet';
 import Commission from './commission';
+import Dashboard from './dashboard';
 import createPersistedState from 'vuex-persistedstate';
 
 Vue.use(Vuex);
@@ -17,7 +18,8 @@ export default new Vuex.Store({
         Course,
         PaymentSystem,
         Wallet,
-        Commission
+        Commission,
+        Dashboard
     },
     plugins: [createPersistedState()]
 })

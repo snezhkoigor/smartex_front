@@ -67,10 +67,10 @@
 	.card--flex-toolbar {
 		margin-top: -46px;
 	}
-	.menu .btn {
-		margin-top: -2px;
-		height: 50px !important
-	}
+	/*.menu .btn {*/
+		/*margin-top: -2px;*/
+		/*height: 50px !important*/
+	/*}*/
 	.fio {
 		margin-left: 10px;
 		font-size: 11px;
@@ -81,9 +81,6 @@
 	}
 	.fr-element ul, ol {
 		padding-left: 30px;
-	}
-	button.accent {
-		color: black !important;
 	}
 	div.fr-element .fr-view {
 		padding-left: 40px;

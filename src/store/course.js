@@ -1,4 +1,4 @@
-import courses from '../api/courses';
+import api from '../api/courses';
 import router from '../router/index';
 import Config from '../config/app';
 import ErrorsHelper from "../helpers/errors";
@@ -25,7 +25,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             commit(GET_COURSES_LIST);
 
-            courses.list(requestParams).then(response => {
+            api.list(requestParams).then(response => {
                 if (HttpHelper.checkIsOkAnswerStatus(response.status)) {
                     commit(GET_COURSES_LIST_SUCCESS, response.data);
                     resolve(response);
@@ -47,7 +47,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             commit(COURSES_EDIT);
 
-            courses.edit(course).then(response => {
+            api.edit(course).then(response => {
                 if (HttpHelper.checkIsOkAnswerStatus(response.status)) {
                     commit(COURSES_EDIT_SUCCESS);
                     resolve(response);

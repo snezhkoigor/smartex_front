@@ -14,7 +14,7 @@ import VueMoment from 'vue-moment';
 import moment from 'moment-timezone';
 import VueTruncate from 'vue-truncate-filter';
 import VueCurrencyFilter from 'vue-currency-filter';
-import VueRouter from 'vue-router'
+import VueRouter from 'vue-router';
 
 require('../node_modules/vuetify/dist/vuetify.min.css');
 require('../node_modules/font-awesome/css/font-awesome.min.css');
@@ -54,6 +54,7 @@ new Vue({
       this.$store.dispatch('Wallet/resetPending');
       this.$store.dispatch('Course/resetPending');
       this.$store.dispatch('News/resetPending');
+      this.$store.dispatch('Dashboard/resetPending');
   },
   render: h => h(App)
 });

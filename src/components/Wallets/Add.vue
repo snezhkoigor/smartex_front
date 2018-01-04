@@ -67,7 +67,7 @@
 							<v-text-field
 									label="Wallet"
 									v-model="walletItem.account"
-									multi-line
+									:multi-line="isWalletMulti()"
 									:disabled="pending"
 									required
 									:error-messages="errors && errors.account ? errors.account[0] : []"
@@ -143,7 +143,6 @@
 									label="Balance"
 									v-model="walletItem.balance"
 									:disabled="pending"
-									required
 									:error-messages="errors && errors.balance ? errors.balance[0] : []"
 									:error="errors && !!errors.balance"
 							></v-text-field>
@@ -164,7 +163,7 @@
 		</v-container>
 
 		<v-layout row justify-center>
-			<v-dialog v-model="walletCheckDialog" max-width="290">
+			<v-dialog v-model="walletCheckDialog" max-width="290" persistent>
 				<v-card>
 					<v-card-title class="headline">Answer</v-card-title>
 					<v-card-text color="green darken-1" v-if="walletCheckAnswer">
@@ -261,8 +260,15 @@
                     this.currencies = this.meta.currencies;
 				});
 			},
+			isWalletMulti() {
+                if (this.meta && this.walletItem.payment_system_id && this.meta.settings[this.walletItem.payment_system_id].is_account_multi_line === 1) {
+                    return true;
+				}
+
+                return false;
+			},
             needToFill(fieldName) {
-                return this.meta && this.walletItem.payment_system_id && this.meta.required[this.walletItem.payment_system_id].indexOf(fieldName) !== -1;
+                return this.meta && this.walletItem.payment_system_id && this.meta.settings[this.walletItem.payment_system_id].fields.indexOf(fieldName) !== -1;
             },
             addWallet() {
                 this.add(this.walletItem).then(response => {
