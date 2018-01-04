@@ -27,10 +27,10 @@
                         }
                     },
                     title: {
-                        text: 'Total registrations'
+                        text: 'Все регистрации'
                     },
                     subtitle: {
-                        text: 'All client registrations by countries'
+                        text: 'Все регистрации пользователей относительно стран'
                     },
                     plotOptions: {
                         pie: {
@@ -61,7 +61,7 @@
                 this.$refs.lineCharts.removeSeries();
 
                 let lineCharts = this.$refs.lineCharts;
-                lineCharts.delegateMethod('showLoading', 'Loading...');
+                lineCharts.delegateMethod('showLoading', 'Загрузка...');
 
                 this.totalRegistrations().then(() => {
                     lineCharts.addSeries(this.totalRegistrationsItems);

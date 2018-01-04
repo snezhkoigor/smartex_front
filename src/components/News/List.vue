@@ -22,14 +22,14 @@
 				<v-flex xs12 >
 					<v-text-field
 							append-icon="search"
-							label="Search by title"
-							hint="Press enter for start search"
+							label="Поиск по заголовку"
+							hint="Нажмите Enter для поиска"
 							v-on:keyup.enter="getListNews()"
 							v-model="search"
 							:disabled="pending"
 					></v-text-field>
 					<v-btn class="clear-filter-button" flat small :disabled="search.length === 0" @click.native="clearSearchField()">
-						clear
+						очистить
 					</v-btn>
 				</v-flex>
 			</v-layout>
@@ -71,12 +71,12 @@
 		<v-layout row justify-center>
 			<v-dialog v-model="dialogDelete" max-width="290" v-if="this.news.title">
 				<v-card>
-					<v-card-title class="headline">Delete this news?</v-card-title>
-					<v-card-text>Are you sure that you want to delete the news '{{this.news.title | truncate(50)}}'?</v-card-text>
+					<v-card-title class="headline">Удалить новость?</v-card-title>
+					<v-card-text>Вы уверены, что хотите удалить новость '{{this.news.title | truncate(50)}}'?</v-card-text>
 					<v-card-actions>
 						<v-spacer></v-spacer>
 						<v-btn color="red darken-1" flat="flat" @click="closeDeleteDialog()">
-							Disagree
+							Нет
 						</v-btn>
 						<v-btn color="green darken-1"
 								flat
@@ -84,8 +84,8 @@
 								:loading="pending"
 								:disabled="pending"
 						>
-							Agree
-							<span slot="loader">Sending...</span>
+							Да
+							<span slot="loader">Отправка...</span>
 						</v-btn>
 					</v-card-actions>
 				</v-card>
@@ -120,8 +120,8 @@
                 errors: [],
 
                 headers: [
-                    { text: 'Date', value: 'date' },
-                    { text: 'Title', value: 'title', align: 'left', }
+                    { text: 'Дата', value: 'date' },
+                    { text: 'Заголовок', value: 'title', align: 'left', }
                 ],
                 perPage: AppConfig.perPage,
 

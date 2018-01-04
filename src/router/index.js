@@ -44,10 +44,6 @@ export default new Router({
             component: Dashboard,
             beforeEnter: AuthGuard,
             meta: {
-                role: [
-                    Config.access.admin,
-                    Config.access.operator
-                ],
                 title: 'Dashboard',
                 menuName: 'Dashboard',
                 menuIcon: 'mdi-view-dashboard'
@@ -60,12 +56,8 @@ export default new Router({
             component: NewsIndex,
             beforeEnter: AuthGuard,
             meta: {
-                role: [
-                    Config.access.admin,
-                    Config.access.operator
-                ],
-                title: 'News',
-                menuName: 'News',
+                title: 'Новости',
+                menuName: 'Новости',
                 menuIcon: 'mdi-newspaper'
             },
             menu: true,
@@ -76,11 +68,7 @@ export default new Router({
                     component: NewsAdd,
                     beforeEnter: AuthGuard,
                     meta: {
-                        role: [
-                            Config.access.admin,
-                            Config.access.operator
-                        ],
-                        title: 'Add'
+                        title: 'Добавление'
                     }
                 },
                 {
@@ -89,11 +77,7 @@ export default new Router({
                     component: NewsEdit,
                     beforeEnter: AuthGuard,
                     meta: {
-                        role: [
-                            Config.access.admin,
-                            Config.access.operator
-                        ],
-                        title: 'Edit'
+                        title: 'Редактиврование'
                     }
                 },
                 {
@@ -102,141 +86,7 @@ export default new Router({
                     component: NewsList,
                     beforeEnter: AuthGuard,
                     meta: {
-                        role: [
-                            Config.access.admin,
-                            Config.access.operator
-                        ],
-                        title: 'News'
-                    }
-                }
-            ]
-        },
-        {
-            path: '/courses',
-            name: 'courses',
-            component: Courses,
-            beforeEnter: AuthGuard,
-            meta: {
-                role: [
-                    Config.access.admin,
-                    Config.access.operator
-                ],
-                title: 'Courses',
-                menuName: 'Courses',
-                menuIcon: 'fa-exchange'
-            },
-            menu: true
-        },
-        {
-            path: '/wallets',
-            name: 'wallets',
-            component: WalletsIndex,
-            beforeEnter: AuthGuard,
-            meta: {
-                role: [
-                    Config.access.admin,
-                    Config.access.operator
-                ],
-                title: 'Wallets',
-                menuName: 'Wallets',
-                menuIcon: 'mdi-wallet'
-            },
-            menu: true,
-            children: [
-                {
-                    path: 'add',
-                    name: 'walletAdd',
-                    component: WalletAdd,
-                    beforeEnter: AuthGuard,
-                    meta: {
-                        role: [
-                            Config.access.admin,
-                            Config.access.operator
-                        ],
-                        title: 'Add'
-                    }
-                },
-                {
-                    path: ':walletId',
-                    name: 'walletEdit',
-                    component: WalletEdit,
-                    beforeEnter: AuthGuard,
-                    meta: {
-                        role: [
-                            Config.access.admin,
-                            Config.access.operator
-                        ],
-                        title: 'Edit'
-                    }
-                },
-                {
-                    path: '',
-                    name: 'walletsList',
-                    component: WalletsList,
-                    beforeEnter: AuthGuard,
-                    meta: {
-                        role: [
-                            Config.access.admin,
-                            Config.access.operator
-                        ],
-                        title: 'Wallets'
-                    }
-                }
-            ]
-        },
-        {
-            path: '/commissions',
-            name: 'commissions',
-            component: CommissionsIndex,
-            beforeEnter: AuthGuard,
-            meta: {
-                role: [
-                    Config.access.admin,
-                    Config.access.operator
-                ],
-                title: 'Commissions',
-                menuName: 'Commissions',
-                menuIcon: 'mdi-coins'
-            },
-            menu: true,
-            children: [
-                {
-                    path: 'add',
-                    name: 'commissionAdd',
-                    component: CommissionAdd,
-                    beforeEnter: AuthGuard,
-                    meta: {
-                        role: [
-                            Config.access.admin,
-                            Config.access.operator
-                        ],
-                        title: 'Add'
-                    }
-                },
-                {
-                    path: ':commissionId',
-                    name: 'commissionEdit',
-                    component: CommissionEdit,
-                    beforeEnter: AuthGuard,
-                    meta: {
-                        role: [
-                            Config.access.admin,
-                            Config.access.operator
-                        ],
-                        title: 'Edit'
-                    }
-                },
-                {
-                    path: '',
-                    name: 'commissionsList',
-                    component: CommissionsList,
-                    beforeEnter: AuthGuard,
-                    meta: {
-                        role: [
-                            Config.access.admin,
-                            Config.access.operator
-                        ],
-                        title: 'Commissions'
+                        title: 'Новости'
                     }
                 }
             ]
@@ -246,11 +96,7 @@ export default new Router({
             name: "profile",
             component: Profile,
             meta: {
-                role: [
-                    Config.access.admin,
-                    Config.access.operator
-                ],
-                title: 'Profile',
+                title: 'Профиль',
                 isErrorPage: false
             },
             menu: false
@@ -260,11 +106,7 @@ export default new Router({
             name: '404',
             component: NotFound,
             meta: {
-                role: [
-                    Config.access.admin,
-                    Config.access.operator
-                ],
-                title: 'Not Found',
+                title: 'Не найдено',
                 isErrorPage: true
             },
             menu: false
@@ -275,11 +117,7 @@ export default new Router({
             template: null,
             component: AccessDenied,
             meta: {
-                role: [
-                    Config.access.admin,
-                    Config.access.operator
-                ],
-                title: 'Access Denied',
+                title: 'Доступ закрыт',
                 isErrorPage: true
             },
             menu: false
@@ -290,7 +128,7 @@ export default new Router({
             template: null,
             component: SystemError,
             meta: {
-                title: 'System Error in Server',
+                title: 'Ошибка на сервере',
                 isErrorPage: true
             },
             menu: false

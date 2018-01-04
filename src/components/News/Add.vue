@@ -2,7 +2,7 @@
 	<div>
 		<v-toolbar card color="white" prominent>
 			<v-toolbar-title class="page-title title grey--text title-tool-bar">
-				<router-link class="breadcrumbs-link" :to="{ name: 'newsList'}">News</router-link> / {{ this.$router.currentRoute.meta.title }}
+				<router-link class="breadcrumbs-link" :to="{ name: 'newsList'}">Новости</router-link> / {{ this.$router.currentRoute.meta.title }}
 			</v-toolbar-title>
 			<v-spacer></v-spacer>
 			<v-btn
@@ -11,8 +11,8 @@
 					:loading="pending"
 					:disabled="pending"
 			>
-				<span>Add</span>
-				<span slot="loader">Sending...</span>
+				<span>Добавить</span>
+				<span slot="loader">Отправка...</span>
 			</v-btn>
 		</v-toolbar>
 
@@ -39,7 +39,7 @@
 					<v-layout row class="mt-3">
 						<v-flex xs12>
 							<v-text-field
-									label="Title"
+									label="Заголовок"
 									v-model="newsItem.title"
 									required
 									counter="255"
@@ -83,7 +83,7 @@
 							>
 								<v-text-field
 										slot="activator"
-										label="News date"
+										label="Дата"
 										v-model="newsItem.date"
 										prepend-icon="event"
 										readonly
@@ -98,7 +98,7 @@
 					<v-layout row>
 						<v-flex xs12 class="mt-3">
 							<v-checkbox
-									label="Will news be active?"
+									label="Новость будет активной?"
 									v-model="newsItem.active"
 									:disabled="pending"
 									light

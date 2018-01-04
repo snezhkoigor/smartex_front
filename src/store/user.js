@@ -186,16 +186,19 @@ const mutations = {
         state.pending = false;
         state.isLoggedIn = true;
 
-        if (responseData.data.roles.data !== undefined) {
-            let role = [];
+        // if (responseData.data.roles.data !== undefined) {
+        //     let role = [];
+        //
+        //     responseData.data.roles.data.forEach(function(item, i, arr) {
+        //         role.push({'id': item.id, 'name': item.name, 'displayName': item.display_name});
+        //     });
+        //
+        //     state.role = role;
+        //     localStorage.setItem('jwt_role', btoa(JSON.stringify(role)));
+        // }
 
-            responseData.data.roles.data.forEach(function(item, i, arr) {
-                role.push({'id': item.id, 'name': item.name, 'displayName': item.display_name});
-            });
-
-            state.role = role;
-            localStorage.setItem('jwt_role', btoa(JSON.stringify(role)));
-        }
+        state.role = '';
+        localStorage.setItem('jwt_role', btoa(JSON.stringify('')));
     },
     GET_PROFILE_FAIL (state) {
         localStorage.removeItem('jwt_token');

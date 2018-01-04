@@ -11,8 +11,8 @@
 					:loading="pending"
 					:disabled="pending"
 			>
-				<span>Edit</span>
-				<span slot="loader">Sending...</span>
+				<span>Редактировать</span>
+				<span slot="loader">Отправка...</span>
 			</v-btn>
 		</v-toolbar>
 
@@ -39,7 +39,7 @@
 					<v-layout row class="mt-3">
 						<v-flex xs12>
 							<v-text-field
-									label="Title"
+									label="Заголовок"
 									v-model="newsItem.title"
 									required
 									counter="255"
@@ -83,7 +83,7 @@
 							>
 								<v-text-field
 										slot="activator"
-										label="News date"
+										label="Дата"
 										v-model="newsItem.date"
 										prepend-icon="event"
 										readonly
@@ -98,7 +98,7 @@
 					<v-layout row>
 						<v-flex xs12 class="mt-3">
 							<v-checkbox
-									label="Will news be active?"
+									label="Новость будет активной?"
 									v-model="newsItem.active"
 									:disabled="pending"
 									light

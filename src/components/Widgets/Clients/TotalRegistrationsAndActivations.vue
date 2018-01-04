@@ -30,20 +30,20 @@
         data () {
             return {
                 period: {
-                    name: 'by last week',
+                    name: 'последняя неделя',
                     value: 'week'
                 },
                 periodItems: [
 					{
-					    name: 'by last week',
+					    name: 'последняя неделя',
 						value: 'week'
 					},
                     {
-                        name: 'by last 12 months',
+                        name: 'последние 12 месяцев',
                         value: 'month'
                     },
                     {
-                        name: 'by all years',
+                        name: 'за все время',
                         value: 'year'
                     }
 				],
@@ -52,10 +52,10 @@
                         type: 'spline'
                     },
                     title: {
-                        text: 'Registrations and activations'
+                        text: 'Регистрации и активации'
                     },
                     subtitle: {
-                        text: 'All registrations and activations by periods'
+                        text: 'Все регистрации и активации относительно периода'
                     },
                     yAxis: {
                         title: {
@@ -89,7 +89,7 @@
                 this.$refs.lineCharts.removeSeries();
 
                 let lineCharts = this.$refs.lineCharts;
-                lineCharts.delegateMethod('showLoading', 'Loading...');
+                lineCharts.delegateMethod('showLoading', 'Загрузка...');
 
                 this.totalRegistrationsAndActivations(this.period.value).then(() => {
 					lineCharts.getChart().xAxis[0].setCategories(this.totalRegistrationsAndActivationsItems.categories);

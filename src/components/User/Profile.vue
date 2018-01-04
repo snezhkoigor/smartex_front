@@ -11,8 +11,8 @@
 					:loading="pending"
 					:disabled="pending"
 			>
-				<span>Save</span>
-				<span slot="loader">Sending...</span>
+				<span>Сохранить</span>
+				<span slot="loader">Отправка...</span>
 			</v-btn>
 		</v-toolbar>
 
@@ -41,14 +41,14 @@
 						</v-flex>
 						<v-flex xs12 sm9 md9>
 							<v-text-field
-									label="First name"
+									label="Имя"
 									v-model="currentProfile.first_name"
 									:disabled="pending"
 									:error-messages="errors && errors.first_name ? errors.first_name[0] : []"
 									:error="errors && !!errors.first_name"
 							></v-text-field>
 							<v-text-field
-									label="Last name"
+									label="Фамилия"
 									v-model="currentProfile.last_name"
 									:disabled="pending"
 									:error-messages="errors && errors.last_name ? errors.last_name[0] : []"

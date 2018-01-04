@@ -5,7 +5,6 @@
                     centered
                     color="teal"
                     v-model="active"
-                    slider-color="yellow"
                     dark
                     fixed-tabs
             >
@@ -31,7 +30,7 @@
                                         required
                                 ></v-text-field>
                                 <v-text-field
-                                        label="Password"
+                                        label="Пароль"
                                         v-model="password"
                                         v-on:keyup.enter="singIn()"
                                         :append-icon="visiblePassword ? 'visibility_off' : 'visibility'"
@@ -47,8 +46,8 @@
                                         :loading="pending"
                                         :disabled="pending"
                                 >
-                                    <span class="white--text">Sing In</span>
-                                    <span slot="loader">Sending...</span>
+                                    <span class="white--text">Авторизация</span>
+                                    <span slot="loader">Отправка...</span>
                                 </v-btn>
                             </v-form>
                         </v-card-text>
@@ -73,12 +72,12 @@
 				tabs: [
 					{
 					  name: 'login',
-					  title: 'Sing In'
+					  title: 'Авторизация'
 					},
-					{
-					  name: 'passwordReset',
-					  title: 'Forget?'
-					}
+					// {
+					//   name: 'passwordReset',
+					//   title: 'Forget?'
+					// }
 				],
 				active: 'login'
 			}
