@@ -30,12 +30,12 @@
         data () {
             return {
                 period: {
-                    name: 'by last week',
+                    name: 'by last 7 days',
                     value: 'week'
                 },
                 periodItems: [
 					{
-					    name: 'by last week',
+					    name: 'by last 7 days',
 						value: 'week'
 					},
                     {
@@ -43,7 +43,7 @@
                         value: 'month'
                     },
                     {
-                        name: 'by all years',
+                        name: 'all',
                         value: 'year'
                     }
 				],
