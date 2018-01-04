@@ -2,7 +2,7 @@
 <template>
 	<div>
 		<div class="settings">
-			<v-menu bottom class="mr-3">
+			<v-menu bottom class="mr-4">
 				<v-btn icon slot="activator">
 					<v-icon>mdi-calendar-range</v-icon>
 				</v-btn>
