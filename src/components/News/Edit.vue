@@ -2,7 +2,7 @@
 	<div>
 		<v-toolbar card color="white" prominent>
 			<v-toolbar-title class="page-title title grey--text title-tool-bar">
-				<router-link class="breadcrumbs-link" :to="{ name: 'newsList'}">News</router-link> / {{ this.$router.currentRoute.meta.title }}
+				<router-link class="breadcrumbs-link" :to="{ name: 'newsList'}">Новости</router-link> / {{ this.$router.currentRoute.meta.title }}
 			</v-toolbar-title>
 			<v-spacer></v-spacer>
 			<v-btn
