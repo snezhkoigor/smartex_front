@@ -25,7 +25,7 @@
 
 			<div class="d-flex align-center" style="margin-left: auto;">
 				<v-menu bottom left>
-					<v-btn flat slot="activator" dark>
+					<v-btn flat slot="activator" dark class="user-menu">
 						<v-icon large dark v-if="!profile.avatar">fa-grav</v-icon>
 						<v-avatar
 								size="36px"

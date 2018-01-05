@@ -67,10 +67,10 @@
 	.card--flex-toolbar {
 		margin-top: -46px;
 	}
-	/*.menu .btn {*/
-		/*margin-top: -2px;*/
-		/*height: 50px !important*/
-	/*}*/
+	.menu .user-menu {
+		margin-top: -2px;
+		height: 50px !important
+	}
 	.fio {
 		margin-left: 10px;
 		font-size: 11px;
