@@ -2,9 +2,6 @@ import axios from 'axios';
 
 let instance = axios.create({
     baseURL: (process.env.NODE_ENV === 'production' ? 'http://smartexapi.vlevels.ru/api' : 'http://api.smartex/api'),
-    headers: {
-        Authorization: 'Bearer ' + localStorage.getItem('jwt_token')
-    },
     validateStatus: function (status) {
         return status >= 200 && status < 500; // default
     },
@@ -17,7 +14,11 @@ let instance = axios.create({
     // }],
     // `timeout` specifies the number of milliseconds before the request times out.
     // If the request takes longer than `timeout`, the request will be aborted.
-    // timeout: 1000,
+    timeout: 5000, // 5 sec
+    // `cancelToken` specifies a cancel token that can be used to cancel the request
+    // (see Cancellation section below for details)
+    // cancelToken: new CancelToken(function (cancel) {
+    // })
 });
 
 export default {

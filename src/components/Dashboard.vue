@@ -6,7 +6,7 @@
 			</v-toolbar-title>
 		</v-toolbar>
 
-		<v-divider></v-divider>
+		<v-divider />
 
 		<v-card-text>
 			<v-container grid-list-md fluid>

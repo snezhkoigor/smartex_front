@@ -53,13 +53,13 @@ const actions = {
 
                 ErrorsHelper.goByStatusCode(500, router);
             })
-        })
+        });
     },
-    getProfile({ commit }) {
+    getProfile({ commit }, requestParams) {
         return new Promise((resolve, reject) => {
             commit(GET_PROFILE);
 
-            api.getProfile().then(response => {
+            api.getProfile(requestParams).then(response => {
                 if (HttpHelper.checkIsOkAnswerStatus(response.status)) {
                     commit(GET_PROFILE_SUCCESS, response.data);
                     resolve(response);

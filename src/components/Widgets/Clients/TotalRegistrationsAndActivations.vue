@@ -17,7 +17,7 @@
 			</v-btn>
 		</div>
 		<div class="chart-box">
-			<vue-highcharts :options="options" ref="lineCharts"></vue-highcharts>
+			<vue-highcharts :options="options" ref="lineCharts" />
 		</div>
 	</div>
 </template>

@@ -4,7 +4,7 @@
 			<v-toolbar-title class="page-title title grey--text title-tool-bar">
 				{{ this.$router.currentRoute.meta.title }}
 			</v-toolbar-title>
-			<v-spacer></v-spacer>
+			<v-spacer />
 			<v-btn icon @click.native="goToAddNews()">
 				<v-icon>mdi-playlist-plus</v-icon>
 			</v-btn>
@@ -13,9 +13,9 @@
 			</v-btn>
 		</v-toolbar>
 
-		<v-progress-linear class="pending" v-if="pending" v-bind:indeterminate="pending"></v-progress-linear>
+		<v-progress-linear class="pending" v-if="pending" v-bind:indeterminate="pending" />
 
-		<v-divider></v-divider>
+		<v-divider />
 
 		<v-card-text>
 			<v-layout row-md wrap>
@@ -40,18 +40,8 @@
 					:total-items="totalItems"
 					:rows-per-page-items="perPage"
 					class="elevation-0 mt-5"
+					must-sort
 			>
-				<template slot="headers" slot-scope="props">
-					<tr>
-						<th v-for="header in props.headers" :key="header.text"
-								:class="['column sortable', pagination.descending ? 'desc' : 'asc', header.value === pagination.sortBy ? 'active' : '']"
-								@click="changeSort(header.value)"
-						>
-							<v-icon>arrow_upward</v-icon>
-							{{ header.text }}
-						</th>
-					</tr>
-				</template>
 				<template slot="items" slot-scope="props">
 					<tr :class="{'': props.item.active, 'red lighten-3': !props.item.active}"
 						class="news-table-list"
@@ -103,7 +93,8 @@
         data () {
             return {
                 pagination: {
-                    sortBy: 'date'
+                    sortBy: 'date',
+                    descending: true
                 },
 
                 news: {},
@@ -130,14 +121,18 @@
         },
         watch: {
             pagination: {
-                handler () {
-                    this.getListNews();
+                handler: function (val, oldVal) {
+                    console.log(oldVal);
+                    console.log(val);
+                    if (JSON.stringify(val) !== JSON.stringify(oldVal)) {
+                        this.getListNews();
+					}
                 },
                 deep: true
             }
         },
         mounted() {
-            this.pagination.descending = true;
+            // this.pagination.descending = true;
         },
         computed: {
             ...mapGetters('News', [
@@ -178,18 +173,11 @@
                 this.list(HttpHelper.getPaginationParam(pagination)).then(response => {
 					this.items = this.newsList;
 					this.totalItems = this.meta.count ? this.meta.count : 0;
+					this.needCallListMethod = false;
                 }).catch(errors => {
                     this.errors = errors;
                 });
 			},
-            changeSort (column) {
-                if (this.pagination.sortBy === column) {
-                    this.pagination.descending = !this.pagination.descending;
-                } else {
-                    this.pagination.sortBy = column;
-                    this.pagination.descending = false;
-                }
-            },
             closeDeleteDialog() {
             	this.dialogDelete = false;
                 this.news = {};

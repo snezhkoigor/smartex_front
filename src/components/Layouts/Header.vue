@@ -34,7 +34,7 @@
 							<img :src="profile.avatar_link" />
 						</v-avatar>
 						<div>
-							<div class="fio">{{this.profile.first_name}} {{this.profile.last_name}}</div>
+							<div class="fio">{{this.profile.name}} {{this.profile.family}}</div>
 							<div class="role">
 								<span v-for="roleItem in this.role" :key="roleItem.name">{{roleItem.displayName}}&nbsp;</span>
 							</div>
@@ -66,7 +66,7 @@
 								<v-list-tile-title>
 									Log Out
 								</v-list-tile-title>
-								<v-list-tile-sub-title></v-list-tile-sub-title>
+								<v-list-tile-sub-title />
 							</v-list-tile-content>
 						</v-list-tile>
 					</v-list>

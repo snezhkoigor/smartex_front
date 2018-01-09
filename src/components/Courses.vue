@@ -4,14 +4,15 @@
 			<v-toolbar-title class="page-title title grey--text title-tool-bar">
 				{{ this.$router.currentRoute.meta.title }}
 			</v-toolbar-title>
-			<v-spacer></v-spacer>
+			<v-spacer />
 			<v-btn icon @click.native="getListCourses()">
 				<v-icon>refresh</v-icon>
 			</v-btn>
-			<v-progress-linear class="pending" v-if="pending" v-bind:indeterminate="pending"></v-progress-linear>
 		</v-toolbar>
 
-		<v-divider></v-divider>
+		<v-progress-linear class="pending" v-if="pending" v-bind:indeterminate="pending" />
+
+		<v-divider />
 
 		<v-card-text>
 			<v-layout row-md wrap>
@@ -108,7 +109,10 @@
     export default {
         data () {
             return {
-                pagination: {},
+                pagination: {
+                    orderBy: 'date',
+                    descending: true,
+				},
 
 				filters: {
                     date: ''
@@ -140,13 +144,16 @@
         },
         watch: {
             pagination: {
-                handler () {
-                    this.getListCourses();
-                }
+                handler: function (val, oldVal) {
+                    if (JSON.stringify(val) !== JSON.stringify(oldVal)) {
+                        this.getListCourses();
+                    }
+                },
+                deep: true
             }
         },
         mounted() {
-            this.pagination.descending = true;
+
         },
         computed: {
             ...mapGetters('Course', [

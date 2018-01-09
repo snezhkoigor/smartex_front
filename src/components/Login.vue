@@ -95,7 +95,7 @@
 			singIn () {
                 this.login({ email: this.email, password: this.password }).then(() => {
 				    this.errors = [];
-                    this.getProfile().then(() => {
+                    this.getProfile({include: 'roles'}).then(() => {
                         this.$router.push({
                             name: 'dashboard'
                         });

@@ -4,7 +4,7 @@
 			<v-toolbar-title class="page-title title grey--text title-tool-bar">
 				{{ this.$router.currentRoute.meta.title }}
 			</v-toolbar-title>
-			<v-spacer></v-spacer>
+			<v-spacer />
 			<v-btn
 					flat
 					@click="profileSave()"
@@ -16,9 +16,9 @@
 			</v-btn>
 		</v-toolbar>
 
-		<v-progress-linear class="pending" v-if="pending" v-bind:indeterminate="pending"></v-progress-linear>
+		<v-progress-linear class="pending" v-if="pending" v-bind:indeterminate="pending" />
 
-		<v-divider></v-divider>
+		<v-divider />
 
 		<v-container>
 			<v-form ref="profileForm">
@@ -26,6 +26,7 @@
 					<v-layout row-md wrap>
 						<v-flex xs12 sm3 md3>
 							<picture-input
+									@change="onChangeAvatarImage"
 									ref="pictureInput"
 									:margin="pictureInput.margin"
 									:accept="pictureInput.accept"
@@ -42,17 +43,17 @@
 						<v-flex xs12 sm9 md9>
 							<v-text-field
 									label="First name"
-									v-model="currentProfile.first_name"
+									v-model="currentProfile.name"
 									:disabled="pending"
-									:error-messages="errors && errors.first_name ? errors.first_name[0] : []"
-									:error="errors && !!errors.first_name"
+									:error-messages="errors && errors.name ? errors.name[0] : []"
+									:error="errors && !!errors.name"
 							></v-text-field>
 							<v-text-field
 									label="Last name"
-									v-model="currentProfile.last_name"
+									v-model="currentProfile.family"
 									:disabled="pending"
-									:error-messages="errors && errors.last_name ? errors.last_name[0] : []"
-									:error="errors && !!errors.last_name"
+									:error-messages="errors && errors.family ? errors.family[0] : []"
+									:error="errors && !!errors.family"
 							></v-text-field>
 							<v-text-field
 									label="Email"
@@ -111,8 +112,14 @@
                 errors: [],
                 loader: null,
 
-                pictureInput: AppConfig.pictureInput,
-				currentProfile: {}
+                pagination: {
+                    include: 'roles'
+                },
+
+				pictureInput: AppConfig.pictureInput,
+				currentProfile: {},
+
+				avatarImageChanged: false
             }
         },
         components: {
@@ -131,15 +138,18 @@
             ...mapActions('User', [
                 'add', 'updateProfile', 'getProfile'
             ]),
+            onChangeAvatarImage() {
+            	this.avatarImageChanged = true;
+			},
             getUserProfile () {
-                this.getProfile().then(() => {
+                this.getProfile(this.pagination).then(() => {
                     this.currentProfile = this.setCurrentProfile();
 				});
 			},
 			setCurrentProfile() {
               	return {
-              	    first_name: this.profile.first_name,
-                    last_name: this.profile.last_name,
+              	    name: this.profile.name,
+                    family: this.profile.family,
                     email: this.profile.email,
                     new_password: '',
                     current_password: '',
@@ -148,17 +158,13 @@
 				}
 			},
             profileSave() {
-                // console.log(this.$refs.pictureInput.image);
-
-				if (this.$refs.pictureInput.image) {
+				if (this.$refs.pictureInput.image && this.avatarImageChanged) {
 				    this.currentProfile.logo_64_base = this.$refs.pictureInput.image;
 				}
 
                 this.updateProfile(this.currentProfile).then(response => {
                     this.errors = [];
-                    this.getProfile().then(() => {
-                        this.currentProfile = this.setCurrentProfile();
-					});
+                    this.getUserProfile();
                 }).catch(errors => {
                     this.errors = errors;
                 });

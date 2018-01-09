@@ -177,13 +177,11 @@ const mutations = {
         state.pending = false;
         state.newsList = [];
         state.news = responseData.data;
-        state.meta = null;
     },
     GET_NEWS_BY_ID_FAIL (state) {
         state.pending = false;
         state.newsList = [];
         state.news = null;
-        state.meta = null;
     },
 
     NEWS_ADD (state) {

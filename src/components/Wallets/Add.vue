@@ -4,7 +4,7 @@
 			<v-toolbar-title class="page-title title grey--text title-tool-bar">
 				<router-link class="breadcrumbs-link" :to="{ name: 'walletsList'}">Wallets</router-link> / {{ this.$router.currentRoute.meta.title }}
 			</v-toolbar-title>
-			<v-spacer></v-spacer>
+			<v-spacer />
 			<v-btn
 					flat
 					@click="addWallet()"
@@ -26,9 +26,9 @@
 			</v-btn>
 		</v-toolbar>
 
-		<v-progress-linear class="pending" v-if="isPending()" v-bind:indeterminate="isPending()"></v-progress-linear>
+		<v-progress-linear class="pending" v-if="isPending()" v-bind:indeterminate="isPending()" />
 
-		<v-divider></v-divider>
+		<v-divider />
 
 		<v-container>
 			<v-form ref="walletForm">
@@ -175,7 +175,7 @@
 						</p>
 					</v-card-text>
 					<v-card-actions>
-						<v-spacer></v-spacer>
+						<v-spacer />
 						<v-btn color="green darken-1" flat="flat" @click="closeCheckWalletDialog()">
 							Ok
 						</v-btn>

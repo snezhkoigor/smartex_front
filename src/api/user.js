@@ -16,12 +16,12 @@ export default {
 
         return HTTP.get('logout', {headers: headers});
     },
-    getProfile() {
+    getProfile(requestParams) {
         let headers = {
             Authorization: 'Bearer ' + localStorage.getItem('jwt_token')
         };
 
-        return HTTP.get('/me', { headers: headers });
+        return HTTP.get('/me', { params: requestParams, headers: headers });
     },
     updateProfile(profile) {
         let headers = {

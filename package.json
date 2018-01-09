@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "axios": "^0.17.1",
+    "axios-cancel": "^0.2.2",
     "chart.js": "^2.7.1",
     "froala-editor": "^2.7.2",
     "jquery": "^3.2.1",
@@ -25,7 +26,7 @@
     "vue-router": "^3.0.1",
     "vue-truncate-filter": "^1.1.7",
     "vue2-highcharts": "^1.1.6",
-    "vuetify": "^1.0.0-beta.1",
+    "vuetify": "^1.0.0-beta.2",
     "vuex": "^3.0.1",
     "vuex-persistedstate": "^2.4.2",
     "vuex-router-sync": "^5.0.0"

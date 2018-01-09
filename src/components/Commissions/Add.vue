@@ -4,7 +4,7 @@
 			<v-toolbar-title class="page-title title grey--text title-tool-bar">
 				<router-link class="breadcrumbs-link" :to="{ name: 'commissionsList'}">Commissions</router-link> / {{ this.$router.currentRoute.meta.title }}
 			</v-toolbar-title>
-			<v-spacer></v-spacer>
+			<v-spacer />
 			<v-btn
 					flat
 					@click="addCommission()"
@@ -16,9 +16,9 @@
 			</v-btn>
 		</v-toolbar>
 
-		<v-progress-linear class="pending" v-if="pending" v-bind:indeterminate="pending"></v-progress-linear>
+		<v-progress-linear class="pending" v-if="pending" v-bind:indeterminate="pending" />
 
-		<v-divider></v-divider>
+		<v-divider />
 
 		<v-container>
 			<v-form ref="commissionForm">

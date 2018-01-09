@@ -15,6 +15,9 @@ import CommissionsIndex from '@/components/Commissions/Index';
 import CommissionsList from '@/components/Commissions/List';
 import CommissionAdd from '@/components/Commissions/Add';
 import CommissionEdit from '@/components/Commissions/Edit';
+import ActivityLogsIndex from '@/components/ActivityLogs/Index';
+import ActivityLogsList from '@/components/ActivityLogs/List';
+import ActivityLogShow from '@/components/ActivityLogs/Show';
 
 import NoAuth from '@/components/Layouts/NoAuth';
 
@@ -56,13 +59,11 @@ export default new Router({
         },
         {
             path: '/news',
-            name: 'news',
             component: NewsIndex,
             beforeEnter: AuthGuard,
             meta: {
                 role: [
-                    Config.access.admin,
-                    Config.access.operator
+                    Config.access.admin
                 ],
                 title: 'News',
                 menuName: 'News',
@@ -77,8 +78,7 @@ export default new Router({
                     beforeEnter: AuthGuard,
                     meta: {
                         role: [
-                            Config.access.admin,
-                            Config.access.operator
+                            Config.access.admin
                         ],
                         title: 'Add'
                     }
@@ -90,8 +90,7 @@ export default new Router({
                     beforeEnter: AuthGuard,
                     meta: {
                         role: [
-                            Config.access.admin,
-                            Config.access.operator
+                            Config.access.admin
                         ],
                         title: 'Edit'
                     }
@@ -103,8 +102,7 @@ export default new Router({
                     beforeEnter: AuthGuard,
                     meta: {
                         role: [
-                            Config.access.admin,
-                            Config.access.operator
+                            Config.access.admin
                         ],
                         title: 'News'
                     }
@@ -118,8 +116,7 @@ export default new Router({
             beforeEnter: AuthGuard,
             meta: {
                 role: [
-                    Config.access.admin,
-                    Config.access.operator
+                    Config.access.admin
                 ],
                 title: 'Courses',
                 menuName: 'Courses',
@@ -129,13 +126,11 @@ export default new Router({
         },
         {
             path: '/wallets',
-            name: 'wallets',
             component: WalletsIndex,
             beforeEnter: AuthGuard,
             meta: {
                 role: [
-                    Config.access.admin,
-                    Config.access.operator
+                    Config.access.admin
                 ],
                 title: 'Wallets',
                 menuName: 'Wallets',
@@ -150,8 +145,7 @@ export default new Router({
                     beforeEnter: AuthGuard,
                     meta: {
                         role: [
-                            Config.access.admin,
-                            Config.access.operator
+                            Config.access.admin
                         ],
                         title: 'Add'
                     }
@@ -163,8 +157,7 @@ export default new Router({
                     beforeEnter: AuthGuard,
                     meta: {
                         role: [
-                            Config.access.admin,
-                            Config.access.operator
+                            Config.access.admin
                         ],
                         title: 'Edit'
                     }
@@ -176,8 +169,7 @@ export default new Router({
                     beforeEnter: AuthGuard,
                     meta: {
                         role: [
-                            Config.access.admin,
-                            Config.access.operator
+                            Config.access.admin
                         ],
                         title: 'Wallets'
                     }
@@ -186,13 +178,11 @@ export default new Router({
         },
         {
             path: '/commissions',
-            name: 'commissions',
             component: CommissionsIndex,
             beforeEnter: AuthGuard,
             meta: {
                 role: [
-                    Config.access.admin,
-                    Config.access.operator
+                    Config.access.admin
                 ],
                 title: 'Commissions',
                 menuName: 'Commissions',
@@ -207,8 +197,7 @@ export default new Router({
                     beforeEnter: AuthGuard,
                     meta: {
                         role: [
-                            Config.access.admin,
-                            Config.access.operator
+                            Config.access.admin
                         ],
                         title: 'Add'
                     }
@@ -220,8 +209,7 @@ export default new Router({
                     beforeEnter: AuthGuard,
                     meta: {
                         role: [
-                            Config.access.admin,
-                            Config.access.operator
+                            Config.access.admin
                         ],
                         title: 'Edit'
                     }
@@ -233,10 +221,49 @@ export default new Router({
                     beforeEnter: AuthGuard,
                     meta: {
                         role: [
-                            Config.access.admin,
-                            Config.access.operator
+                            Config.access.admin
                         ],
                         title: 'Commissions'
+                    }
+                }
+            ]
+        },
+        {
+            path: '/activity-logs',
+            component: ActivityLogsIndex,
+            beforeEnter: AuthGuard,
+            meta: {
+                role: [
+                    Config.access.admin
+                ],
+                title: 'Logs',
+                menuName: 'Logs',
+                menuIcon: 'mdi-archive'
+            },
+            menu: true,
+            children: [
+                {
+                    path: ':activityLogId',
+                    name: 'activityLogShow',
+                    component: ActivityLogShow,
+                    beforeEnter: AuthGuard,
+                    meta: {
+                        role: [
+                            Config.access.admin
+                        ],
+                        title: 'Show'
+                    }
+                },
+                {
+                    path: '',
+                    name: 'activityLogList',
+                    component: ActivityLogsList,
+                    beforeEnter: AuthGuard,
+                    meta: {
+                        role: [
+                            Config.access.admin
+                        ],
+                        title: 'Logs'
                     }
                 }
             ]
@@ -297,7 +324,6 @@ export default new Router({
         },
         {
             path: '/login',
-            name: 'loginPage',
             component: NoAuth,
             meta: {},
             menu: false,
@@ -312,7 +338,6 @@ export default new Router({
         },
         {
             path: '/password-reset',
-            name: 'passwordResetPage',
             component: NoAuth,
             meta: {},
             menu: false,

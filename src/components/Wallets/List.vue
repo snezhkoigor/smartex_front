@@ -295,7 +295,8 @@
 			getDefaultPagination() {
                 return {
                     q: '',
-                    filters: {}
+                    filters: {},
+                    include: 'paymentSystem'
 				}
 			},
             getWalletsList() {
@@ -307,8 +308,6 @@
                 if (this.filterByCurrency.length > 0) {
                     pagination.filters.currency = this.filterByCurrency;
                 }
-
-                pagination.include = 'paymentSystem';
 
                 this.list(HttpHelper.getPaginationParam(pagination));
 			},

@@ -145,9 +145,7 @@
                 loader: null,
             }
         },
-        mounted() {
-            this.getCommissionsList();
-        },
+        mounted() {},
         computed: {
             ...mapGetters('Commission', [
                 'commissions', 'pending', 'meta'
@@ -155,8 +153,10 @@
         },
 		watch: {
             pagination: {
-                handler () {
-                    this.getCommissionsList();
+                handler: function (val, oldVal) {
+                    if (JSON.stringify(val) !== JSON.stringify(oldVal)) {
+                        this.getCommissionsList();
+                    }
                 },
                 deep: true
             },
@@ -214,7 +214,8 @@
 			getDefaultPagination() {
                 return {
                     q: '',
-                    filters: {}
+                    filters: {},
+                    include: 'paymentSystem,wallet,wallet.paymentSystem'
 				}
 			},
             getCommissionsList() {
@@ -229,8 +230,6 @@
                 if (this.search.length > 0) {
                     pagination.q = this.search;
                 }
-
-                pagination.include = 'paymentSystem,wallet,wallet.paymentSystem';
 
                 this.list(HttpHelper.getPaginationParam(pagination)).then(() => {
                     this.items = this.commissions;

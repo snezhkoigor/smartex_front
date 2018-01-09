@@ -2,9 +2,9 @@
 	<div>
 		<v-toolbar card color="white" prominent>
 			<v-toolbar-title class="page-title title grey--text title-tool-bar">
-				<router-link class="breadcrumbs-link" :to="{ name: 'newsList'}">News</router-link> / {{ this.$router.currentRoute.meta.title }}
+				<router-link class="breadcrumbs-link" :to="{ name: 'newsList'}">News</router-link> <span v-if="newsItem">/ {{ newsItem.title | truncate(35) }}</span>
 			</v-toolbar-title>
-			<v-spacer></v-spacer>
+			<v-spacer />
 			<v-btn
 					flat
 					@click="newsEdit()"
@@ -16,9 +16,9 @@
 			</v-btn>
 		</v-toolbar>
 
-		<v-progress-linear class="pending" v-if="pending" v-bind:indeterminate="pending"></v-progress-linear>
+		<v-progress-linear class="pending" v-if="pending" v-bind:indeterminate="pending" />
 
-		<v-divider></v-divider>
+		<v-divider />
 
 		<v-container>
 			<v-form ref="newsForm">

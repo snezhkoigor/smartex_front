@@ -27,14 +27,7 @@
     export default {
         data: () => ({
             drawer: false
-        }),
-        methods: {
-            goToMenu(pathName) {
-                this.$router.push({
-                    name: pathName
-                });
-            }
-        }
+        })
     }
 </script>
 
