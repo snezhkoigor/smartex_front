@@ -29,7 +29,7 @@ export default {
             Authorization: 'Bearer ' + localStorage.getItem('token')
         }
 
-        return HTTP.post('/news/' + news.id, news, {headers: headers})
+        return HTTP.put('/news/' + news.id, news, {headers: headers})
     },
     delete (news) {
         let headers = {

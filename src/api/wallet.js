@@ -36,7 +36,7 @@ export default {
             Authorization: 'Bearer ' + localStorage.getItem('token')
         }
 
-        return HTTP.post('/wallets/' + wallet.id, wallet, {headers: headers})
+        return HTTP.put('/wallets/' + wallet.id, wallet, {headers: headers})
     },
     check (wallet) {
         let headers = {

@@ -28,7 +28,7 @@ export default {
             Authorization: 'Bearer ' + localStorage.getItem('token')
         }
 
-        return HTTP.post('/me', profile, { headers: headers })
+        return HTTP.put('/me', profile, { headers: headers })
     },
     resetPassword (email) {
         return HTTP.post('/user/password/reset', {
