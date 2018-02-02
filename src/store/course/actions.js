@@ -38,7 +38,7 @@ export const edit = ({commit}, course) => {
     return new Promise((resolve, reject) => {
         commit('SET_PENDING')
 
-        axios.post(
+        axios.put(
             '/courses/' + course.id,
             course,
             {

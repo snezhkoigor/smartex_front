@@ -68,7 +68,7 @@ export const updateProfile = ({ commit }, profile) => {
     return new Promise((resolve, reject) => {
         commit('SET_PENDING')
 
-        axios.post(
+        axios.put(
             '/me',
             profile,
             {

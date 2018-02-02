@@ -160,7 +160,7 @@ export const edit = ({commit}, wallet) => {
     return new Promise((resolve, reject) => {
         commit('SET_PENDING')
 
-        axios.post(
+        axios.put(
             '/wallets/' + wallet.id,
             wallet,
             {

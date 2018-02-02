@@ -99,7 +99,7 @@ export const edit = ({commit}, news) => {
     return new Promise((resolve, reject) => {
         commit('SET_PENDING')
 
-        axios.post(
+        axios.put(
             '/news/' + news.id,
             news,
             {

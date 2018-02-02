@@ -129,7 +129,7 @@ export const edit = ({commit}, commission) => {
     return new Promise((resolve, reject) => {
         commit('SET_PENDING')
 
-        axios.post(
+        axios.put(
             '/commissions/' + commission.id,
             commission,
             {
