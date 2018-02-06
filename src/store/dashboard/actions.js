@@ -18,8 +18,7 @@ export const totalRegistrations = ({ commit }) => {
             if (httpHelper.checkIsOkAnswerStatus(response.status)) {
                 commit('GET_TOTAL_REGISTRATIONS_SUCCESS', response.data)
                 resolve(response)
-            }
-            else {
+            } else {
                 commit('GET_TOTAL_REGISTRATIONS_FAIL')
                 reject(errorsHelper.getMessage(response))
 
@@ -49,8 +48,7 @@ export const totalRegistrationsAndActivations = ({ commit }, period) => {
             if (httpHelper.checkIsOkAnswerStatus(response.status)) {
                 commit('GET_TOTAL_REGISTRATIONS_AND_ACTIVATIONS_SUCCESS', response.data)
                 resolve(response)
-            }
-            else {
+            } else {
                 commit('GET_TOTAL_REGISTRATIONS_AND_ACTIVATIONS_FAIL')
                 reject(errorsHelper.getMessage(response))
 
