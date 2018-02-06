@@ -36,7 +36,7 @@ export default {
             Authorization: 'Bearer ' + localStorage.getItem('jwt_token')
         };
 
-        return HTTP.post('/commissions/' + commission.id, commission, {headers: headers});
+        return HTTP.put('/commissions/' + commission.id, commission, {headers: headers});
     },
     delete(commission) {
         let headers = {

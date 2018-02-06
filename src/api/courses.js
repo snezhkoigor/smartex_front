@@ -15,6 +15,6 @@ export default {
             Authorization: 'Bearer ' + localStorage.getItem('jwt_token')
         };
 
-        return HTTP.post('/courses/' + course.id, course, {headers: headers});
+        return HTTP.put('/courses/' + course.id, course, {headers: headers});
     }
 }
