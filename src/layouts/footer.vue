@@ -13,7 +13,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     .bg-footer {
         margin-top: 2px;
         background-color: white;

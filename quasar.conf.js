@@ -4,7 +4,12 @@ module.exports = function (ctx) {
     return {
         plugins: [
             'i18n',
-            'axios'
+            'axios',
+            'truncate',
+            'currency',
+            'moment',
+            'jsonPretty',
+            'froala'
         ],
         css: [
             'app.styl'
@@ -60,20 +65,20 @@ module.exports = function (ctx) {
                 'QItem',
                 'QItemMain',
                 'QItemSide',
-                'QAjaxBar',
                 'QPopover',
                 'QTabs',
                 'QRouteTab',
-                'QField',
-                'QInput',
                 'QCardMain',
-                'QCardTitle'
+                'QCardTitle',
+                'QInnerLoading',
+                'QSpinnerDots'
             ],
             directives: [
                 'Ripple'
             ],
             plugins: [
-                'Notify'
+                'Notify',
+                'Dialog'
             ]
         },
         // animations: 'all' --- includes all animations

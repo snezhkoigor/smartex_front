@@ -23,95 +23,95 @@
 </template>
 
 <script>
-    import { mapGetters, mapActions } from 'vuex'
-    import VueHighcharts from 'vue2-highcharts'
+import { mapGetters, mapActions } from 'vuex'
+import VueHighcharts from 'vue2-highcharts'
 
-    export default {
-        data () {
-            return {
-                period: {
+export default {
+    data () {
+        return {
+            period: {
+                name: 'by last 7 days',
+                value: 'week'
+            },
+            periodItems: [
+                {
                     name: 'by last 7 days',
                     value: 'week'
                 },
-                periodItems: [
-                    {
-                        name: 'by last 7 days',
-                        value: 'week'
-                    },
-                    {
-                        name: 'by last 12 months',
-                        value: 'month'
-                    },
-                    {
-                        name: 'all',
-                        value: 'year'
-                    }
-                ],
-                options: {
-                    chart: {
-                        type: 'spline'
-                    },
-                    title: {
-                        text: 'Registrations and activations'
-                    },
-                    subtitle: {
-                        text: 'All registrations and activations by periods'
-                    },
-                    yAxis: {
-                        title: {
-                            text: ''
-                        }
-                    },
-                    tooltip: {
-                        crosshairs: true,
-                        shared: true
-                    },
-                    credits: {
-                        enabled: false
-                    },
-                    series: []
+                {
+                    name: 'by last 12 months',
+                    value: 'month'
+                },
+                {
+                    name: 'all',
+                    value: 'year'
                 }
+            ],
+            options: {
+                chart: {
+                    type: 'spline'
+                },
+                title: {
+                    text: 'Registrations and activations'
+                },
+                subtitle: {
+                    text: 'All registrations and activations by periods'
+                },
+                yAxis: {
+                    title: {
+                        text: ''
+                    }
+                },
+                tooltip: {
+                    crosshairs: true,
+                    shared: true
+                },
+                credits: {
+                    enabled: false
+                },
+                series: []
             }
-        },
-        components: {
-            VueHighcharts
-        },
-        computed: {
-            ...mapGetters('Dashboard', [
-                'totalRegistrationsAndActivationsItems', 'totalRegistrationsAndActivationsPending'
-            ])
-        },
-        methods: {
-            ...mapActions('Dashboard', [
-                'totalRegistrationsAndActivations'
-            ]),
-            refresh () {
-                this.$refs.lineCharts.removeSeries()
+        }
+    },
+    components: {
+        VueHighcharts
+    },
+    computed: {
+        ...mapGetters('Dashboard', [
+            'totalRegistrationsAndActivationsItems', 'totalRegistrationsAndActivationsPending'
+        ])
+    },
+    methods: {
+        ...mapActions('Dashboard', [
+            'totalRegistrationsAndActivations'
+        ]),
+        refresh () {
+            this.$refs.lineCharts.removeSeries()
 
-                let lineCharts = this.$refs.lineCharts
-                lineCharts.delegateMethod('showLoading', 'Loading...')
+            let lineCharts = this.$refs.lineCharts
+            lineCharts.delegateMethod('showLoading', 'Loading...')
 
-                this.totalRegistrationsAndActivations(this.period.value).then(() => {
-                    lineCharts.getChart().xAxis[0].setCategories(this.totalRegistrationsAndActivationsItems.categories)
-                    lineCharts.addSeries(this.totalRegistrationsAndActivationsItems.registrations)
-                    lineCharts.addSeries(this.totalRegistrationsAndActivationsItems.activations)
-                    lineCharts.hideLoading()
-                }).catch(errors => {
-                    lineCharts.hideLoading()
-                })
-            },
-            setPeriod (period) {
-                this.period = period
-                this.refresh()
-            }
+            this.totalRegistrationsAndActivations(this.period.value).then(() => {
+                lineCharts.getChart().xAxis[0].setCategories(this.totalRegistrationsAndActivationsItems.categories)
+                lineCharts.addSeries(this.totalRegistrationsAndActivationsItems.registrations)
+                lineCharts.addSeries(this.totalRegistrationsAndActivationsItems.activations)
+                lineCharts.hideLoading()
+            }).catch(errors => {
+                lineCharts.hideLoading()
+            })
         },
-        mounted () {
+        setPeriod (period) {
+            this.period = period
             this.refresh()
         }
+    },
+    mounted () {
+        this.refresh()
     }
+}
 </script>
 
-<style>
+<style scoped>
     .settings {
         float: right
     }

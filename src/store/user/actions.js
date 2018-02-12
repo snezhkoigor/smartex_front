@@ -3,6 +3,68 @@ import errorsHelper from '../../helpers/errors'
 import httpHelper from '../../helpers/http'
 import router from '../../router/index'
 
+export const list = ({commit}, requestParams) => {
+    return new Promise((resolve, reject) => {
+        commit('SET_PENDING')
+
+        axios.get(
+            '/users',
+            {
+                params: requestParams,
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('token')
+                }
+            }
+        ).then(response => {
+            if (httpHelper.checkIsOkAnswerStatus(response.status)) {
+                commit('GET_USERS_LIST_SUCCESS', response.data)
+                resolve(response)
+            } else {
+                commit('GET_USERS_LIST_FAIL')
+                reject(errorsHelper.getMessage(response))
+
+                errorsHelper.goByStatusCode(response.status, router)
+            }
+        }, errors => {
+            commit('GET_USERS_LIST_FAIL')
+            reject(errors)
+
+            errorsHelper.goByStatusCode(500, router)
+        })
+    })
+}
+
+export const edit = ({commit}, user) => {
+    return new Promise((resolve, reject) => {
+        commit('SET_PENDING')
+
+        axios.put(
+            '/users/' + user.id,
+            user,
+            {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('token')
+                }
+            }
+        ).then(response => {
+            if (httpHelper.checkIsOkAnswerStatus(response.status)) {
+                commit('RESET_PENDING')
+                resolve(response)
+            } else {
+                commit('RESET_PENDING')
+                reject(errorsHelper.getMessage(response))
+
+                errorsHelper.goByStatusCode(response.status, router)
+            }
+        }, errors => {
+            commit('RESET_PENDING')
+            reject(errors)
+
+            errorsHelper.goByStatusCode(500, router)
+        })
+    })
+}
+
 export const login = ({ commit }, formData) => {
     return new Promise((resolve, reject) => {
         commit('SET_PENDING')
@@ -124,8 +186,37 @@ export const resetPassword = ({ commit }, email) => {
     })
 }
 
+export const remove = ({commit}, userId) => {
+    return new Promise((resolve, reject) => {
+        commit('SET_PENDING')
+
+        axios.delete(
+            '/users/' + userId,
+            {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('token')
+                }
+            }
+        ).then(response => {
+            if (httpHelper.checkIsOkAnswerStatus(response.status)) {
+                commit('RESET_PENDING')
+                resolve(response)
+            } else {
+                commit('RESET_PENDING')
+                reject(errorsHelper.getMessage(response))
+
+                errorsHelper.goByStatusCode(response.status, router)
+            }
+        }, errors => {
+            commit('RESET_PENDING')
+            reject(errors)
+
+            errorsHelper.goByStatusCode(500, router)
+        })
+    })
+}
+
 export const logout = ({ commit }) => {
-    console.log('1')
     commit('LOGOUT')
 }
 

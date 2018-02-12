@@ -1,41 +1,45 @@
 <template>
-    <div>
-        <v-toolbar card color="white" prominent>
-            <v-toolbar-title class="page-title title grey--text title-tool-bar">
+    <div class="logs">
+        <inner-loading-layout :pending="pending"></inner-loading-layout>
+        <div v-show="!pending">
+            <q-card-title>
                 <router-link class="breadcrumbs-link" :to="{ name: 'activityLogList'}">Logs</router-link> <span v-if="activityLog">/ {{ activityLog.description | truncate(35) }}</span>
-            </v-toolbar-title>
-        </v-toolbar>
-
-        <v-progress-linear class="pending" v-if="pending" v-bind:indeterminate="pending" />
-
-        <v-divider />
-
-        <v-container>
-            <vue-json-pretty :data="activityLog" v-if="activityLog"/>
-        </v-container>
+                <span slot="subtitle">{{ this.$router.currentRoute.meta.subtitle }}</span>
+            </q-card-title>
+            <q-card-main>
+                <div class="row logs-show">
+                    <vue-json-pretty :data="activityLog" v-if="activityLog"/>
+                </div>
+            </q-card-main>
+        </div>
     </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import VueJsonPretty from 'vue-json-pretty'
+import InnerLoadingLayout from '../../layouts/InnerLoading'
 
 export default {
     components: {
-        VueJsonPretty
+        VueJsonPretty,
+        InnerLoadingLayout
     },
     mounted () {
-        this.showLog(this.$route.params.activityLogId)
+        this.show(this.$route.params.activityLogId)
     },
     computed: {
-        ...mapGetters('ActivityLog', [
+        ...mapGetters('log', [
             'pending', 'activityLog'
         ])
     },
     methods: {
-        ...mapActions('ActivityLog', [
-            'showLog', 'list'
+        ...mapActions('log', [
+            'show'
         ])
     }
 }
 </script>
+
+<style scoped>
+</style>

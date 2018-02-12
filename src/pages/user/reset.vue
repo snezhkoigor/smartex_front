@@ -1,6 +1,7 @@
 <template>
     <!-- if you want automatic padding use "layout-padding" class -->
     <q-layout>
+        <q-ajax-bar ref="bar" :position="ajaxBarConfig.position" :reverse="ajaxBarConfig.reverse" :size="ajaxBarConfig.size" />
         <q-page-container>
             <q-page class="flex flex-center">
                 <div class="layout-padding reset-form">
@@ -33,6 +34,7 @@
                                             </q-field>
                                         </div>
                                     </div>
+
                                     <div class="row sign-in-btn">
                                         <div class="col-12">
                                             <q-btn color="secondary"
@@ -57,6 +59,8 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 
+import ajaxBarConfig from '../../config/ajaxBar'
+
 export default {
     data () {
         return {
@@ -75,7 +79,8 @@ export default {
                     title: 'Forget?'
                 }
             ],
-            active: 'passwordReset'
+            active: 'passwordReset',
+            ajaxBarConfig: ajaxBarConfig
         }
     },
     computed: {
@@ -104,7 +109,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     .reset-form {
         width: 450px;
     }

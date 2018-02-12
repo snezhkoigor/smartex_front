@@ -1,3 +1,15 @@
+export const users = (state) => {
+    return state.users
+}
+
+export const user = (state) => {
+    return state.user
+}
+
+export const meta = (state) => {
+    return state.meta
+}
+
 export const profile = (state) => {
     return state.profile
 }

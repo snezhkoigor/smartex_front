@@ -7,7 +7,8 @@
                     <!-- your content -->
                     <!-- Tabs -->
                     <div class="row justify-center vertical-middle">
-                        <div class="col-12">
+                        <inner-loading-layout :pending="pending"></inner-loading-layout>
+                        <div class="col-12" v-show="!pending">
                             <q-tabs color="secondary" inverted class="shadow-1" align="justify">
                                 <q-route-tab
                                     label="Sing in"
@@ -22,7 +23,7 @@
                                     slot="title"
                                 />
                                 <div class="form" color="light">
-                                    <div class="row">
+                                    <div class="row gutter-y-sm">
                                         <div class="col-12">
                                             <q-field :error-label="errors && errors.email ? errors.email : ''" :error="errors && !!errors.email">
                                                 <q-input v-model="email"
@@ -33,14 +34,14 @@
                                             </q-field>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row gutter-y-sm">
                                         <div class="col-12">
                                             <q-field :error-label="errors && errors.password ? errors.password : ''" :error="errors && !!errors.password">
                                                 <q-input v-model="password" @keyup.enter="singIn" type="password" float-label="Password" />
                                             </q-field>
                                         </div>
                                     </div>
-                                    <div class="row sign-in-btn">
+                                    <div class="row gutter-y-sm sign-in-btn">
                                         <div class="col-12">
                                             <q-btn color="secondary"
                                                 class="full-width"
@@ -64,8 +65,17 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 
+import { QField, QInput } from 'quasar'
+
+import InnerLoadingLayout from '../../layouts/InnerLoading'
+
 export default {
     name: 'PageLogin',
+    components: {
+        InnerLoadingLayout,
+        QField,
+        QInput
+    },
     data () {
         return {
             email: '',
@@ -100,7 +110,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     .login {
         width: 450px;
     }

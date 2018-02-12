@@ -1,5 +1,5 @@
 <template>
-    <div class="courses">
+    <div class="users">
         <inner-loading-layout :pending="pending"></inner-loading-layout>
         <div v-show="!pending">
             <q-card-title>
@@ -7,13 +7,13 @@
                 <span slot="subtitle">{{ this.$router.currentRoute.meta.subtitle }}</span>
                 <span slot="right">
                     <q-btn flat
-                           @click="getListNews()"
+                           @click="getUsersList()"
                            :disable="pending"
                     >
                         <q-icon name="refresh" />
                     </q-btn>
                     <q-btn flat
-                           @click="goToAddNews()"
+                           @click="goToAddUser()"
                            :disable="pending"
                     >
                         <q-icon name="add" />
@@ -21,31 +21,39 @@
                 </span>
             </q-card-title>
             <q-card-main>
-                <div class="row sm-gutter">
-                    <div class="col-12">
-                        <q-search v-on:keyup.enter="getListNews()"
-                                  v-model="search"
-                                  :disable="pending"
-                                  placeholder="Search by title"
-                                  suffix="Press enter to start search"
-                        />
+                <div class="gutter-sm">
+                    <div class="row gutter-sm">
+                        <div class="col-12">
+                            <q-search v-on:keyup.enter="getUsersList()"
+                                      v-model="search"
+                                      :disable="pending"
+                                      placeholder="Search by ID, Name, Family, e-mail"
+                                      suffix="Press enter to start search"
+                            />
+                        </div>
                     </div>
                 </div>
-                <div class="row news-table">
+                <div class="row users-table">
                     <div class="col-12">
                         <q-table
                                 class="shadow-1"
                                 :data="items"
                                 :columns="columns"
-                                row-key="name"
+                                row-key="id"
                                 :pagination.sync="serverPagination"
-                                @request="getListNews"
+                                @request="getUsersList"
                         >
                             <q-td slot="body-cell-date" slot-scope="props" :props="props">
                                 {{props.value | moment('DD.MM.YYYY')}}
                             </q-td>
+                            <q-td slot="body-cell-fio" slot-scope="props" :props="props">
+                                {{props.row.name + ' ' + props.row.family}}
+                            </q-td>
                             <q-td slot="body-cell-action" slot-scope="props" :props="props">
-                                <q-btn flat icon="edit" @click="goToEditNews(props.row)" />
+                                <q-btn flat icon="edit" @click="goToEditUser(props.row)" />
+                                <q-btn flat icon="payment" @click="goToUserTransactions(props.row)" />
+                                <q-btn flat icon="insert_comment" @click="goToUserComment(props.row)" />
+                                <q-btn flat :color="props.row.verification_ok ? 'secondary' : 'red'" :disable="props.row.verification_ok || props.row.verification_image === ''" icon="verified_user" @click="goToUserVerification(props.row)" />
                                 <q-btn flat color="red" icon="delete_forever" @click="openDeleteDialog(props.row)" />
                             </q-td>
                         </q-table>
@@ -65,7 +73,7 @@ import tableConfig from '../../config/table'
 import HttpHelper from '../../helpers/http'
 
 export default {
-    name: 'NewsListPage',
+    name: 'UsersListPage',
     components: {
         QSearch,
         QTable,
@@ -74,11 +82,17 @@ export default {
     },
     data () {
         return {
-            search: '',
-            items: [],
-            errors: [],
+            loading: true,
             serverPagination: this.getDefaultPagination(),
+            items: [],
+            search: '',
+            errors: [],
             columns: [
+                {
+                    name: 'id',
+                    label: 'ID',
+                    field: 'id'
+                },
                 {
                     name: 'date',
                     label: 'Date',
@@ -86,10 +100,20 @@ export default {
                     sortable: true
                 },
                 {
-                    name: 'title',
-                    label: 'Title',
-                    field: 'title',
-                    sort: false
+                    name: 'fio',
+                    label: 'Name',
+                    field: 'fio'
+                },
+                {
+                    name: 'email',
+                    label: 'E-mail',
+                    field: 'email'
+                },
+                {
+                    name: 'comment',
+                    label: 'Comment',
+                    field: 'comment',
+                    sortable: true
                 },
                 {
                     name: 'action',
@@ -100,27 +124,29 @@ export default {
         }
     },
     mounted () {
-        this.getListNews()
+        this.getUsersList()
     },
     computed: {
-        ...mapGetters('news', [
-            'pending', 'newsList', 'meta'
+        ...mapGetters('user', [
+            'users', 'pending', 'meta'
         ])
     },
     watch: {
         search: function (val) {
             if (val === '') {
-                this.getListNews()
+                this.getUsersList()
             }
         }
     },
     methods: {
-        ...mapActions('news', [
-            'list', 'remove'
+        ...mapActions('user', [
+            'remove', 'list', 'edit'
         ]),
         getDefaultPagination () {
             return {
                 q: '',
+                filters: {},
+                include: 'roles',
                 page: 1,
                 rowsPerPage: tableConfig.perPage,
                 rowsNumber: tableConfig.rowsNumber,
@@ -139,55 +165,78 @@ export default {
 
             return pagination
         },
-        goToAddNews () {
-            this.$router.push({
-                name: 'newsAdd'
-            })
-        },
-        goToEditNews (news) {
-            this.$router.push({
-                name: 'newsEdit',
-                params: { newsId: news.id }
-            })
-        },
-        clearSearchField () {
-            this.search = ''
-            this.getListNews()
-        },
-        openDeleteDialog (news) {
+        goToUserComment (user) {
+            let editUser = user
+
             this.$q.dialog({
-                title: 'Delete',
-                message: 'Are you sure that you want to delete the news ' + news.title + '?',
+                title: 'Change comment of user ' + user.name + ' ' + user.family,
+                message: '',
+                prompt: {
+                    model: editUser.comment,
+                    type: 'text'
+                },
                 cancel: true,
                 preventClose: true,
                 color: 'secondary'
             }).then(data => {
-                this.deleteNews(news)
+                editUser.comment = data
+                this.saveCourse(editUser)
             }).catch(() => {
                 console.log('>>>> Cancel')
             })
         },
-        getListNews (props) {
+        goToUserVerification () {},
+        goToUserTransactions () {},
+        goToAddUser () {
+            this.$router.push({
+                name: 'userAdd'
+            })
+        },
+        goToEditUser (walletItem) {
+            this.$router.push({
+                name: 'userEdit',
+                params: { walletId: walletItem.id }
+            })
+        },
+        openDeleteDialog (user) {
+            this.$q.dialog({
+                title: 'Delete',
+                message: 'Are you sure that you want to delete the user ' + user.name + ' ' + user.family + '?',
+                cancel: true,
+                preventClose: true,
+                color: 'secondary'
+            }).then(data => {
+                this.deleteUser(user)
+            }).catch(() => {
+                console.log('>>>> Cancel')
+            })
+        },
+        getUsersList (props) {
             let requestOptions = this.getDefaultPagination()
             if (props) {
                 requestOptions = this.applyPaginationFromTable(requestOptions, props)
             }
 
-            if (this.search) {
+            if (this.search.length > 0) {
                 requestOptions.q = this.search
             }
 
-            this.list(HttpHelper.getPaginationParam(requestOptions)).then(response => {
-                this.items = this.newsList
+            this.list(HttpHelper.getPaginationParam(requestOptions)).then(() => {
+                this.items = this.users
                 this.serverPagination = requestOptions
                 this.serverPagination.rowsNumber = this.meta.count
-            }).catch(errors => {
-                this.errors = errors
             })
         },
-        deleteNews (news) {
-            this.remove(news.id).then(response => {
-                this.getListNews()
+        saveCourse (user) {
+            this.edit(user).then(response => {
+                this.getUsersList()
+            }).catch(errors => {
+                this.errors = errors.errors
+            })
+        },
+        deleteUser (user) {
+            this.remove(user.id).then(response => {
+                this.getUsersList()
             }).catch(errors => {
                 this.errors = errors
             })
@@ -197,7 +246,7 @@ export default {
 </script>
 
 <style scoped>
-    .news-table {
+    .users-table {
         margin-top: 50px;
     }
 </style>

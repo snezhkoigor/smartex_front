@@ -4,7 +4,7 @@ axios.defaults.baseURL = (process.env.NODE_ENV === 'production' ? 'http://smarte
 axios.defaults.validateStatus = (status) => {
     return status >= 200 && status < 500
 }
-axios.defaults.timeout = 5000
+// axios.defaults.timeout = 10000
 
 export default ({ Vue }) => {
     Vue.prototype.$axios = axios

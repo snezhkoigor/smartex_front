@@ -7,7 +7,8 @@
         src: path.resolve(__dirname, '../src'),
         assets: path.resolve(__dirname, '../src/assets'),
         '@': path.resolve(__dirname, '../src/components'),
-        variables: path.resolve(__dirname, '../src/themes/quasar.variables.styl')
+        variables: path.resolve(__dirname, '../src/themes/quasar.variables.styl'),
+        'vue': 'vue/dist/vue.js'
     },
 
     // Progress Bar Webpack plugin format

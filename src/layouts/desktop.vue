@@ -1,82 +1,115 @@
 <template>
-    <q-layout ref="layout" view="hHh lpr fFf" :left-class="{'bg-grey-2': true}">
+    <q-layout ref="layout" view="hHh Lpr lFf" :left-class="{'bg-grey-2': true}">
         <q-layout-header class="desktop-header">
-            <header-component/>
+            <q-toolbar color="secondary"
+                class="row toolbar no-shadow"
+            >
+                <div class="row header-container">
+                    <q-btn
+                        flat
+                        @click="leftDrawerOpen = !leftDrawerOpen"
+                    >
+                        <q-icon name="menu" />
+                    </q-btn>
+
+                    <q-toolbar-title>
+                        <div>Smartex</div>
+                        <div class="subtitle">Discover your power</div>
+                    </q-toolbar-title>
+
+                    <q-btn flat @click.stop="goToProfile()" v-show="!leftDrawerOpen">
+                        <q-icon name="settings" v-if="profile && !profile.avatar" />
+                        <img :src="profile.avatar_link + '/25'" class="avatar" v-if="profile.avatar"/>
+                    </q-btn>
+                    <q-btn flat @click.stop="singOut()">
+                        <q-icon name="exit_to_app" />
+                    </q-btn>
+                </div>
+            </q-toolbar>
         </q-layout-header>
 
-        <div class="row desktop-container">
-            <!-- Left Side Panel -->
-            <div class="col-2 menu">
-                <div slot="left">
-                    <menu-component />
-                </div>
-            </div>
+        <!-- Left Side Panel -->
+        <q-layout-drawer
+            v-model="leftDrawerOpen"
+            content-class="bg-grey-2 no-shadow"
+        >
+            <menu-component />
+        </q-layout-drawer>
 
-            <!-- your content -->
-            <div class="col-10 content">
-                <div class="col-10 body">
+        <q-page-container>
+            <div class="row desktop-container">
+                <div class="col-12 body">
                     <router-view/>
                     <!--<content-component :layoutRefs="this.$refs" :rootRefs="this.rootRefs" />-->
                 </div>
-                <div class="col-10 footer">
-                    <!-- Footer -->
-                    <footer-component />
-                </div>
             </div>
-        </div>
+            <footer-component />
+        </q-page-container>
     </q-layout>
 </template>
 
 <script>
-import HeaderComponent from './header.vue'
+import { mapGetters, mapActions } from 'vuex'
+
 import MenuComponent from './menu.vue'
 import FooterComponent from './footer.vue'
 
 export default {
     name: 'LayoutDesktop',
     components: {
-        HeaderComponent,
         MenuComponent,
         FooterComponent
     },
     data () {
-        return {}
+        return {
+            leftDrawerOpen: true
+        }
     },
-    methods: {}
+    methods: {
+        ...mapActions('user', [
+            'logout'
+        ]),
+        goToProfile () {
+            this.$router.push({
+                name: 'profile'
+            })
+        },
+        singOut () {
+            this.logout().then(() => {
+                this.$router.push({
+                    name: 'login'
+                })
+            })
+        }
+    },
+    computed: {
+        ...mapGetters('user', [
+            'isLogin', 'profile', 'role', 'pending'
+        ])
+    }
 }
 </script>
 
-<style>
+<style scoped>
     .desktop-container {
-        max-width: 1300px !important;
-        margin: 0px auto !important;
-        position: relative;
-        padding-top: 180px;
-    }
-    .desktop-container .content {
-        z-index: 2;
-    }
-    .desktop-container .content .body {
-        background: white;
-        min-height: calc(100vh - 180px);
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
-        margin-top: -70px;
-        margin-right: 15px;
+        min-height: calc(100vh - 140px);
     }
     .desktop-header {
-        box-shadow: none !important;
-        z-index: 1 !important;
-    }
-    .desktop-header .header-container {
-        height: auto !important;
-        max-width: 1300px;
-        margin: 0px auto;
-        position: relative;
-        width: 100%
     }
     .desktop-header .toolbar {
-        height: 250px;
-        top: 0;
-        margin-top: -70px;
+        height: 70px;
+        padding-bottom: 5px;
+    }
+
+    .header-container {
+        min-height: 48px;
+        width: 100%;
+    }
+    .subtitle {
+        font-size: 11px
+    }
+    img.avatar {
+        width: 25px;
+        height: 25px
     }
 </style>

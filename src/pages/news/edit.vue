@@ -1,121 +1,134 @@
 <template>
-    <div>
-        <v-toolbar card color="white" prominent>
-            <v-toolbar-title class="page-title title grey--text title-tool-bar">
-                <router-link class="breadcrumbs-link" :to="{ name: 'newsList'}">News</router-link> <span v-if="newsItem">/ {{ newsItem.title | truncate(35) }}</span>
-            </v-toolbar-title>
-            <v-spacer />
-            <v-btn
-                    flat
-                    @click="newsEdit()"
-                    :loading="pending"
-                    :disabled="pending"
-            >
-                <span>Edit</span>
-                <span slot="loader">Sending...</span>
-            </v-btn>
-        </v-toolbar>
-
-        <v-progress-linear class="pending" v-if="pending" v-bind:indeterminate="pending" />
-
-        <v-divider />
-
-        <v-container>
-            <v-form ref="newsForm">
-                <v-container fluid>
-                    <v-layout row>
-                        <v-flex xs12 style="padding-left: 30px">
-                            <froala
-                                    :tag="'textarea'"
-                                    :config="froalaConfig"
-                                    v-model="newsItem.text"
-                                    required
-                                    :disabled="pending"
-                                    :error-messages="errors && errors.text ? errors.text[0] : []"
+    <div class="news">
+        <inner-loading-layout :pending="pending"></inner-loading-layout>
+        <div v-show="!pending">
+            <q-card-title>
+                <router-link class="breadcrumbs-link" :to="{ name: 'newsList'}">News</router-link> / {{ this.$router.currentRoute.meta.title }}
+                <span slot="subtitle">{{ this.$router.currentRoute.meta.subtitle }}</span>
+                <span slot="right">
+                    <q-btn flat
+                           class="full-width"
+                           @click="newsEdit()"
+                           :disable="pending"
+                    >
+                        Edit
+                    </q-btn>
+                </span>
+            </q-card-title>
+            <q-card-main>
+                <div class="gutter-sm">
+                    <div class="row gutter-y-sm">
+                        <div class="col-12">
+                            <q-field
+                                    :error-label="errors && errors.text ? errors.text[0] : ''"
                                     :error="errors && !!errors.text"
-                            ></froala>
-                        </v-flex>
-                    </v-layout>
-                    <v-layout row class="mt-3">
-                        <v-flex xs12>
-                            <v-text-field
-                                    label="Title"
-                                    v-model="newsItem.title"
-                                    required
-                                    counter="255"
-                                    :disabled="pending"
-                                    :error-messages="errors && errors.title ? errors.title[0] : []"
-                                    :error="errors && !!errors.title"
-                            ></v-text-field>
-                        </v-flex>
-                    </v-layout>
-                    <v-layout row>
-                        <v-flex xs12>
-                            <v-text-field
-                                    label="Meta key"
-                                    v-model="newsItem.meta_key"
-                                    counter="255"
-                                    :disabled="pending"
-                                    :error-messages="errors && errors.meta_key ? errors.meta_key[0] : []"
-                                    :error="errors && !!errors.meta_key"
-                            ></v-text-field>
-                        </v-flex>
-                    </v-layout>
-                    <v-layout row>
-                        <v-flex xs12>
-                            <v-text-field
-                                    label="Meta description"
-                                    v-model="newsItem.meta_description"
-                                    counter="255"
-                                    :disabled="pending"
-                                    :error-messages="errors && errors.meta_description ? errors.meta_description[0] : []"
-                                    :error="errors && !!errors.meta_description"
-                            ></v-text-field>
-                        </v-flex>
-                    </v-layout>
-                    <v-layout row>
-                        <v-flex xs12>
-                            <v-dialog
-                                    v-model="newsDateDialog"
-                                    lazy
-                                    full-width
-                                    width="290px"
                             >
-                                <v-text-field
-                                        slot="activator"
-                                        label="News date"
-                                        v-model="newsItem.date"
-                                        prepend-icon="event"
-                                        readonly
-                                        :disabled="pending"
-                                        :error-messages="errors && errors.date ? errors.date[0] : []"
-                                        :error="errors && !!errors.date"
-                                ></v-text-field>
-                                <v-date-picker v-model="newsItem.date" autosave/>
-                            </v-dialog>
-                        </v-flex>
-                    </v-layout>
-                    <v-layout row>
-                        <v-flex xs12 class="mt-3">
-                            <v-checkbox
-                                    label="Will news be active?"
-                                    v-model="newsItem.active"
-                                    :disabled="pending"
-                                    light
-                            />
-                        </v-flex>
-                    </v-layout>
-                </v-container>
-            </v-form>
-        </v-container>
+                                <q-editor
+                                    v-model="newsItem.text"
+                                    :toolbar="[
+                                        ['undo', 'redo'],
+                                        ['bold', 'italic', 'underline'],
+                                        ['hr', 'link', 'custom_btn'],
+                                        ['print', 'fullscreen'],
+                                        [
+                                            'removeFormat'
+                                        ],
+                                        [
+                                            {
+                                                label: this.$q.i18n.editor.align,
+                                                icon: this.$q.icon.editor.align,
+                                                fixedLabel: true,
+                                                options: ['left', 'center', 'right', 'justify']
+                                            }
+                                        ],
+                                        ['insert_img']
+                                    ]"
+                                >
+                                    <q-btn
+                                        slot="insert_img"
+                                        dense
+                                        color="secondary"
+                                        icon="image"
+                                        label="Image"
+                                        @click="importImage"
+                                    />
+                                </q-editor>
+                            </q-field>
+                        </div>
+                    </div>
+                    <div class="row gutter-y-sm">
+                        <div class="col-12">
+                            <q-field :error-label="errors && errors.title ? errors.title[0] : ''"
+                                     :error="errors && !!errors.title"
+                            >
+                                <q-input v-model="newsItem.title"
+                                         float-label="Title *"
+                                         :disable="pending"
+                                />
+                            </q-field>
+                        </div>
+                    </div>
+                    <div class="row gutter-y-sm">
+                        <div class="col-12">
+                            <q-field :error-label="errors && errors.meta_key ? errors.meta_key[0] : ''"
+                                     :error="errors && !!errors.meta_key"
+                            >
+                                <q-input v-model="newsItem.meta_key"
+                                         float-label="Meta key"
+                                         :disable="pending"
+                                />
+                            </q-field>
+                        </div>
+                    </div>
+                    <div class="row gutter-y-sm">
+                        <div class="col-12">
+                            <q-field :error-label="errors && errors.meta_description ? errors.meta_description[0] : ''"
+                                     :error="errors && !!errors.meta_description"
+                            >
+                                <q-input v-model="newsItem.meta_description"
+                                         float-label="Meta description"
+                                         :disable="pending"
+                                />
+                            </q-field>
+                        </div>
+                    </div>
+                    <div class="row gutter-y-sm">
+                        <div class="col-12">
+                            <q-field :error-label="errors && errors.date ? errors.date[0] : ''"
+                                     :error="errors && !!errors.date"
+                            >
+                                <q-datetime v-model="newsItem.date"
+                                            type="date"
+                                            float-label="News date" />
+                            </q-field>
+                        </div>
+                    </div>
+                    <div class="row gutter-y-sm">
+                        <div class="col-12 active-checkbox">
+                            <q-checkbox v-model="newsItem.active" label="Will news be active?" />
+                        </div>
+                    </div>
+                </div>
+            </q-card-main>
+        </div>
     </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import AppConfig from '../../config/app'
+import { QField, QInput, QCheckbox, QDatetime, QEditor } from 'quasar'
+import InnerLoadingLayout from '../../layouts/InnerLoading'
 
 export default {
+    name: 'NewsEditPage',
+    components: {
+        QField,
+        QInput,
+        QCheckbox,
+        QDatetime,
+        QEditor,
+        InnerLoadingLayout
+    },
     data () {
         return {
             newsItem: {
@@ -127,15 +140,11 @@ export default {
                 date: new Date().toISOString().slice(0, 10),
                 active: true
             },
-
-            newsDateDialog: false,
-            errors: [],
-            froalaConfig: AppConfig.froala,
-            loader: null
+            errors: []
         }
     },
     computed: {
-        ...mapGetters('News', [
+        ...mapGetters('news', [
             'pending', 'news'
         ])
     },
@@ -143,9 +152,12 @@ export default {
         this.getNews(this.$route.params.newsId)
     },
     methods: {
-        ...mapActions('News', [
+        ...mapActions('news', [
             'edit', 'getById'
         ]),
+        importImage () {
+
+        },
         getNews (newsId) {
             this.getById(newsId).then(response => {
                 this.newsItem = this.news
@@ -163,3 +175,6 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+</style>

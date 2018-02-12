@@ -24,7 +24,7 @@ export default {
                 }
             }
         }
-        if (paginationParam.sortBy !== undefined) {
+        if (paginationParam.sortBy !== undefined && paginationParam.sortBy !== null) {
             params.sort = {
                 [paginationParam.sortBy]: paginationParam.descending !== undefined ? (paginationParam.descending ? 'desc' : 'asc') : 'asc'
             }

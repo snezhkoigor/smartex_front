@@ -1,92 +1,107 @@
 <template>
     <div class="commissions">
-        <q-card-title>
-            <router-link class="breadcrumbs-link" :to="{ name: 'commissionsList'}">Commissions</router-link> / {{ this.$router.currentRoute.meta.title }}
-            <span slot="subtitle">{{ this.$router.currentRoute.meta.subtitle }}</span>
-            <span slot="right">
-                <q-btn flat
-                       class="full-width"
-                       @click="editCommission()"
-                       :disable="pending"
-                >
-                    Edit
-                </q-btn>
-            </span>
-        </q-card-title>
-        <q-card-main>
-            <div class="row">
-                <div class="col-12">
-                    <q-field
-                            :error-label="errors && errors.wallet_id ? errors.wallet_id[0] : ''"
-                            :error="errors && !!errors.wallet_id"
+        <inner-loading-layout :pending="pending"></inner-loading-layout>
+        <div v-show="!pending">
+            <q-card-title>
+                <router-link class="breadcrumbs-link" :to="{ name: 'commissionsList'}">Commissions</router-link> / {{ this.$router.currentRoute.meta.title }}
+                <span slot="subtitle">{{ this.$router.currentRoute.meta.subtitle }}</span>
+                <span slot="right">
+                    <q-btn flat
+                           class="full-width"
+                           @click="editCommission()"
+                           :disable="pending"
                     >
-                        <q-select
-                                v-model="commissionItem.wallet_id"
-                                float-label="From *"
-                                :options="wallets"
-                                :disable="pending || wallets.length === 0"
-                        />
-                    </q-field>
+                        Edit
+                    </q-btn>
+                </span>
+            </q-card-title>
+            <q-card-main>
+                <div class="gutter-sm">
+                    <div class="row">
+                        <div class="col-12">
+                            <q-field
+                                    :error-label="errors && errors.wallet_id ? errors.wallet_id[0] : ''"
+                                    :error="errors && !!errors.wallet_id"
+                            >
+                                <q-select
+                                        v-model="commissionItem.wallet_id"
+                                        float-label="From *"
+                                        :options="wallets"
+                                        :disable="pending || wallets.length === 0"
+                                />
+                            </q-field>
+                        </div>
+                    </div>
+                    <div class="row gutter-sm">
+                        <div class="col-xs-12 col-sm-10 col-md-10">
+                            <q-field
+                                    :error-label="errors && errors.payment_system_id ? errors.payment_system_id[0] : ''"
+                                    :error="errors && !!errors.payment_system_id"
+                            >
+                                <q-select
+                                        v-model="commissionItem.payment_system_id"
+                                        float-label="To payment system *"
+                                        :options="paymentSystems"
+                                        :disable="pending || paymentSystems.length === 0"
+                                />
+                            </q-field>
+                        </div>
+                        <div class="col-xs-12 col-sm-2 col-md-2">
+                            <q-field
+                                    :error-label="errors && errors.currency ? errors.currency[0] : ''"
+                                    :error="errors && !!errors.currency"
+                            >
+                                <q-select
+                                        v-model="commissionItem.currency"
+                                        float-label="To currency *"
+                                        :options="currencies"
+                                        :disable="pending || currencies.length === 0"
+                                />
+                            </q-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <q-field :error-label="errors && errors.commission ? errors.commission[0] : ''"
+                                     :error="errors && !!errors.commission"
+                                     helper="Max value is 99.9"
+                            >
+                                <q-input v-model="commissionItem.commission"
+                                         float-label="Commission *"
+                                         :disable="pending"
+                                         suffix="%"
+                                />
+                            </q-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 active-checkbox">
+                            <q-checkbox v-model="commissionItem.active"
+                                        label="Will commission be active?"
+                                        :disable="pending"
+                            />
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="row sm-gutter">
-                <div class="col-xs-12 col-sm-10 col-md-10">
-                    <q-field
-                            :error-label="errors && errors.payment_system_id ? errors.payment_system_id[0] : ''"
-                            :error="errors && !!errors.payment_system_id"
-                    >
-                        <q-select
-                                v-model="commissionItem.payment_system_id"
-                                float-label="To payment system *"
-                                :options="paymentSystems"
-                                :disable="pending || paymentSystems.length === 0"
-                        />
-                    </q-field>
-                </div>
-                <div class="col-xs-12 col-sm-2 col-md-2">
-                    <q-field
-                            :error-label="errors && errors.currency ? errors.currency[0] : ''"
-                            :error="errors && !!errors.currency"
-                    >
-                        <q-select
-                                v-model="commissionItem.currency"
-                                float-label="To currency *"
-                                :options="currencies"
-                                :disable="pending || currencies.length === 0"
-                        />
-                    </q-field>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <q-field :error-label="errors && errors.commission ? errors.commission[0] : ''"
-                             :error="errors && !!errors.commission"
-                             helper="Max value is 99.9"
-                    >
-                        <q-input v-model="commissionItem.commission"
-                                 float-label="Commission *"
-                                 :disable="pending"
-                                 suffix="%"
-                        />
-                    </q-field>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12 active-checkbox">
-                    <q-checkbox v-model="commissionItem.active"
-                                label="Will commission be active?"
-                                :disable="pending"
-                    />
-                </div>
-            </div>
-        </q-card-main>
+            </q-card-main>
+        </div>
     </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import { QSelect, QCheckbox, QField, QInput } from 'quasar'
+import InnerLoadingLayout from '../../layouts/InnerLoading'
 
 export default {
+    name: 'CommissionAddPage',
+    components: {
+        QSelect,
+        QCheckbox,
+        QField,
+        QInput,
+        InnerLoadingLayout
+    },
     data () {
         return {
             commissionItem: {
@@ -111,12 +126,12 @@ export default {
         this.getCommission(this.commissionItem)
     },
     computed: {
-        ...mapGetters('Commission', [
+        ...mapGetters('commission', [
             'pending', 'meta', 'commission'
         ])
     },
     methods: {
-        ...mapActions('Commission', [
+        ...mapActions('commission', [
             'add', 'getById', 'edit'
         ]),
         getCommission (commissionItem) {
@@ -140,7 +155,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     .active-checkbox {
         margin-top: 20px;
     }

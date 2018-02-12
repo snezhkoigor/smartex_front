@@ -1,10 +1,11 @@
 export default {
     positive: {
-        bgColor: '#26a69a',
+        bgColor: 'secondary',
         timeout: 10000
     },
     negative: {
-        bgColor: '#a60209',
+        bgColor: 'negative',
         timeout: 10000
-    }
+    },
+    position: 'bottom-right'
 }
