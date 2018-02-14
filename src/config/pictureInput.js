@@ -7,8 +7,8 @@ export default {
     removable: true,
     zIndex: 1,
     buttonClass: {
-        button: 'flat',
-        removeButton: 'flat'
+        button: 'q-btn inline relative-position q-btn-rectangle q-btn-flat q-focusable q-hoverable text-positive',
+        removeButton: 'q-btn inline relative-position q-btn-rectangle q-btn-flat q-focusable q-hoverable text-negative'
     },
     size: 2,
     margin: 16

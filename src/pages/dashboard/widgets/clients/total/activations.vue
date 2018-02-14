@@ -1,20 +1,7 @@
-
 <template>
     <div>
         <div class="settings">
-            <v-menu bottom class="mr-4">
-                <v-btn icon slot="activator">
-                    <v-icon>mdi-calendar-range</v-icon>
-                </v-btn>
-                <v-list>
-                    <v-list-tile v-for="period in periodItems" :key="period.value" @click="setPeriod(period)">
-                        <v-list-tile-title>{{ period.name }}</v-list-tile-title>
-                    </v-list-tile>
-                </v-list>
-            </v-menu>
-            <v-btn icon @click.native="refresh()">
-                <v-icon>refresh</v-icon>
-            </v-btn>
+            <q-select :options="periodItems" v-model="period" style="width: 100px"/>
         </div>
         <div class="chart-box">
             <vue-highcharts :options="options" ref="lineCharts" />
@@ -24,26 +11,24 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import { QSelect } from 'quasar'
 import VueHighcharts from 'vue2-highcharts'
 
 export default {
     data () {
         return {
-            period: {
-                name: 'by last 7 days',
-                value: 'week'
-            },
+            period: 'week',
             periodItems: [
                 {
-                    name: 'by last 7 days',
+                    label: 'by last 7 days',
                     value: 'week'
                 },
                 {
-                    name: 'by last 12 months',
+                    label: 'by last 12 months',
                     value: 'month'
                 },
                 {
-                    name: 'all',
+                    label: 'all',
                     value: 'year'
                 }
             ],
@@ -74,24 +59,30 @@ export default {
         }
     },
     components: {
-        VueHighcharts
+        VueHighcharts,
+        QSelect
     },
     computed: {
-        ...mapGetters('Dashboard', [
+        ...mapGetters('dashboard', [
             'totalRegistrationsAndActivationsItems', 'totalRegistrationsAndActivationsPending'
         ])
     },
+    watch: {
+        period: function (value) {
+            this.refresh(value)
+        }
+    },
     methods: {
-        ...mapActions('Dashboard', [
+        ...mapActions('dashboard', [
             'totalRegistrationsAndActivations'
         ]),
-        refresh () {
+        refresh (period) {
             this.$refs.lineCharts.removeSeries()
 
             let lineCharts = this.$refs.lineCharts
             lineCharts.delegateMethod('showLoading', 'Loading...')
 
-            this.totalRegistrationsAndActivations(this.period.value).then(() => {
+            this.totalRegistrationsAndActivations(period).then(() => {
                 lineCharts.getChart().xAxis[0].setCategories(this.totalRegistrationsAndActivationsItems.categories)
                 lineCharts.addSeries(this.totalRegistrationsAndActivationsItems.registrations)
                 lineCharts.addSeries(this.totalRegistrationsAndActivationsItems.activations)
@@ -99,14 +90,10 @@ export default {
             }).catch(errors => {
                 lineCharts.hideLoading()
             })
-        },
-        setPeriod (period) {
-            this.period = period
-            this.refresh()
         }
     },
     mounted () {
-        this.refresh()
+        this.refresh(this.period)
     }
 }
 </script>

@@ -40,18 +40,17 @@
                                                 fixedLabel: true,
                                                 options: ['left', 'center', 'right', 'justify']
                                             }
-                                        ],
-                                        ['insert_img']
+                                        ]
                                     ]"
                                 >
-                                    <q-btn
-                                        slot="insert_img"
-                                        dense
-                                        color="secondary"
-                                        icon="image"
-                                        label="Image"
-                                        @click="importImage"
-                                    />
+                                    <!--<q-btn-->
+                                        <!--slot="insert_img"-->
+                                        <!--dense-->
+                                        <!--color="secondary"-->
+                                        <!--icon="image"-->
+                                        <!--label="Image"-->
+                                        <!--@click="importImage"-->
+                                    <!--/>-->
                                 </q-editor>
                             </q-field>
                         </div>
@@ -155,9 +154,6 @@ export default {
         ...mapActions('news', [
             'edit', 'getById'
         ]),
-        importImage () {
-
-        },
         getNews (newsId) {
             this.getById(newsId).then(response => {
                 this.newsItem = this.news

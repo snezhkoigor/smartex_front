@@ -3,6 +3,37 @@ import errorsHelper from '../../helpers/errors'
 import httpHelper from '../../helpers/http'
 import router from '../../router/index'
 
+export const getById = ({ commit }, userId) => {
+    return new Promise((resolve, reject) => {
+        commit('SET_PENDING')
+
+        axios.get(
+            '/users/' + userId,
+            {
+                params: {include: 'roles'},
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('token')
+                }
+            }
+        ).then(response => {
+            if (httpHelper.checkIsOkAnswerStatus(response.status)) {
+                commit('GET_USER_BY_ID_SUCCESS', response.data)
+                resolve(response)
+            } else {
+                commit('GET_USER_BY_ID_FAIL')
+                reject(errorsHelper.getMessage(response))
+
+                errorsHelper.goByStatusCode(response.status, router)
+            }
+        }, errors => {
+            commit('GET_USER_BY_ID_FAIL')
+            reject(errors)
+
+            errorsHelper.goByStatusCode(500, router)
+        })
+    })
+}
+
 export const list = ({commit}, requestParams) => {
     return new Promise((resolve, reject) => {
         commit('SET_PENDING')
@@ -27,6 +58,67 @@ export const list = ({commit}, requestParams) => {
             }
         }, errors => {
             commit('GET_USERS_LIST_FAIL')
+            reject(errors)
+
+            errorsHelper.goByStatusCode(500, router)
+        })
+    })
+}
+
+export const getFormMeta = ({commit}) => {
+    return new Promise((resolve, reject) => {
+        commit('SET_PENDING')
+
+        axios.get(
+            '/meta/users',
+            {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('token')
+                }
+            }
+        ).then(response => {
+            if (httpHelper.checkIsOkAnswerStatus(response.status)) {
+                commit('GET_META_SUCCESS', response.data)
+                resolve(response)
+            } else {
+                commit('GET_META_FAIL')
+                reject(errorsHelper.getMessage(response))
+
+                errorsHelper.goByStatusCode(response.status, router)
+            }
+        }, errors => {
+            commit('GET_META_FAIL')
+            reject(errors)
+
+            errorsHelper.goByStatusCode(500, router)
+        })
+    })
+}
+
+export const add = ({commit}, user) => {
+    return new Promise((resolve, reject) => {
+        commit('SET_PENDING')
+
+        axios.post(
+            '/users',
+            user,
+            {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('token')
+                }
+            }
+        ).then(response => {
+            if (httpHelper.checkIsOkAnswerStatus(response.status)) {
+                commit('RESET_PENDING')
+                resolve(response)
+            } else {
+                commit('RESET_PENDING')
+                reject(errorsHelper.getMessage(response))
+
+                errorsHelper.goByStatusCode(response.status, router)
+            }
+        }, errors => {
+            commit('RESET_PENDING')
             reject(errors)
 
             errorsHelper.goByStatusCode(500, router)
@@ -143,13 +235,13 @@ export const updateProfile = ({ commit }, profile) => {
                 commit('PROFILE_UPDATE_SUCCESS', response.data)
                 resolve(response)
             } else {
-                commit('PROFILE_UPDATE_FAIL')
+                commit('RESET_PENDING')
                 reject(errorsHelper.getMessage(response))
 
                 errorsHelper.goByStatusCode(response.status, router)
             }
         }, errors => {
-            commit('PROFILE_UPDATE_FAIL')
+            commit('RESET_PENDING')
             reject(errors)
 
             errorsHelper.goByStatusCode(500, router)
@@ -168,7 +260,7 @@ export const resetPassword = ({ commit }, email) => {
             }
         ).then(response => {
             if (httpHelper.checkIsOkAnswerStatus(response.status)) {
-                commit('RESET_PASSWORD_SUCCESS', response.data)
+                commit('RESET_PENDING', response.data)
                 resolve(response)
             } else {
                 commit('RESET_PENDING')

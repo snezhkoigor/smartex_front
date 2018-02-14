@@ -97,7 +97,10 @@ export default {
                     name: 'date',
                     label: 'Date',
                     field: 'date',
-                    sortable: true
+                    sortable: true,
+                    format (value, row) {
+                        return value.date
+                    }
                 },
                 {
                     name: 'fio',
@@ -179,8 +182,11 @@ export default {
                 preventClose: true,
                 color: 'secondary'
             }).then(data => {
-                editUser.comment = data
-                this.saveCourse(editUser)
+                this.saveUser({
+                    id: editUser.id,
+                    email: editUser.email,
+                    comment: data
+                })
             }).catch(() => {
                 console.log('>>>> Cancel')
             })
@@ -192,10 +198,10 @@ export default {
                 name: 'userAdd'
             })
         },
-        goToEditUser (walletItem) {
+        goToEditUser (userItem) {
             this.$router.push({
                 name: 'userEdit',
-                params: { walletId: walletItem.id }
+                params: { userId: userItem.id }
             })
         },
         openDeleteDialog (user) {
@@ -227,7 +233,7 @@ export default {
                 this.serverPagination.rowsNumber = this.meta.count
             })
         },
-        saveCourse (user) {
+        saveUser (user) {
             this.edit(user).then(response => {
                 this.getUsersList()
             }).catch(errors => {

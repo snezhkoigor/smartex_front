@@ -1,10 +1,5 @@
 <template>
     <div>
-        <div class="settings">
-            <v-btn icon @click.native="refresh()">
-                <v-icon>refresh</v-icon>
-            </v-btn>
-        </div>
         <div class="chart-box">
             <vue-highcharts :options="options" ref="lineCharts" />
         </div>
@@ -49,12 +44,12 @@ export default {
         VueHighcharts
     },
     computed: {
-        ...mapGetters('Dashboard', [
+        ...mapGetters('dashboard', [
             'totalRegistrationsItems', 'totalRegistrationPending'
         ])
     },
     methods: {
-        ...mapActions('Dashboard', [
+        ...mapActions('dashboard', [
             'totalRegistrations'
         ]),
         refresh () {

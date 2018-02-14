@@ -20,6 +20,18 @@ export const GET_USERS_LIST_FAIL = (state) => {
     state.pending = false
 }
 
+export const GET_META_SUCCESS = (state, responseData) => {
+    state.meta = responseData.meta
+
+    state.pending = false
+}
+
+export const GET_META_FAIL = (state) => {
+    state.meta = {}
+
+    state.pending = false
+}
+
 export const LOGIN_SUCCESS = (state, responseData) => {
     localStorage.setItem('token', responseData.data.access_token)
     state.token = responseData.data.access_token
@@ -80,6 +92,20 @@ export const LOGOUT = (state) => {
     state.profile = null
     state.token = null
     state.role = null
+
+    state.pending = false
+}
+
+export const GET_USER_BY_ID_SUCCESS = (state, responseData) => {
+    state.user = responseData.data
+    state.meta = responseData.meta
+
+    state.pending = false
+}
+
+export const GET_USER_BY_ID_FAIL = (state) => {
+    state.user = {}
+    state.meta = {}
 
     state.pending = false
 }

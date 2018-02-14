@@ -64,7 +64,6 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-
 import { QField, QInput } from 'quasar'
 
 import InnerLoadingLayout from '../../layouts/InnerLoading'

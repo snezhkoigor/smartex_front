@@ -257,30 +257,32 @@ export default [
                 },
                 menu: true,
                 children: [
-                    // {
-                    //     path: 'add',
-                    //     name: 'walletAdd',
-                    //     component: () => import('pages/user/add'),
-                    //     beforeEnter: authGuard,
-                    //     meta: {
-                    //         role: [
-                    //             access.admin
-                    //         ],
-                    //         title: 'Add'
-                    //     }
-                    // },
-                    // {
-                    //     path: ':walletId',
-                    //     name: 'walletEdit',
-                    //     component: () => import('pages/wallet/edit'),
-                    //     beforeEnter: authGuard,
-                    //     meta: {
-                    //         role: [
-                    //             access.admin
-                    //         ],
-                    //         title: 'Edit'
-                    //     }
-                    // },
+                    {
+                        path: 'add',
+                        name: 'userAdd',
+                        component: () => import('pages/user/add'),
+                        beforeEnter: authGuard,
+                        meta: {
+                            role: [
+                                access.admin,
+                                access.operator
+                            ],
+                            title: 'Add'
+                        }
+                    },
+                    {
+                        path: ':userId',
+                        name: 'userEdit',
+                        component: () => import('pages/user/edit'),
+                        beforeEnter: authGuard,
+                        meta: {
+                            role: [
+                                access.admin,
+                                access.operator
+                            ],
+                            title: 'Edit'
+                        }
+                    },
                     {
                         path: '',
                         name: 'usersList',

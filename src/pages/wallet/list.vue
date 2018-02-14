@@ -51,15 +51,18 @@
                             <q-card-title>
                                 <div class="name">
                                     {{walletItem.paymentSystem.data.name}}
+                                    <div slot="subtitle">
+                                        {{walletItem.account | truncate(25)}}
+                                        <q-tooltip v-if="walletItem.account.length > 25">
+                                            <nl2br tag="p" :text="walletItem.account" />
+                                        </q-tooltip>
+                                    </div>
                                 </div>
-                                <div slot="subtitle">
-                                    {{walletItem.account | truncate(25)}}
-                                    <q-tooltip v-if="walletItem.account.length > 25">
-                                        <nl2br tag="p" :text="walletItem.account" />
-                                    </q-tooltip>
-                                </div>
-                                <div class="balance">
-                                    <h6>{{walletItem.balance | currency(walletItem.prefix)}}</h6>
+                                <div class="money">
+                                    <h6>In: {{walletItem.statistic.income | currency(walletItem.prefix)}}</h6>
+                                    <h6>Out: {{walletItem.statistic.outcome | currency(walletItem.prefix)}}</h6>
+                                    <h6>Fees: {{walletItem.statistic.fee | currency(walletItem.prefix)}}</h6>
+                                    <h6>Balance: {{walletItem.balance | currency(walletItem.prefix)}}</h6>
                                 </div>
                             </q-card-title>
                             <q-card-main>

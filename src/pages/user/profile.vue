@@ -14,7 +14,7 @@
             </span>
         </q-card-title>
         <q-card-main>
-            <div class="row sm-gutter">
+            <div class="row gutter-sm">
                 <div class="col-sm-3 avatar">
                     <picture-input
                         @change="onChangeAvatarImage"
@@ -25,14 +25,14 @@
                         :prefill="currentProfile.avatar_link"
                         :buttonClass="pictureInput.buttonClass.button"
                         :zIndex="pictureInput.zIndex"
-                        :removeButtonClass="pictureInput.buttonClass.button"
+                        :removeButtonClass="pictureInput.buttonClass.removeButton"
                         :removable="pictureInput.removable"
                         :customStrings="pictureInput.customStrings"
                     >
                     </picture-input>
                 </div>
 
-                <div class="col-sm-9">
+                <div class="col-sm-9 gutter-sm">
                     <q-field :error-label="errors && errors.name ? errors.name[0] : ''" :error="errors && !!errors.name">
                         <q-input v-model="currentProfile.name"
                                  float-label="First name"
@@ -53,8 +53,8 @@
                         />
                     </q-field>
 
-                    <div class="row sm-gutter">
-                        <div class="col-sm-6">
+                    <div class="row gutter-sm">
+                        <div :class="{'col-sm-12': !currentProfile.new_password, 'col-sm-6': currentProfile.new_password}">
                             <q-field :error-label="errors && errors.new_password ? errors.new_password[0] : ''" :error="errors && !!errors.new_password">
                                 <q-input v-model="currentProfile.new_password"
                                          type="password"
@@ -64,7 +64,7 @@
                             </q-field>
                         </div>
                         <div class="col-sm-6">
-                            <q-field :error-label="errors && errors.current_password ? errors.current_password[0] : ''" :error="errors && !!errors.current_password">
+                            <q-field v-show="currentProfile.new_password" :error-label="errors && errors.current_password ? errors.current_password[0] : ''" :error="errors && !!errors.current_password">
                                 <q-input v-model="currentProfile.current_password"
                                          type="password"
                                          float-label="Current password"
