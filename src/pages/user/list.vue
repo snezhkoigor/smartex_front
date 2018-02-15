@@ -51,26 +51,73 @@
                             </q-td>
                             <q-td slot="body-cell-action" slot-scope="props" :props="props">
                                 <q-btn flat icon="edit" @click="goToEditUser(props.row)" />
-                                <q-btn flat icon="payment" @click="goToUserTransactions(props.row)" />
-                                <q-btn flat icon="insert_comment" @click="goToUserComment(props.row)" />
-                                <q-btn flat :color="props.row.verification_ok ? 'secondary' : 'red'" :disable="props.row.verification_ok || props.row.verification_image === ''" icon="verified_user" @click="goToUserVerification(props.row)" />
+                                <q-btn flat icon="payment" @click="goToUserTransactions(props.row)">
+                                    <q-tooltip>
+                                        download user transactions
+                                    </q-tooltip>
+                                </q-btn>
+                                <q-btn flat icon="insert_comment" @click="goToUserComment(props.row)">
+                                    <q-tooltip>
+                                        set comment to user
+                                    </q-tooltip>
+                                </q-btn>
+                                <q-btn flat :color="props.row.verification_ok ? 'secondary' : 'red'" :disable="props.row.verification_ok || props.row.verification_image === ''" icon="verified_user" @click="goToUserVerification(props.row)">
+                                    <q-tooltip v-if="props.row.verification_ok === false && props.row.verification_image !== ''">
+                                        verify user
+                                    </q-tooltip>
+                                    <q-tooltip v-else-if="props.row.verification_ok === false && props.row.verification_image === ''">
+                                        no verify user document
+                                    </q-tooltip>
+                                    <q-tooltip v-else>
+                                        verified
+                                    </q-tooltip>
+                                </q-btn>
                                 <q-btn flat color="red" icon="delete_forever" @click="openDeleteDialog(props.row)" />
                             </q-td>
                         </q-table>
                     </div>
                 </div>
             </q-card-main>
+
+            <q-dialog
+                v-model="showVerificationDialog"
+                ref="dialog"
+                stack-buttons
+                @cancel="onCancelVerificationDialog"
+                @hide="onCancelVerificationDialog"
+            >
+                <!-- This or use "title" prop on <q-dialog> -->
+                <span slot="title">User verification</span>
+
+                <!-- This or use "message" prop on <q-dialog> -->
+                <span slot="message">Don't verify if see some strange things in document?</span>
+
+                <div slot="body">
+                    <img :src="verification_image" />
+                </div>
+                <template slot="buttons" slot-scope="props">
+                    <div class="verify-dialog-btn">
+                        <span>
+                            <q-btn flat label="Close" @click="onCancelVerificationDialog" />
+                        </span>
+                        <span>
+                            <q-btn color="secondary" label="Verify" @click="verifyUser" />
+                        </span>
+                    </div>
+                </template>
+            </q-dialog>
         </div>
     </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { QSearch, QTable, QTd } from 'quasar'
+import { QSearch, QTable, QTd, QTooltip, QDialog } from 'quasar'
 import InnerLoadingLayout from '../../layouts/InnerLoading'
 
 import tableConfig from '../../config/table'
 import HttpHelper from '../../helpers/http'
+import axios from 'axios'
 
 export default {
     name: 'UsersListPage',
@@ -78,10 +125,15 @@ export default {
         QSearch,
         QTable,
         QTd,
+        QTooltip,
+        QDialog,
         InnerLoadingLayout
     },
     data () {
         return {
+            verificationUserObj: {},
+            showVerificationDialog: false,
+            verification_image: '',
             loading: true,
             serverPagination: this.getDefaultPagination(),
             items: [],
@@ -191,8 +243,26 @@ export default {
                 console.log('>>>> Cancel')
             })
         },
-        goToUserVerification () {},
-        goToUserTransactions () {},
+        goToUserVerification (user) {
+            this.showVerificationDialog = true
+            this.verification_image = user.avatar_link
+            this.verificationUserObj = user
+        },
+        verifyUser () {
+            this.showVerificationDialog = false
+            this.saveUser({
+                id: this.verificationUserObj.id,
+                email: this.verificationUserObj.email,
+                verification_ok: true
+            })
+        },
+        onCancelVerificationDialog () {
+            this.showVerificationDialog = false
+            this.verificationUserObj = {}
+        },
+        goToUserTransactions (user) {
+            window.open(axios.defaults.baseURL + '/payments/pdf/transactions/' + user.id, '_blank')
+        },
         goToAddUser () {
             this.$router.push({
                 name: 'userAdd'

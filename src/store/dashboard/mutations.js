@@ -38,3 +38,101 @@ export const GET_TOTAL_REGISTRATIONS_AND_ACTIVATIONS_FAIL = (state) => {
 
     state.pending = false
 }
+
+export const SET_PENDING_TOTAL_FINISHED_EXCHANGES = (state) => {
+    state.totalFinishedExchangesPending = true
+}
+
+export const GET_TOTAL_FINISHED_EXCHANGES_FAIL = (state) => {
+    state.totalFinishedExchangesPending = false
+}
+
+export const GET_TOTAL_FINISHED_EXCHANGES_SUCCESS = (state, responseData) => {
+    state.totalFinishedExchangesItems = responseData.data
+
+    state.pending = false
+}
+
+export const SET_PENDING_NEW_EXCHANGES = (state) => {
+    state.totalNewExchangesPending = true
+}
+
+export const GET_TOTAL_NEW_EXCHANGES_FAIL = (state) => {
+    state.totalNewExchangesPending = false
+}
+
+export const GET_TOTAL_NEW_EXCHANGES_SUCCESS = (state, responseData) => {
+    state.totalNewExchangesItems = responseData.data
+
+    state.pending = false
+}
+
+export const SET_PENDING_TOTAL_FINISHED_IN_PAYMENTS = (state) => {
+    state.totalFinishedInPaymentsPending = true
+}
+
+export const GET_TOTAL_FINISHED_IN_PAYMENTS_FAIL = (state) => {
+    state.totalFinishedInPaymentsPending = false
+}
+
+export const GET_TOTAL_FINISHED_IN_PAYMENTS_SUCCESS = (state, responseData) => {
+    state.totalFinishedInPaymentsItems = responseData.data
+
+    state.pending = false
+}
+
+export const SET_PENDING_CURRENCIES_IN_PAYMENTS = (state) => {
+    state.currenciesInPaymentsPending = true
+}
+
+export const GET_CURRENCIES_IN_PAYMENTS_FAIL = (state) => {
+    state.currenciesInPaymentsPending = false
+}
+
+export const GET_CURRENCIES_IN_PAYMENTS_SUCCESS = (state, responseData) => {
+    state.currenciesInPaymentsItems = responseData.data
+
+    state.pending = false
+}
+
+export const SET_PENDING_CURRENCIES_OUT_PAYMENTS = (state) => {
+    state.currenciesOutPaymentsPending = true
+}
+
+export const GET_CURRENCIES_OUT_PAYMENTS_FAIL = (state) => {
+    state.currenciesOutPaymentsPending = false
+}
+
+export const GET_CURRENCIES_OUT_PAYMENTS_SUCCESS = (state, responseData) => {
+    state.currenciesOutPaymentsItems = responseData.data
+
+    state.pending = false
+}
+
+export const SET_PENDING_FAVORITES_PAYMENT_SYSTEMS = (state) => {
+    state.favoritesPaymentSystemsPending = true
+}
+
+export const GET_FAVORITES_PAYMENT_SYSTEMS_FAIL = (state) => {
+    state.favoritesPaymentSystemsPending = false
+}
+
+export const GET_FAVORITES_PAYMENT_SYSTEMS_SUCCESS = (state, responseData) => {
+    state.favoritesPaymentSystemsItems = responseData.data
+
+    state.pending = false
+}
+
+export const SET_PENDING_EXCHANGES_DYNAMIC = (state) => {
+    state.dynamicExchangesPending = true
+}
+
+export const GET_EXCHANGES_DYNAMIC_FAIL = (state) => {
+    state.dynamicExchangesPending = false
+}
+
+export const GET_EXCHANGES_DYNAMIC_SUCCESS = (state, responseData) => {
+    state.dynamicExchangesItems = responseData.data
+
+    state.pending = false
+}

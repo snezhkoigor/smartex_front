@@ -1,12 +1,9 @@
 <template>
     <div>
-        <q-card>
+        <q-card class="shadow-1">
             <q-card-title>
             </q-card-title>
             <q-card-main>
-                <div class="settings">
-                    <q-select :options="periodItems" v-model="period" style="width: 80px"/>
-                </div>
                 <div class="chart-box">
                     <vue-highcharts :options="options" ref="lineCharts" />
                 </div>
@@ -17,36 +14,20 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { QSelect } from 'quasar'
 import VueHighcharts from 'vue2-highcharts'
 
 export default {
     data () {
         return {
-            period: 'week',
-            periodItems: [
-                {
-                    label: '7 days',
-                    value: 'week'
-                },
-                {
-                    label: '12 months',
-                    value: 'month'
-                },
-                {
-                    label: 'all',
-                    value: 'year'
-                }
-            ],
             options: {
                 chart: {
                     type: 'spline'
                 },
                 title: {
-                    text: 'Registrations and activations'
+                    text: 'Exchanges dynamic'
                 },
                 subtitle: {
-                    text: 'All registrations and activations by periods'
+                    text: 'users exchanges by last month'
                 },
                 yAxis: {
                     title: {
@@ -65,12 +46,11 @@ export default {
         }
     },
     components: {
-        VueHighcharts,
-        QSelect
+        VueHighcharts
     },
     computed: {
         ...mapGetters('dashboard', [
-            'totalRegistrationsAndActivationsItems', 'totalRegistrationsAndActivationsPending'
+            'exchangesDynamicItems', 'exchangesDynamicPending'
         ])
     },
     watch: {
@@ -80,7 +60,7 @@ export default {
     },
     methods: {
         ...mapActions('dashboard', [
-            'totalRegistrationsAndActivations'
+            'exchangesDynamic'
         ]),
         refresh (period) {
             this.$refs.lineCharts.removeSeries()
@@ -88,10 +68,10 @@ export default {
             let lineCharts = this.$refs.lineCharts
             lineCharts.delegateMethod('showLoading', 'Loading...')
 
-            this.totalRegistrationsAndActivations(period).then(() => {
-                lineCharts.getChart().xAxis[0].setCategories(this.totalRegistrationsAndActivationsItems.categories)
-                lineCharts.addSeries(this.totalRegistrationsAndActivationsItems.registrations)
-                lineCharts.addSeries(this.totalRegistrationsAndActivationsItems.activations)
+            this.exchangesDynamic(period).then(() => {
+                lineCharts.getChart().xAxis[0].setCategories(this.exchangesDynamicItems.categories)
+                lineCharts.addSeries(this.exchangesDynamicItems.finished)
+                lineCharts.addSeries(this.exchangesDynamicItems.not)
                 lineCharts.hideLoading()
             }).catch(errors => {
                 lineCharts.hideLoading()

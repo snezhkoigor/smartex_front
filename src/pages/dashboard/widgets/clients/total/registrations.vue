@@ -1,8 +1,14 @@
 <template>
     <div>
-        <div class="chart-box">
-            <vue-highcharts :options="options" ref="lineCharts" />
-        </div>
+        <q-card>
+            <q-card-title>
+            </q-card-title>
+            <q-card-main>
+                <div class="chart-box">
+                    <vue-highcharts :options="options" ref="lineCharts" />
+                </div>
+            </q-card-main>
+        </q-card>
     </div>
 </template>
 

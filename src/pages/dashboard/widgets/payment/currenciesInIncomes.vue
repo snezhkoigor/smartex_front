@@ -4,9 +4,6 @@
             <q-card-title>
             </q-card-title>
             <q-card-main>
-                <div class="settings">
-                    <q-select :options="periodItems" v-model="period" style="width: 80px"/>
-                </div>
                 <div class="chart-box">
                     <vue-highcharts :options="options" ref="lineCharts" />
                 </div>
@@ -17,45 +14,25 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { QSelect } from 'quasar'
 import VueHighcharts from 'vue2-highcharts'
 
 export default {
     data () {
         return {
-            period: 'week',
-            periodItems: [
-                {
-                    label: '7 days',
-                    value: 'week'
-                },
-                {
-                    label: '12 months',
-                    value: 'month'
-                },
-                {
-                    label: 'all',
-                    value: 'year'
-                }
-            ],
             options: {
                 chart: {
-                    type: 'spline'
+                    type: 'column'
                 },
                 title: {
-                    text: 'Registrations and activations'
+                    text: 'Incomes in Exchanges'
                 },
                 subtitle: {
-                    text: 'All registrations and activations by periods'
+                    text: 'what currency do users want to sell most in exchanges'
                 },
                 yAxis: {
                     title: {
                         text: ''
                     }
-                },
-                tooltip: {
-                    crosshairs: true,
-                    shared: true
                 },
                 credits: {
                     enabled: false
@@ -65,12 +42,11 @@ export default {
         }
     },
     components: {
-        VueHighcharts,
-        QSelect
+        VueHighcharts
     },
     computed: {
         ...mapGetters('dashboard', [
-            'totalRegistrationsAndActivationsItems', 'totalRegistrationsAndActivationsPending'
+            'currenciesInPaymentsItems', 'currenciesInPaymentsPending'
         ])
     },
     watch: {
@@ -80,7 +56,7 @@ export default {
     },
     methods: {
         ...mapActions('dashboard', [
-            'totalRegistrationsAndActivations'
+            'currenciesInPayments'
         ]),
         refresh (period) {
             this.$refs.lineCharts.removeSeries()
@@ -88,10 +64,9 @@ export default {
             let lineCharts = this.$refs.lineCharts
             lineCharts.delegateMethod('showLoading', 'Loading...')
 
-            this.totalRegistrationsAndActivations(period).then(() => {
-                lineCharts.getChart().xAxis[0].setCategories(this.totalRegistrationsAndActivationsItems.categories)
-                lineCharts.addSeries(this.totalRegistrationsAndActivationsItems.registrations)
-                lineCharts.addSeries(this.totalRegistrationsAndActivationsItems.activations)
+            this.currenciesInPayments(period).then(() => {
+                lineCharts.getChart().xAxis[0].setCategories(this.currenciesInPaymentsItems.categories)
+                lineCharts.addSeries(this.currenciesInPaymentsItems.data)
                 lineCharts.hideLoading()
             }).catch(errors => {
                 lineCharts.hideLoading()

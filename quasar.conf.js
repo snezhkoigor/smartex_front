@@ -68,6 +68,7 @@ module.exports = function (ctx) {
                 'QPopover',
                 'QTabs',
                 'QRouteTab',
+                'QCard',
                 'QCardMain',
                 'QCardTitle',
                 'QInnerLoading',
