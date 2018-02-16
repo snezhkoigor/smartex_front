@@ -245,6 +245,32 @@ export default [
                 ]
             },
             {
+                path: '/exchanges',
+                component: () => import('pages/exchange/index'),
+                meta: {
+                    role: [
+                        access.admin
+                    ],
+                    title: 'Exchanges'
+                },
+                menu: true,
+                children: [
+                    {
+                        path: ':userId?',
+                        name: 'exchangesList',
+                        component: () => import('pages/exchange/list'),
+                        beforeEnter: authGuard,
+                        meta: {
+                            role: [
+                                access.admin
+                            ],
+                            title: 'Exchanges',
+                            subtitle: 'List of all exchanges'
+                        }
+                    }
+                ]
+            },
+            {
                 path: '/users',
                 component: () => import('pages/user/index'),
                 meta: {

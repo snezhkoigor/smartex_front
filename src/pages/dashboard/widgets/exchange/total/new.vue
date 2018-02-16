@@ -7,7 +7,12 @@
                 </span>
             </q-card-title>
             <q-card-main>
-                <span class="q-caption">total:</span> <span class="q-headline">{{totalNewExchangesItems.all}}</span>, <span class="q-caption">no income:</span> <span class="q-headline">{{totalNewExchangesItems.finished}}</span>, <span class="q-caption">conv:</span> <span class="q-headline">{{totalNewExchangesItems.conversion}}%</span>
+                <div v-show="!totalNewExchangesPending">
+                    <span class="q-caption">total:</span> <span class="q-headline">{{totalNewExchangesItems.all}}</span>, <span class="q-caption">no income:</span> <span class="q-headline">{{totalNewExchangesItems.finished}}</span>, <span class="q-caption">conv:</span> <span class="q-headline">{{totalNewExchangesItems.conversion}}%</span>
+                </div>
+                <div v-show="totalNewExchangesPending">
+                    Loading ...
+                </div>
             </q-card-main>
         </q-card>
     </div>

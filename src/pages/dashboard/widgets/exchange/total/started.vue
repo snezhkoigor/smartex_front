@@ -7,7 +7,12 @@
                 </span>
             </q-card-title>
             <q-card-main>
-                <span class="q-caption">total:</span> <span class="q-headline">{{totalFinishedInPaymentsItems.all}}</span>, <span class="q-caption">has income:</span> <span class="q-headline">{{totalFinishedInPaymentsItems.finished}}</span>, <span class="q-caption">conv:</span> <span class="q-headline">{{totalFinishedInPaymentsItems.conversion}}%</span>
+                <div v-show="!totalFinishedInPaymentsPending">
+                    <span class="q-caption">total:</span> <span class="q-headline">{{totalFinishedInPaymentsItems.all}}</span>, <span class="q-caption">has income:</span> <span class="q-headline">{{totalFinishedInPaymentsItems.finished}}</span>, <span class="q-caption">conv:</span> <span class="q-headline">{{totalFinishedInPaymentsItems.conversion}}%</span>
+                </div>
+                <div v-show="totalFinishedInPaymentsPending">
+                    Loading ...
+                </div>
             </q-card-main>
         </q-card>
     </div>

@@ -9,6 +9,7 @@ import commission from './commission'
 import dashboard from './dashboard'
 import news from './news'
 import wallet from './wallet'
+import exchange from './exchange'
 
 Vue.use(Vuex)
 
@@ -20,7 +21,8 @@ const store = new Vuex.Store({
         commission,
         dashboard,
         news,
-        wallet
+        wallet,
+        exchange
     },
     plugins: [createPersistedState()]
 })

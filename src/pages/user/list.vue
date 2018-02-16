@@ -53,7 +53,7 @@
                                 <q-btn flat icon="edit" @click="goToEditUser(props.row)" />
                                 <q-btn flat icon="payment" @click="goToUserTransactions(props.row)">
                                     <q-tooltip>
-                                        download user transactions
+                                        view and download user transactions
                                     </q-tooltip>
                                 </q-btn>
                                 <q-btn flat icon="insert_comment" @click="goToUserComment(props.row)">
@@ -117,7 +117,6 @@ import InnerLoadingLayout from '../../layouts/InnerLoading'
 
 import tableConfig from '../../config/table'
 import HttpHelper from '../../helpers/http'
-import axios from 'axios'
 
 export default {
     name: 'UsersListPage',
@@ -261,7 +260,10 @@ export default {
             this.verificationUserObj = {}
         },
         goToUserTransactions (user) {
-            window.open(axios.defaults.baseURL + '/payments/pdf/transactions/' + user.id, '_blank')
+            this.$router.push({
+                name: 'exchangesList',
+                params: { userId: user.id }
+            })
         },
         goToAddUser () {
             this.$router.push({

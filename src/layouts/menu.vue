@@ -34,6 +34,13 @@
                     <q-item-tile sublabel>List of available wallets</q-item-tile>
                 </q-item-main>
             </q-item>
+            <q-item to="/exchanges" v-if="hasAccess('exchanges')">
+                <q-item-side icon="swap_horiz" />
+                <q-item-main>
+                    <q-item-tile label>Exchanges</q-item-tile>
+                    <q-item-tile sublabel>List of all exchanges</q-item-tile>
+                </q-item-main>
+            </q-item>
             <q-item to="/commissions" v-if="hasAccess('commissions')">
                 <q-item-side icon="toll" />
                 <q-item-main>

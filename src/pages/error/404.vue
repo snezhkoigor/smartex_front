@@ -79,6 +79,7 @@ export default {
 <style scoped>
     .error-container {
         max-width: 600px;
+        margin: 20px;
     }
     .error-container .error-gif {
         margin-right: 20px;
