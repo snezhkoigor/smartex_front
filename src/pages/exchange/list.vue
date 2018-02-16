@@ -120,6 +120,9 @@
                                         {{ props.row.date | moment('DD.MM.YYYY, h:mm') }}
                                     </q-td>
                                     <q-td>
+                                        {{ props.row.in_payment }}
+                                    </q-td>
+                                    <q-td>
                                         {{ props.row.in_currency_amount }}
                                     </q-td>
                                     <q-td>
@@ -133,6 +136,9 @@
                                     </q-td>
                                     <q-td>
                                         {{ props.row.out_date | moment('DD.MM.YYYY, h:mm') }}
+                                    </q-td>
+                                    <q-td>
+                                        {{ props.row.out_payment }}
                                     </q-td>
                                     <q-td>
                                         {{ props.row.out_currency_amount }}
@@ -213,6 +219,13 @@ export default {
                     sortable: true
                 },
                 {
+                    name: 'in_payment',
+                    label: 'In Payment',
+                    field: 'in_payment',
+                    align: 'left',
+                    sort: false
+                },
+                {
                     name: 'in_currency_amount',
                     label: 'In',
                     field: 'in_currency_amount',
@@ -233,13 +246,6 @@ export default {
                     align: 'left',
                     sort: false
                 },
-                // {
-                //     name: 'comment',
-                //     label: 'Comment',
-                //     field: 'comment',
-                //     align: 'left',
-                //     sort: false
-                // },
                 {
                     name: 'out_id_pay',
                     label: 'Out ID',
@@ -253,6 +259,13 @@ export default {
                     align: 'left',
                     field: 'out_date',
                     sortable: true
+                },
+                {
+                    name: 'out_payment',
+                    label: 'Out Payment',
+                    field: 'out_payment',
+                    align: 'left',
+                    sort: false
                 },
                 {
                     name: 'out_currency_amount',
