@@ -65,11 +65,10 @@ export default {
             })
         },
         singOut () {
-            this.$refName.App.$refs.ajaxBar.start()
             this.logout().then(() => {
-                this.$refName.App.$refs.ajaxBar.stop()
-            }).catch(errors => {
-                this.$refName.App.$refs.ajaxBar.stop()
+                this.$router.push({
+                    name: 'login'
+                })
             })
         }
     }

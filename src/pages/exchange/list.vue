@@ -1,7 +1,7 @@
 <template>
     <div class="logs">
-        <inner-loading-layout :pending="pending"></inner-loading-layout>
-        <div v-show="!pending">
+        <inner-loading-layout :pending="pending || paymentPending"></inner-loading-layout>
+        <div v-show="!pending && !paymentPending">
             <q-card-title>
                 {{ this.$router.currentRoute.meta.title }}
                 <span slot="subtitle">{{ this.$router.currentRoute.meta.subtitle }}</span>
@@ -109,7 +109,7 @@
                                 @request="getExchangesList"
                         >
                             <template slot="body" slot-scope="props">
-                                <q-tr :props="props" :class="{'red-4': props.row.in_id_pay === 0, 'red-2': props.row.in_id_pay !== 0 && props.row.out_id_pay === 0, 'green-5': props.row.in_id_pay !== 0 && props.row.out_id_pay !== 0}">
+                                <q-tr :props="props">
                                     <q-td>
                                         {{ props.row.id }}
                                     </q-td>
@@ -128,8 +128,11 @@
                                     <q-td>
                                         {{ props.row.in_fee }}
                                     </q-td>
-                                    <q-td style="border-right: 3px solid black;">
+                                    <q-td>
                                         {{ props.row.in_payee }}
+                                    </q-td>
+                                    <q-td style="border-right: 3px solid black;">
+                                        <q-btn v-show="props.row.in_id_pay" flat icon="pageview" @click="goToViewInPayment(props.row)" />
                                     </q-td>
                                     <q-td>
                                         {{ props.row.out_id_pay }}
@@ -149,6 +152,9 @@
                                     <q-td>
                                         {{ props.row.out_payee }}
                                     </q-td>
+                                    <q-td>
+                                        <q-btn v-show="props.row.out_id_pay" flat icon="pageview" @click="goToViewOutPayment(props.row)" />
+                                    </q-td>
                                 </q-tr>
                             </template>
                         </q-table>
@@ -156,12 +162,72 @@
                 </div>
             </q-card-main>
         </div>
+
+        <q-dialog
+            v-model="showPreviewDialog"
+            ref="dialog"
+            stack-buttons
+            @cancel="onCancelPreviewDialog"
+            @hide="onCancelPreviewDialog"
+        >
+            <!-- This or use "title" prop on <q-dialog> -->
+            <span slot="title">Payment details</span>
+
+            <!-- This or use "message" prop on <q-dialog> -->
+            <span slot="message">Don't confirm this payment if don't have money in purse</span>
+
+            <div slot="body">
+                <p v-if="payment.date">
+                    Date: {{ payment.date.date | moment('DD.MM.YYYY, h:mm') }}
+                </p>
+                <p v-if="payment.confirm">
+                    Date confirm: {{ payment.date_confirm.date | moment('DD.MM.YYYY, h:mm') }}
+                </p>
+                <p v-if="payment.confirm === 0">
+                    Date confirm: ---
+                </p>
+                <p v-if="payment.user">
+                    User: {{ payment.user.data.name }} {{ payment.user.data.family }}
+                </p>
+                <p v-if="payment.paymentSystem">
+                    Payment System: {{ payment.paymentSystem.data.name }}
+                </p>
+                <p>
+                    Amount: {{ payment.prefix }}{{ payment.amount }}
+                </p>
+                <p>
+                    Fee: {{ payment.fee ? payment.fee : '---' }}
+                </p>
+                <p>
+                    Payer: {{ payment.payer ? payment.payer : '---' }}
+                </p>
+                <p>
+                    Payee: {{ payment.payee ? payment.payee : '---' }}
+                </p>
+                <p>
+                    Comment: {{ payment.comment ? payment.comment : '---' }}
+                </p>
+            </div>
+            <template slot="buttons" slot-scope="props">
+                <div class="verify-dialog-btn">
+                    <span>
+                        <q-btn flat label="Close" @click="onCancelPreviewDialog" />
+                    </span>
+                    <span v-show="payment.confirm === 0">
+                        <q-btn color="secondary" @click="confirmPayment">
+                            <span v-if="!paymentPending">Confirm</span>
+                            <span v-if="paymentPending">Loading ...</span>
+                        </q-btn>
+                    </span>
+                </div>
+            </template>
+        </q-dialog>
     </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { QSearch, QSelect, QTable, QTd, QTr } from 'quasar'
+import { QSearch, QSelect, QTable, QTd, QTr, QDialog } from 'quasar'
 import InnerLoadingLayout from '../../layouts/InnerLoading'
 
 import HttpHelper from '../../helpers/http'
@@ -176,10 +242,12 @@ export default {
         QTable,
         QTr,
         InnerLoadingLayout,
-        QTd
+        QTd,
+        QDialog
     },
     data () {
         return {
+            showPreviewDialog: false,
             items: [],
             inPaymentSystemOptions: [],
             outPaymentSystemOptions: [],
@@ -247,6 +315,11 @@ export default {
                     sort: false
                 },
                 {
+                    name: 'action_in',
+                    label: '',
+                    field: 'action_in'
+                },
+                {
                     name: 'out_id_pay',
                     label: 'Out ID',
                     align: 'left',
@@ -287,6 +360,11 @@ export default {
                     field: 'out_payee',
                     align: 'left',
                     sort: false
+                },
+                {
+                    name: 'action_out',
+                    label: '',
+                    field: 'action_out'
                 }
             ]
         }
@@ -295,9 +373,13 @@ export default {
         this.getExchangesList()
     },
     computed: {
-        ...mapGetters('exchange', [
-            'exchangesList', 'pending', 'meta'
-        ])
+        ...mapGetters({
+            'exchangesList': 'exchange/exchangesList',
+            'pending': 'exchange/pending',
+            'meta': 'exchange/meta',
+            'payment': 'payment/payment',
+            'paymentPending': 'payment/pending'
+        })
     },
     watch: {
         filterByExchangeStatus: function (value) {
@@ -326,9 +408,43 @@ export default {
         }
     },
     methods: {
-        ...mapActions('exchange', [
-            'list', 'getPdf'
-        ]),
+        ...mapActions({
+            'list': 'exchange/list',
+            'getPdf': 'exchange/getPdf',
+            'confirm': 'payment/confirm',
+            'getById': 'payment/getById',
+            'resetPayment': 'payment/resetPayment'
+        }),
+        confirmPayment () {
+            this.confirm(this.payment.id).then(() => {
+                this.showPreviewDialog = false
+                this.resetPayment()
+                this.getExchangesList()
+            }).catch(errors => {
+                this.errors = errors
+                this.resetPayment()
+            })
+        },
+        onCancelPreviewDialog () {
+            this.showPreviewDialog = false
+            this.resetPayment()
+        },
+        goToViewInPayment (exchange) {
+            this.getById(exchange.in_id_pay).then(() => {
+                this.showPreviewDialog = true
+            }).catch(errors => {
+                this.errors = errors
+                this.resetPayment()
+            })
+        },
+        goToViewOutPayment (exchange) {
+            this.getById(exchange.out_id_pay).then(() => {
+                this.showPreviewDialog = true
+            }).catch(errors => {
+                this.errors = errors
+                this.resetPayment()
+            })
+        },
         downloadPdf () {
             axios({
                 method: 'get',
