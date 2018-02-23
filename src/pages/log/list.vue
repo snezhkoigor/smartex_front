@@ -132,7 +132,7 @@ export default {
                         if (value.data !== undefined) {
                             return value.data.name + ' ' + value.data.family
                         } else {
-                            return 'n\a'
+                            return '--'
                         }
                     },
                     sort: false
