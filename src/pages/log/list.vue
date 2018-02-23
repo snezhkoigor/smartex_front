@@ -120,10 +120,7 @@ export default {
                     name: 'created_at',
                     label: 'Date',
                     align: 'left',
-                    field: 'created_at',
-                    format (value, row) {
-                        return value.date
-                    },
+                    field: 'created_at',,
                     sortable: true
                 },
                 {
