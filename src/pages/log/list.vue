@@ -129,7 +129,11 @@ export default {
                     field: 'user',
                     align: 'left',
                     format (value, row) {
-                        return value.data !== undefined ? value.data.name + ' ' + value.data.family : 'n\a'
+                        if (value.data !== undefined) {
+                            return value.data.name + ' ' + value.data.family
+                        } else {
+                            return 'n\a'
+                        }
                     },
                     sort: false
                 },
