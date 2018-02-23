@@ -22,29 +22,35 @@
                                     exact
                                     slot="title"
                                 />
-                                <div class="row gutter-sm form" color="light">
-                                    <div class="col-12">
-                                        <q-field :error-label="errors && errors.email ? errors.email : ''" :error="errors && !!errors.email">
-                                            <q-input v-model="email"
-                                                @keyup.enter="singIn"
-                                                type="email"
-                                                float-label="E-mail"
-                                            />
-                                        </q-field>
+                                <div class="form" color="light">
+                                    <div class="row gutter-sm" style="padding-bottom: 20px">
+                                        <div class="col-12">
+                                            <q-field :error-label="errors && errors.email ? errors.email : ''" :error="errors && !!errors.email">
+                                                <q-input v-model="email"
+                                                    @keyup.enter="singIn"
+                                                    type="email"
+                                                    float-label="E-mail"
+                                                />
+                                            </q-field>
+                                        </div>
                                     </div>
-                                    <div class="col-12">
-                                        <q-field :error-label="errors && errors.password ? errors.password : ''" :error="errors && !!errors.password">
-                                            <q-input v-model="password" @keyup.enter="singIn" type="password" float-label="Password" />
-                                        </q-field>
+                                    <div class="row gutter-sm">
+                                        <div class="col-12">
+                                            <q-field :error-label="errors && errors.password ? errors.password : ''" :error="errors && !!errors.password">
+                                                <q-input v-model="password" @keyup.enter="singIn" type="password" float-label="Password" />
+                                            </q-field>
+                                        </div>
                                     </div>
-                                    <div class="col-12 sign-in-btn">
-                                        <q-btn color="secondary"
-                                            class="full-width"
-                                            @click="singIn"
-                                            :disable="pending"
-                                        >
-                                            Sing In
-                                        </q-btn>
+                                    <div class="row gutter-sm sign-in-btn">
+                                        <div class="col-12">
+                                            <q-btn color="secondary"
+                                                class="full-width"
+                                                @click="singIn"
+                                                :disable="pending"
+                                            >
+                                                Sing In
+                                            </q-btn>
+                                        </div>
                                     </div>
                                 </div>
                             </q-tabs>
