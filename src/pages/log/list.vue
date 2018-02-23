@@ -120,7 +120,7 @@ export default {
                     name: 'created_at',
                     label: 'Date',
                     align: 'left',
-                    field: 'created_at',,
+                    field: 'created_at',
                     sortable: true
                 },
                 {
@@ -129,7 +129,7 @@ export default {
                     field: 'user',
                     align: 'left',
                     format (value, row) {
-                        return value.data.name + ' ' + value.data.family
+                        return value.data !== undefined ? value.data.name + ' ' + value.data.family : 'n\a'
                     },
                     sort: false
                 },
