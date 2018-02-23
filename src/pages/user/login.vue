@@ -22,7 +22,7 @@
                                     exact
                                     slot="title"
                                 />
-                                <div class="form" color="light">
+                                <div class="row gutter-sm form" color="light">
                                     <div class="row gutter-y-sm">
                                         <div class="col-12">
                                             <q-field :error-label="errors && errors.email ? errors.email : ''" :error="errors && !!errors.email">
