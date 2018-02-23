@@ -121,9 +121,6 @@ export default {
                     label: 'Date',
                     align: 'left',
                     field: 'created_at',
-                    format (value, row) {
-                        return value.date
-                    },
                     sortable: true
                 },
                 {
@@ -132,7 +129,11 @@ export default {
                     field: 'user',
                     align: 'left',
                     format (value, row) {
-                        return value.data.name + ' ' + value.data.family
+                        if (value.data !== undefined) {
+                            return value.data.name + ' ' + value.data.family
+                        } else {
+                            return '--'
+                        }
                     },
                     sort: false
                 },

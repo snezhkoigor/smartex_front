@@ -39,8 +39,7 @@
                                                 fixedLabel: true,
                                                 options: ['left', 'center', 'right', 'justify']
                                             }
-                                        ],
-                                        ['insert_img']
+                                        ]
                                     ]"
                                 >
                                     <q-btn
