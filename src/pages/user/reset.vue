@@ -23,7 +23,7 @@
                                         slot="title"
                                 />
                                 <div class="form" color="light">
-                                    <div class="row">
+                                    <div class="row gutter-sm">
                                         <div class="col-12">
                                             <q-field :error-label="errors && errors.email ? errors.email[0] : ''" :error="errors && !!errors.email">
                                                 <q-input v-model="email"
@@ -35,7 +35,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="row sign-in-btn">
+                                    <div class="row gutter-sm sign-in-btn">
                                         <div class="col-12">
                                             <q-btn color="secondary"
                                                    class="full-width"
@@ -58,6 +58,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import { QField, QInput } from 'quasar'
 
 import ajaxBarConfig from '../../config/ajaxBar'
 
