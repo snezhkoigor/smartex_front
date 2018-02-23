@@ -22,7 +22,7 @@
                                     exact
                                     slot="title"
                                 />
-                                <div class="row gutter-smform" color="light">
+                                <div class="row gutter-sm form" color="light">
                                     <div class="col-12">
                                         <q-field :error-label="errors && errors.email ? errors.email : ''" :error="errors && !!errors.email">
                                             <q-input v-model="email"
