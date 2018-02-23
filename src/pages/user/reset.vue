@@ -63,6 +63,9 @@ import { QField, QInput } from 'quasar'
 import ajaxBarConfig from '../../config/ajaxBar'
 
 export default {
+    components: {
+        QField, QInput
+    },
     data () {
         return {
             visiblePassword: true,
