@@ -27,8 +27,6 @@ const Router = new VueRouter({
             can = true
         } else {
             Object.values(jwtRole).forEach(function (value, key, arr) {
-                console.log(routeMeta.role)
-                console.log(value.name)
                 if (routeMeta.role.indexOf(access.public) !== -1 || routeMeta.role.indexOf(value.name) !== -1) {
                     can = true
                 }
