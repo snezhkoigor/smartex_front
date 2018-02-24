@@ -245,6 +245,7 @@ export default [
                 ]
             },
             {
+                name: 'exchanges',
                 path: '/exchanges',
                 component: () => import('pages/exchange/index'),
                 meta: {
