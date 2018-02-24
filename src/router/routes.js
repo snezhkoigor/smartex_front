@@ -59,6 +59,7 @@ export default [
                 }
             },
             {
+                name: 'wallets',
                 path: '/wallets',
                 component: () => import('pages/wallet/index'),
                 meta: {
@@ -109,6 +110,7 @@ export default [
                 ]
             },
             {
+                name: 'commissions',
                 path: '/commissions',
                 component: () => import('pages/commission/index'),
                 meta: {
@@ -208,6 +210,7 @@ export default [
                 ]
             },
             {
+                name: 'activity-logs',
                 path: '/activity-logs',
                 component: () => import('pages/log/index'),
                 meta: {
@@ -275,6 +278,7 @@ export default [
                 ]
             },
             {
+                name: 'users',
                 path: '/users',
                 component: () => import('pages/user/index'),
                 meta: {
