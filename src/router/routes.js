@@ -158,6 +158,7 @@ export default [
                 ]
             },
             {
+                name: 'news',
                 path: '/news',
                 component: () => import('pages/news/index'),
                 meta: {
