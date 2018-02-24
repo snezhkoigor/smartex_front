@@ -249,7 +249,8 @@ export default [
                 component: () => import('pages/exchange/index'),
                 meta: {
                     role: [
-                        access.admin
+                        access.admin,
+                        access.operator
                     ],
                     title: 'Exchanges'
                 },
@@ -262,7 +263,8 @@ export default [
                         beforeEnter: authGuard,
                         meta: {
                             role: [
-                                access.admin
+                                access.admin,
+                                access.operator
                             ],
                             title: 'Exchanges',
                             subtitle: 'List of all exchanges'
