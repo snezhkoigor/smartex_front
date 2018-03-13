@@ -26,6 +26,18 @@ export const GET_NEWS_BY_ID_SUCCESS = (state, responseData) => {
     state.pending = false
 }
 
+export const GET_META_SUCCESS = (state, responseData) => {
+    state.meta = responseData.meta
+
+    state.pending = false
+}
+
+export const GET_META_FAIL = (state) => {
+    state.meta = {}
+
+    state.pending = false
+}
+
 export const GET_NEWS_BY_ID_FAIL = (state) => {
     state.news = {}
 

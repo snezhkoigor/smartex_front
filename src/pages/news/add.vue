@@ -54,14 +54,27 @@
                             </q-field>
                         </div>
                     </div>
-                    <div class="row gutter-y-sm">
-                        <div class="col-12">
+                    <div class="row gutter-sm">
+                        <div class="col-12 col-sm-8 col-md-8">
                             <q-field :error-label="errors && errors.title ? errors.title[0] : ''"
                                      :error="errors && !!errors.title"
                             >
                                 <q-input v-model="newsItem.title"
                                          float-label="Title *"
                                          :disable="pending"
+                                />
+                            </q-field>
+                        </div>
+                        <div class="col-12 col-sm-4 col-md-4">
+                            <q-field
+                                    :error-label="errors && errors.lang ? errors.lang[0] : ''"
+                                    :error="errors && !!errors.lang"
+                            >
+                                <q-select
+                                        v-model="newsItem.lang"
+                                        float-label="Language"
+                                        :options="languageOptions"
+                                        :disable="pending"
                                 />
                             </q-field>
                         </div>
@@ -114,7 +127,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { QField, QInput, QCheckbox, QDatetime, QEditor } from 'quasar'
+import { QField, QInput, QCheckbox, QDatetime, QEditor, QSelect } from 'quasar'
 import InnerLoadingLayout from '../../layouts/InnerLoading'
 
 export default {
@@ -125,7 +138,8 @@ export default {
         QCheckbox,
         QDatetime,
         QEditor,
-        InnerLoadingLayout
+        InnerLoadingLayout,
+        QSelect
     },
     data () {
         return {
@@ -138,18 +152,23 @@ export default {
                 date: new Date().toISOString().slice(0, 10),
                 active: true
             },
-            errors: []
+            errors: [],
+            languageOptions: []
         }
+    },
+    mounted () {
+        this.getFormMeta().then(() => {
+            this.languageOptions = this.meta.languages
+        })
     },
     computed: {
         ...mapGetters('news', [
-            'pending'
+            'pending', 'meta'
         ])
     },
-
     methods: {
         ...mapActions('news', [
-            'add'
+            'add', 'getFormMeta'
         ]),
         importImage () {
 

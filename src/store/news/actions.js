@@ -3,6 +3,36 @@ import errorsHelper from '../../helpers/errors'
 import httpHelper from '../../helpers/http'
 import router from '../../router/index'
 
+export const getFormMeta = ({commit}) => {
+    return new Promise((resolve, reject) => {
+        commit('SET_PENDING')
+
+        axios.get(
+            '/meta/news',
+            {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('token')
+                }
+            }
+        ).then(response => {
+            if (httpHelper.checkIsOkAnswerStatus(response.status)) {
+                commit('GET_META_SUCCESS', response.data)
+                resolve(response)
+            } else {
+                commit('GET_META_FAIL')
+                reject(errorsHelper.getMessage(response))
+
+                errorsHelper.goByStatusCode(response.status, router)
+            }
+        }, errors => {
+            commit('GET_META_FAIL')
+            reject(errors)
+
+            errorsHelper.goByStatusCode(500, router)
+        })
+    })
+}
+
 export const getById = ({ commit }, newsId) => {
     return new Promise((resolve, reject) => {
         commit('SET_PENDING')
