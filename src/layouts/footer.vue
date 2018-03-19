@@ -1,5 +1,5 @@
 <template>
-    <q-toolbar slot="footer" class="bg-footer footer vertical-middle">
+    <q-toolbar slot="footer" color="white" class="bg-footer footer vertical-middle">
         <span class="copyright">Copyright © {{ new Date().getFullYear() }} Smartex</span>
     </q-toolbar>
 </template>

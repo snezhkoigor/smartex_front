@@ -13,7 +13,7 @@
                     </q-btn>
 
                     <q-toolbar-title>
-                        <div>Smartex</div>
+                        <div>{{projectName}}</div>
                         <div class="subtitle">Discover your power</div>
                     </q-toolbar-title>
 
@@ -54,6 +54,8 @@ import { mapGetters, mapActions } from 'vuex'
 import MenuComponent from './menu.vue'
 import FooterComponent from './footer.vue'
 
+import _envLocal from '../../env.js'
+
 export default {
     name: 'LayoutDesktop',
     components: {
@@ -62,7 +64,8 @@ export default {
     },
     data () {
         return {
-            leftDrawerOpen: true
+            leftDrawerOpen: true,
+            projectName: _envLocal.APP_NAME
         }
     },
     methods: {

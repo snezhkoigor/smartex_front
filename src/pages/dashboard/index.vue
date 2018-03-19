@@ -8,7 +8,7 @@
         <q-card-main>
             <!-- if you want automatic padding use "layout-padding" class -->
             <div class="pull-left">
-                <div class="row gutter-sm">
+                <div class="row gutter-xs">
                     <div class="col-sm-4">
                         <total-new-exchanges-component />
                     </div>
@@ -19,10 +19,7 @@
                         <total-finished-exchanges-component />
                     </div>
                 </div>
-                <br />
-                <br />
-                <br />
-                <div class="row gutter-sm">
+                <div class="row gutter-xs">
                     <div class="col-sm-6">
                         <currencies-out-payments-component />
                     </div>
@@ -30,26 +27,17 @@
                         <currencies-in-payments-component />
                     </div>
                 </div>
-                <br />
-                <br />
-                <br />
-                <div class="row gutter-sm">
+                <div class="row gutter-xs">
                     <div class="col-sm-12">
                         <favorites-payment-systems-by-last-month-component />
                     </div>
                 </div>
-                <br />
-                <br />
-                <br />
-                <div class="row gutter-sm">
+                <div class="row gutter-xs">
                     <div class="col-sm-12">
                         <exchanges-dynamic-by-last-month-component />
                     </div>
                 </div>
-                <br />
-                <br />
-                <br />
-                <div class="row gutter-sm">
+                <div class="row gutter-xs">
                     <div class="col-sm-6">
                         <activations-component />
                     </div>

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <q-card class="shadow-1">
+        <q-card class="shadow-0">
             <q-card-title>
             </q-card-title>
             <q-card-main>

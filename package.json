@@ -28,7 +28,9 @@
     "vue-truncate-filter": "^1.1.7",
     "vue2-highcharts": "^1.1.8",
     "vuex-persistedstate": "^2.5.1",
-    "webpack": "^3.11.0"
+    "webpack": "^3.11.0",
+    "vue": "^2.5.16",
+    "vue-template-compiler": "^2.5.16"
   },
   "devDependencies": {
     "babel-eslint": "8.2.1",

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <q-card class="shadow-1">
+        <q-card class="shadow-0">
             <q-card-title>
             </q-card-title>
             <q-card-main>
@@ -108,5 +108,6 @@ export default {
     .settings {
         position: absolute;
         z-index: 111111;
+        margin-top: -20px;
     }
 </style>
