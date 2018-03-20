@@ -61,15 +61,26 @@
                                         set comment to user
                                     </q-tooltip>
                                 </q-btn>
-                                <q-btn flat :color="props.row.verification_ok ? 'secondary' : 'red'" :disable="props.row.verification_ok || props.row.verification_image === ''" icon="verified_user" @click="goToUserVerification(props.row)">
-                                    <q-tooltip v-if="props.row.verification_ok === false && props.row.verification_image !== ''">
-                                        verify user
+                                <q-btn flat :color="props.row.verification_kyc_ok ? 'secondary' : 'red'" :disable="props.row.verification_kyc_ok || props.row.verification_kyc === ''" icon="verified_user" @click="goToUserVerification(props.row, 'kyc')">
+                                    <q-tooltip v-if="props.row.verification_kyc_ok === false && props.row.verification_kyc !== ''">
+                                        verify user KYC
                                     </q-tooltip>
-                                    <q-tooltip v-else-if="props.row.verification_ok === false && props.row.verification_image === ''">
-                                        no verify user document
+                                    <q-tooltip v-else-if="props.row.verification_kyc_ok === false && props.row.verification_kyc === ''">
+                                        no verify user KYC
                                     </q-tooltip>
                                     <q-tooltip v-else>
-                                        verified
+                                        KYC verified
+                                    </q-tooltip>
+                                </q-btn>
+                                <q-btn flat :color="props.row.verification_ok ? 'secondary' : 'red'" :disable="props.row.verification_ok || props.row.verification_image === ''" icon="verified_user" @click="goToUserVerification(props.row, 'card')">
+                                    <q-tooltip v-if="props.row.verification_ok === false && props.row.verification_image !== ''">
+                                        verify user ID CARD
+                                    </q-tooltip>
+                                    <q-tooltip v-else-if="props.row.verification_ok === false && props.row.verification_image === ''">
+                                        no verify user ID CARD
+                                    </q-tooltip>
+                                    <q-tooltip v-else>
+                                        ID CARD verified
                                     </q-tooltip>
                                 </q-btn>
                                 <q-btn flat color="red" icon="delete_forever" @click="openDeleteDialog(props.row)" />
@@ -242,18 +253,35 @@ export default {
                 console.log('>>>> Cancel')
             })
         },
-        goToUserVerification (user) {
+        goToUserVerification (user, type) {
             this.showVerificationDialog = true
-            this.verification_image = user.avatar_link
+
+            if (type === 'kyc') {
+                this.verification_image = user.verification_kyc
+            } else {
+                this.verification_image = user.verification_image
+            }
+
             this.verificationUserObj = user
         },
-        verifyUser () {
+        verifyUser (type) {
             this.showVerificationDialog = false
-            this.saveUser({
-                id: this.verificationUserObj.id,
-                email: this.verificationUserObj.email,
-                verification_ok: true
-            })
+            let dataForVerify = {}
+
+            if (type === 'kyc') {
+                dataForVerify = {
+                    id: this.verificationUserObj.id,
+                    email: this.verificationUserObj.email,
+                    verification_kyc_ok: true
+                }
+            } else {
+                dataForVerify = {
+                    id: this.verificationUserObj.id,
+                    email: this.verificationUserObj.email,
+                    verification_ok: true
+                }
+            }
+            this.saveUser(dataForVerify)
         },
         onCancelVerificationDialog () {
             this.showVerificationDialog = false
