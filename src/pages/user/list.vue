@@ -112,7 +112,7 @@
                             <q-btn flat label="Close" @click="onCancelVerificationDialog" />
                         </span>
                         <span>
-                            <q-btn color="secondary" label="Verify" @click="verifyUser(this.verification_type)" />
+                            <q-btn color="secondary" label="Verify" @click="verifyUser(verification_type)" />
                         </span>
                     </div>
                 </template>
