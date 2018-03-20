@@ -112,7 +112,7 @@
                             <q-btn flat label="Close" @click="onCancelVerificationDialog" />
                         </span>
                         <span>
-                            <q-btn color="secondary" label="Verify" @click="verifyUser" />
+                            <q-btn color="secondary" label="Verify" @click="verifyUser(this.verification_type)" />
                         </span>
                     </div>
                 </template>
@@ -144,6 +144,7 @@ export default {
             verificationUserObj: {},
             showVerificationDialog: false,
             verification_image: '',
+            verification_type: 'card',
             loading: true,
             serverPagination: this.getDefaultPagination(),
             items: [],
@@ -255,8 +256,9 @@ export default {
         },
         goToUserVerification (user, type) {
             this.showVerificationDialog = true
+            this.verification_type = type
 
-            if (type === 'kyc') {
+            if (this.verification_type === 'kyc') {
                 this.verification_image = user.verification_kyc
             } else {
                 this.verification_image = user.verification_image
