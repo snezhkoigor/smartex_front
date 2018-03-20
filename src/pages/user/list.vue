@@ -47,7 +47,7 @@
                                 {{props.value | moment('DD.MM.YYYY')}}
                             </q-td>
                             <q-td slot="body-cell-fio" slot-scope="props" :props="props">
-                                {{props.row.name + ' ' + props.row.family}}
+                                {{(props.row.name ? props.row.name : '') + ' ' + (props.row.family ? props.row.family : '')}}
                             </q-td>
                             <q-td slot="body-cell-action" slot-scope="props" :props="props">
                                 <q-btn flat icon="edit" @click="goToEditUser(props.row)" />
