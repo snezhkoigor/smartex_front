@@ -5,10 +5,10 @@
                 <q-icon name="settings" class="avatar"></q-icon>
             </q-btn>
         </div>
-        <div class="profile" color="secondary">
+        <div class="profile" color="secondary" v-if="profile">
             <div class="photo">
-                <q-icon name="help_outline" size="55px" v-if="!profile.avatar" />
-                <img :src="profile.avatar_link + '/55'" class="avatar" v-if="profile.avatar"/>
+                <q-icon name="help_outline" size="55px" v-if="profile.avatar_link === undefined" />
+                <img :src="profile.avatar_link + '/55'" class="avatar" v-if="profile.avatar_link !== undefined"/>
             </div>
             <div class="user-info">
                 <div class="fio">Welcome, {{this.profile.name}} {{this.profile.family}}</div>

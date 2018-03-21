@@ -309,7 +309,33 @@ export const remove = ({commit}, userId) => {
 }
 
 export const logout = ({ commit }) => {
-    commit('LOGOUT')
+    return new Promise((resolve, reject) => {
+        commit('SET_PENDING')
+
+        axios.get(
+            '/logout',
+            {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('token')
+                }
+            }
+        ).then(response => {
+            if (httpHelper.checkIsOkAnswerStatus(response.status)) {
+                commit('LOGOUT')
+                resolve(response)
+            } else {
+                commit('RESET_PENDING')
+                reject(errorsHelper.getMessage(response))
+
+                errorsHelper.goByStatusCode(response.status, router)
+            }
+        }, errors => {
+            commit('RESET_PENDING')
+            reject(errors)
+
+            errorsHelper.goByStatusCode(500, router)
+        })
+    })
 }
 
 export const resetPending = ({ commit }) => {

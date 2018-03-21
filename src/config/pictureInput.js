@@ -10,6 +10,6 @@ export default {
         button: 'q-btn inline relative-position q-btn-rectangle q-btn-flat q-focusable q-hoverable text-positive',
         removeButton: 'q-btn inline relative-position q-btn-rectangle q-btn-flat q-focusable q-hoverable text-negative'
     },
-    size: 2,
+    size: 5,
     margin: 16
 }

@@ -20,17 +20,20 @@ const Router = new VueRouter({
     base: process.env.VUE_ROUTER_BASE,
     scrollBehavior: () => ({ y: 0 }),
     can: function (routeMeta) {
-        let jwtRole = JSON.parse(atob(localStorage.getItem('role')))
+        let storageRole = localStorage.getItem('role')
         let can = false
+        if (storageRole) {
+            let jwtRole = JSON.parse(atob(localStorage.getItem('role')))
 
-        if (routeMeta.role === undefined) {
-            can = true
-        } else {
-            Object.values(jwtRole).forEach(function (value, key, arr) {
-                if (routeMeta.role.indexOf(access.public) !== -1 || routeMeta.role.indexOf(value.name) !== -1) {
-                    can = true
-                }
-            })
+            if (routeMeta.role === undefined) {
+                can = true
+            } else {
+                Object.values(jwtRole).forEach(function (value, key, arr) {
+                    if (routeMeta.role.indexOf(access.public) !== -1 || routeMeta.role.indexOf(value.name) !== -1) {
+                        can = true
+                    }
+                })
+            }
         }
 
         return can

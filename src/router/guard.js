@@ -1,4 +1,3 @@
-import store from '../store/index'
 import access from '../config/access'
 
 export default (to, from, next) => {
@@ -24,8 +23,6 @@ export default (to, from, next) => {
             next({path: '/401'})
         }
     } else {
-        store.dispatch('user/logout').then(() => {
-            next({ path: '/login' })
-        })
+        next({ path: '/login' })
     }
 }

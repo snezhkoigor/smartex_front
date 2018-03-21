@@ -1,6 +1,7 @@
 <template>
     <q-layout ref="layout" view="hHh Lpr lFf" :left-class="{'bg-grey-2': true}">
-        <q-layout-header class="desktop-header">
+        <inner-loading-layout :pending="pending"></inner-loading-layout>
+        <q-layout-header class="desktop-header" v-show="!pending">
             <q-toolbar color="secondary"
                 class="row toolbar no-shadow"
             >
@@ -17,9 +18,9 @@
                         <div class="subtitle">Discover your power</div>
                     </q-toolbar-title>
 
-                    <q-btn flat @click.stop="goToProfile()" v-show="!leftDrawerOpen">
-                        <q-icon name="settings" v-if="profile && !profile.avatar" />
-                        <img :src="profile.avatar_link + '/25'" class="avatar" v-if="profile.avatar"/>
+                    <q-btn flat @click.stop="goToProfile()" v-if="!leftDrawerOpen && profile">
+                        <q-icon name="settings" v-if="profile.avatar_link === undefined" />
+                        <img :src="profile.avatar_link + '/25'" class="avatar" v-if="profile.avatar_link !== undefined"/>
                     </q-btn>
                     <q-btn flat @click.stop="singOut()">
                         <q-icon name="exit_to_app" />
@@ -32,11 +33,12 @@
         <q-layout-drawer
             v-model="leftDrawerOpen"
             content-class="bg-grey-2 no-shadow"
+            v-show="!pending"
         >
             <menu-component />
         </q-layout-drawer>
 
-        <q-page-container>
+        <q-page-container v-show="!pending">
             <div class="row desktop-container">
                 <div class="col-12 body">
                     <router-view/>
@@ -55,12 +57,14 @@ import MenuComponent from './menu.vue'
 import FooterComponent from './footer.vue'
 
 import _envLocal from '../../env.js'
+import InnerLoadingLayout from '../layouts/InnerLoading'
 
 export default {
     name: 'LayoutDesktop',
     components: {
         MenuComponent,
-        FooterComponent
+        FooterComponent,
+        InnerLoadingLayout
     },
     data () {
         return {
