@@ -97,6 +97,15 @@
                             />
                         </div>
                     </div>
+                    <div class="row gutter-sm">
+                        <div class="col-xs-12 col-sm-4 col-md-4">
+                        </div>
+                        <div class="col-xs-12 col-sm-4 col-md-4">
+                        </div>
+                        <div class="col-xs-12 col-sm-4 col-md-4">
+                            <q-checkbox v-model="filterByNeedModeration" label="Exchanges with new comments?" />
+                        </div>
+                    </div>
                 </div>
                 <div class="row exchanges-table gutter-sm">
                     <div class="col-12" v-show="!pending">
@@ -131,8 +140,15 @@
                                     <q-td>
                                         {{ props.row.in_payee }}
                                     </q-td>
+                                    <q-td>
+                                        {{ props.row.clear_comment | truncate(20) }}
+                                    </q-td>
+                                    <q-td>
+                                        {{ props.row.clear_rating }}
+                                    </q-td>
                                     <q-td style="border-right: 3px solid black;">
                                         <q-btn v-show="props.row.in_id_pay" flat icon="pageview" @click="goToViewInPayment(props.row)" />
+                                        <q-btn v-if="props.row.is_moderated === false && props.row.clear_comment !== ''" flat icon="verified_user" @click="moderateComment(props.row)" />
                                     </q-td>
                                     <q-td>
                                         {{ props.row.out_id_pay }}
@@ -227,7 +243,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { QSearch, QSelect, QTable, QTd, QTr, QDialog } from 'quasar'
+import { QSearch, QSelect, QTable, QTd, QTr, QDialog, QCheckbox } from 'quasar'
 import InnerLoadingLayout from '../../layouts/InnerLoading'
 
 import HttpHelper from '../../helpers/http'
@@ -243,7 +259,8 @@ export default {
         QTr,
         InnerLoadingLayout,
         QTd,
-        QDialog
+        QDialog,
+        QCheckbox
     },
     data () {
         return {
@@ -259,6 +276,7 @@ export default {
             errors: [],
             search: '',
             filterByUser: this.$route.params.userId ? parseInt(this.$route.params.userId) : '',
+            filterByNeedModeration: false,
             filterByInPaymentSystem: '',
             filterByOutPaymentSystem: '',
             filterByInCurrency: '',
@@ -311,6 +329,20 @@ export default {
                     name: 'in_payee',
                     label: 'In Payee',
                     field: 'in_payee',
+                    align: 'left',
+                    sort: false
+                },
+                {
+                    name: 'clear_comment',
+                    label: 'Comment',
+                    field: 'clear_comment',
+                    align: 'left',
+                    sort: false
+                },
+                {
+                    name: 'clear_rating',
+                    label: 'Rating',
+                    field: 'clear_rating',
                     align: 'left',
                     sort: false
                 },
@@ -405,6 +437,10 @@ export default {
         filterByOutCurrency: function (value) {
             this.$refs.filterByOutCurrencyRef.focused = false
             this.getExchangesList()
+        },
+        filterByNeedModeration: function (value) {
+            this.$refs.filterByOutCurrencyRef.focused = false
+            this.getExchangesList()
         }
     },
     methods: {
@@ -413,8 +449,16 @@ export default {
             'getPdf': 'exchange/getPdf',
             'confirm': 'payment/confirm',
             'getById': 'payment/getById',
-            'resetPayment': 'payment/resetPayment'
+            'resetPayment': 'payment/resetPayment',
+            'commentModeration': 'exchange/commentModeration'
         }),
+        moderateComment (exchange) {
+            this.commentModeration(exchange).then(() => {
+                this.getExchangesList()
+            }).catch(errors => {
+                this.errors = errors
+            })
+        },
         confirmPayment () {
             this.confirm(this.payment.id).then(() => {
                 this.showPreviewDialog = false
@@ -517,6 +561,9 @@ export default {
             }
             if (this.filterByUser && this.filterByUser > 0) {
                 requestOptions.filters.id_user = this.filterByUser
+            }
+            if (this.filterByNeedModeration) {
+                requestOptions.filters.need_moderate = true
             }
 
             this.list(HttpHelper.getPaginationParam(requestOptions)).then(() => {

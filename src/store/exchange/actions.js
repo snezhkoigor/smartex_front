@@ -34,6 +34,37 @@ export const list = ({ commit }, requestParams) => {
     })
 }
 
+export const commentModeration = ({commit}, exchange) => {
+    return new Promise((resolve, reject) => {
+        commit('SET_PENDING')
+
+        axios.put(
+            '/user/exchanges/' + exchange.id + '/moderation/',
+            exchange,
+            {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('token')
+                }
+            }
+        ).then(response => {
+            if (httpHelper.checkIsOkAnswerStatus(response.status)) {
+                commit('RESET_PENDING')
+                resolve(response)
+            } else {
+                commit('RESET_PENDING')
+                reject(errorsHelper.getMessage(response))
+
+                errorsHelper.goByStatusCode(response.status, router)
+            }
+        }, errors => {
+            commit('RESET_PENDING')
+            reject(errors)
+
+            errorsHelper.goByStatusCode(500, router)
+        })
+    })
+}
+
 export const getPdf = ({ commit }, userId) => {
     return new Promise((resolve, reject) => {
         commit('SET_PENDING')
