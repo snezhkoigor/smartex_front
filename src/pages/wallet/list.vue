@@ -166,7 +166,6 @@ export default {
         },
         checkAccess (wallet) {
             this.check(wallet).then(response => {
-                this.wallet.balance = response.data.balance
                 this.$q.notify({
                     message: 'Status: OK.',
                     color: ToastConfig.positive.bgColor,

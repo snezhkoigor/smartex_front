@@ -108,7 +108,7 @@ export const check = ({commit}, wallet) => {
             }
         ).then(response => {
             if (httpHelper.checkIsOkAnswerStatus(response.status)) {
-                commit('GET_META_SUCCESS', response.data)
+                commit('RESET_PENDING')
                 resolve(response)
             } else {
                 commit('RESET_PENDING')
