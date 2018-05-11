@@ -223,6 +223,9 @@
                 <p>
                     Comment: {{ payment.comment ? payment.comment : '---' }}
                 </p>
+                <p>
+                    Confirmed by user?: {{ payment.user_confirm ? 'YES' : 'NO' }}
+                </p>
             </div>
             <template slot="buttons" slot-scope="props">
                 <div class="verify-dialog-btn">
